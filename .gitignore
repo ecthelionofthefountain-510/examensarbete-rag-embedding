@@ -1,0 +1,21 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtualenv
+.venv/
+
+# OS
+.DS_Store
+
+# Streamlit (ignore everything except theme config)
+.streamlit/*
+!.streamlit/config.toml
