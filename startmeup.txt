@@ -1,0 +1,5 @@
+Termial 1: Backend  - (.venv) ➜  examensarbete-rag-embedding git:(main) ✗ uvicorn main:app --reload --port 8000
+
+Terminal 2: Frontend - cd Frontend - npm run dev
+
+Terminal 3: (vid behov av ny evaluering) - python -m src.evaluate --models text-embedding-3-small all-MiniLM-L6-v2 multilingual-e5-base --output data/evaluation.json

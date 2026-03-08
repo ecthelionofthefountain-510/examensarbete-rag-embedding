@@ -1,4 +1,5 @@
 # RAG-logic for Tolkien RAG-chatbot
+# Updated to support multiple embedding models for thesis comparison
 
 from __future__ import annotations
 
@@ -8,11 +9,14 @@ import re
 import warnings
 from typing import Any
 
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_openai import ChatOpenAI
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 
 from langchain_community.vectorstores import Chroma
+
+# Import the new embeddings module
+from src.embeddings import get_embedding_model, SUPPORTED_MODELS
 
 
 # --- Warnings / noise -----------------------------------------------
@@ -206,18 +210,51 @@ def rewrite_followup(question: str, last_topic: str | None, language: str | None
 # --- DB --------------------------------------------------------------
 
 
-def get_db(*, persist_dir: str, collection_name: str, embedding_model: str) -> Chroma:
-
+def get_db(
+    *,
+    persist_dir: str,
+    collection_name: str,
+    embedding_model: str = "text-embedding-3-small",
+) -> Chroma:
+    """
+    Get a Chroma vector database with the specified embedding model.
+    
+    Args:
+        persist_dir: Directory where Chroma stores its data
+        collection_name: Name of the collection
+        embedding_model: Name of the embedding model (see embeddings.SUPPORTED_MODELS)
+        
+    Returns:
+        Chroma vector store instance
+    """
     os.environ.setdefault("ANONYMIZED_TELEMETRY", "False")
     os.environ.setdefault("CHROMA_TELEMETRY_DISABLED", "1")
 
-    embeddings = OpenAIEmbeddings(model=embedding_model)
+    # Use the new embedding model factory
+    embeddings = get_embedding_model(embedding_model)
 
     return Chroma(
         persist_directory=persist_dir,
         embedding_function=embeddings,
         collection_name=collection_name,
     )
+
+
+def get_collection_name_for_model(base_name: str, embedding_model: str) -> str:
+    """
+    Generate a unique collection name for each embedding model.
+    This allows storing multiple indexes side-by-side for comparison.
+    
+    Args:
+        base_name: Base collection name (e.g., "tolkien_lore")
+        embedding_model: Name of the embedding model
+        
+    Returns:
+        Collection name like "tolkien_lore_text-embedding-3-small"
+    """
+    # Sanitize model name for use in collection name
+    safe_model = embedding_model.replace("/", "_").replace("-", "_")
+    return f"{base_name}_{safe_model}"
 
 
 # --- RAG -------------------------------------------------------------

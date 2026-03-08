@@ -1,0 +1,1227 @@
+{
+  "timestamp": "2026-02-18T13:27:21.665496",
+  "models": [
+    {
+      "model_name": "text-embedding-3-small",
+      "model_type": "openai",
+      "metrics": {
+        "source_hit_rate": 0.7222222222222222,
+        "avg_source_precision": 0.19444444444444445,
+        "avg_keyword_recall": 0.8148148148148148,
+        "avg_top_score": 0.6078276287940019,
+        "avg_retrieval_time_ms": 188.0363681111703,
+        "total_retrieval_time_ms": 3384.6546260010655
+      },
+      "by_difficulty": {
+        "easy": 0.6666666666666666,
+        "medium": 0.7142857142857143,
+        "hard": 0.8
+      },
+      "results": [
+        {
+          "question": "Who is Gandalf?",
+          "difficulty": "easy",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt",
+            "data/raw/istari.txt",
+            "data/raw/gandalf.txt"
+          ],
+          "expected_sources": [
+            "gandalf"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "title: gandalf\nsource: https://lotr.fandom.com/wiki/gandalf\n\ngandalf\n\"all we have to decide is what to do with the time that is given us.\"\n—gandalf the grey to frodo baggins, in the fellowship of the ring\ngandalf, known largely as the grey and later, briefly, the white, and originally named olórin (quenya), was an istar (wizard), dispatched to middle-earth in the third age to combat the threat of sauron. he joined thorin ii and his company to reclaim the lonely mountain from smaug, helped form t",
+          "expected_keywords": [
+            "wizard",
+            "istari",
+            "maia"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.700390177472545,
+          "all_scores": [
+            0.4277755916118622,
+            0.5907326936721802,
+            0.6435678005218506,
+            0.6468564867973328
+          ],
+          "retrieval_time_ms": 372.07620899971516
+        },
+        {
+          "question": "Who is Frodo Baggins?",
+          "difficulty": "easy",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt"
+          ],
+          "expected_sources": [
+            "frodo"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "title: frodo baggins\nsource: https://lotr.fandom.com/wiki/frodo_baggins\n\nfrodo baggins\n\n\"i will take the ring, though i do not know the way.\"\n—frodo baggins, at the council of elrond, in the fellowship of the ring\nfrodo baggins was a hobbit of the shire in the late third age. he was a key figure in the quest of mount doom, in which he bore the one ring to mount doom, where it was destroyed. he was a ring-bearer, best friend to his gardener, samwise gamgee, and was one of three hobbits who sailed",
+          "expected_keywords": [
+            "hobbit",
+            "ring",
+            "shire"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.6800572761614538,
+          "all_scores": [
+            0.4704643785953522,
+            0.6389766335487366,
+            0.6415905356407166,
+            0.6917287111282349
+          ],
+          "retrieval_time_ms": 114.59833400112984
+        },
+        {
+          "question": "What is the One Ring?",
+          "difficulty": "easy",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/sauron.txt",
+            "data/raw/celebrimbor.txt",
+            "data/raw/galadriel.txt",
+            "data/raw/nazgul.txt"
+          ],
+          "expected_sources": [
+            "ring",
+            "sauron"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "this is the master-ring, the one ring to rule them all. this is the one ring that he lost many ages ago, to the great weakening of his power. he greatly desires it – but he must not get it.\n—gandalf the grey, the lord of the rings, \"the shadow of the past\"\n\neventually, sauron gave the elven smiths he worked with the knowledge and encouragement to forge magic rings, which he infused with potent spells without their knowledge. these included the great rings of power while he deceitfully forged the",
+          "expected_keywords": [
+            "sauron",
+            "power",
+            "mordor"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.6666666666666666,
+          "top_score": 0.5989967460296491,
+          "all_scores": [
+            0.6694581508636475,
+            0.6917879581451416,
+            0.7427667379379272,
+            0.7988952398300171
+          ],
+          "retrieval_time_ms": 130.056791998868
+        },
+        {
+          "question": "Who is Aragorn?",
+          "difficulty": "easy",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/galadriel.txt",
+            "data/raw/elendil.txt",
+            "data/raw/elrond.txt",
+            "data/raw/elrond.txt"
+          ],
+          "expected_sources": [
+            "aragorn"
+          ],
+          "source_hit": false,
+          "source_precision": 0.0,
+          "retrieved_text": "some years later, aragorn ii entered lothlórien after many travels, and was admitted by galadriel. she bade him to change his worn-out clothes and dressed him like a proper prince. during that time, aragorn became betrothed to her granddaughter arwen.\n\nwar of the ring aragorn's battle-cry in the the lord of the rings was \"elendil!\".\n\nthe oath of elendil\nin quenya:\net eärello\nendorenna utúlien\nsinome maruvan\nar hildinyar tenn' ambar-metta\n\ntranslation:\nout of the great sea to middle-earth i am co",
+          "expected_keywords": [
+            "king",
+            "ranger",
+            "gondor"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.5847459836480959,
+          "all_scores": [
+            0.7101442813873291,
+            0.7428269386291504,
+            0.7793989181518555,
+            0.8058578968048096
+          ],
+          "retrieval_time_ms": 171.54395800025668
+        },
+        {
+          "question": "What is Mordor?",
+          "difficulty": "easy",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/moria.txt",
+            "data/raw/frodo.txt",
+            "data/raw/misty-mountains.txt",
+            "data/raw/morgoth.txt"
+          ],
+          "expected_sources": [
+            "mordor",
+            "sauron"
+          ],
+          "source_hit": false,
+          "source_precision": 0.0,
+          "retrieved_text": "inspiration\nit is possible that john howe gained inspiration for his design of moria's halls from the great mosque of córdoba's visigothic arches.\n\netymology\nmoria meant \"black chasm\"' in sindarin. khazad-dûm meant \"delving of the dwarves\" in dwarvish.\n\nother names\ndwarrowdelf (westron translation of khazad-dûm)\nhadhodrond (sindarin translation of khazad-dûm)\nhalls of durin\nmines of moria\nphurunargian\nin adaptations\n\nin animated film\nmoria is depicted in both ralph bakshi's 1978 animated film th",
+          "expected_keywords": [
+            "sauron",
+            "dark",
+            "mount doom"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.5764721902393523,
+          "all_scores": [
+            0.7346890568733215,
+            0.7556352615356445,
+            0.7618415355682373,
+            0.7642533779144287
+          ],
+          "retrieval_time_ms": 229.95233400069992
+        },
+        {
+          "question": "How did Gandalf die and return?",
+          "difficulty": "medium",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt"
+          ],
+          "expected_sources": [
+            "gandalf"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "yet gandalf did not die; he and the balrog fell for a long time, and the wizard was burned by the balrog's fire. then they plunged into a deep lake in the depths of the mountain, which gandalf later said was cold as the tide of death and almost froze his heart. they fought in the water until finally the balrog fled into dark tunnels, where the world was gnawed by nameless things, older even than sauron. gandalf pursued the creature until it led him to the spiralling endless stair, and they climb",
+          "expected_keywords": [
+            "balrog",
+            "white",
+            "moria"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.6666666666666666,
+          "top_score": 0.6171088456818128,
+          "all_scores": [
+            0.6204596757888794,
+            0.6764398813247681,
+            0.6771355867385864,
+            0.7002897262573242
+          ],
+          "retrieval_time_ms": 118.4393329986051
+        },
+        {
+          "question": "What happened at the Council of Elrond?",
+          "difficulty": "medium",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/galadriel.txt",
+            "data/raw/elrond.txt",
+            "data/raw/gandalf.txt",
+            "data/raw/elrond.txt"
+          ],
+          "expected_sources": [
+            "elrond",
+            "council",
+            "fellowship"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "they travelled to imladris, a refuge created by elrond during the war. once there, a council was held, in which it was decided that imladris would be the elvish stronghold in the east, rather than the desolate eregion. at elrond's invitation, durin returned with him to lindon at the behest of gil-galad for a meeting intended to a solidify a new alliance between elves and dwarves. after the meeting, elrond expressed frustration with gil-galad, believing the king to have deceived him. to explain, ",
+          "expected_keywords": [
+            "ring",
+            "fellowship",
+            "decide"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.6344236238966457,
+          "all_scores": [
+            0.5762338638305664,
+            0.6473622918128967,
+            0.6555071473121643,
+            0.6828635931015015
+          ],
+          "retrieval_time_ms": 102.59579200101143
+        },
+        {
+          "question": "Who are the members of the Fellowship?",
+          "difficulty": "medium",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/gandalf.txt",
+            "data/raw/frodo.txt",
+            "data/raw/elrond.txt",
+            "data/raw/gandalf.txt"
+          ],
+          "expected_sources": [
+            "fellowship"
+          ],
+          "source_hit": false,
+          "source_precision": 0.0,
+          "retrieved_text": "forming of the fellowship the fellowship consisted of frodo, samwise, merry, pippin, aragorn, gandalf, boromir of gondor, legolas of the woodland realm, and gimli of the lonely mountain. before leaving rivendell, bilbo gave frodo his dwarf-made coat of mithril mail and his elven blade sting. the mithril coat had been given to bilbo by thorin oakenshield during the events of the hobbit, and sting had been taken by bilbo from a trolls' lair. on december 25, the fellowship of the ring departed from",
+          "expected_keywords": [
+            "frodo",
+            "gandalf",
+            "aragorn",
+            "legolas",
+            "gimli"
+          ],
+          "keyword_hits": 5,
+          "keyword_recall": 1.0,
+          "top_score": 0.632806528146798,
+          "all_scores": [
+            0.5802618265151978,
+            0.6464329957962036,
+            0.7772020101547241,
+            0.7975528240203857
+          ],
+          "retrieval_time_ms": 184.35033300011128
+        },
+        {
+          "question": "What is the significance of Rivendell?",
+          "difficulty": "medium",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/elrond.txt",
+            "data/raw/elrond.txt",
+            "data/raw/elrond.txt",
+            "data/raw/moria.txt"
+          ],
+          "expected_sources": [
+            "rivendell",
+            "elrond"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "with the start of the war of the elves and sauron in sa 1695, elrond was sent to eregion by gil-galad in an attempt to protect it from the invading forces of sauron. unfortunately, elrond's host arrived too late and was not large enough on its own to defeat sauron's army. he retreated north with the refugees of eregion, including celeborn, only escaping because the forces of durin iii assailed sauron's army in the rear. it was during the following two years (sa 1697) that elrond founded rivendel",
+          "expected_keywords": [
+            "elves",
+            "refuge",
+            "imladris"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.6666666666666666,
+          "top_score": 0.5815112512330569,
+          "all_scores": [
+            0.7196571826934814,
+            0.8219292759895325,
+            0.8552377820014954,
+            0.8697992563247681
+          ],
+          "retrieval_time_ms": 174.9596660010866
+        },
+        {
+          "question": "How was Sauron defeated?",
+          "difficulty": "medium",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/sauron.txt",
+            "data/raw/witch-king.txt",
+            "data/raw/sauron.txt",
+            "data/raw/sauron.txt"
+          ],
+          "expected_sources": [
+            "sauron",
+            "ring"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "with his source of power gone, sauron was utterly defeated and his armies bereft of the driving will behind their conquest were swollowed up by the earth and destroyed. with the one ring destroyed, sauron was permanently robbed of his physical form, reducing him to a malevolent spirit that hovered above mordor as a \"huge shape of shadow, impenetrable, lightning-crowned, ...terrible but impotent,\" only to be blown away by a great wind; he had ended on the same path as his old master, morgoth, and",
+          "expected_keywords": [
+            "ring",
+            "destroy",
+            "mount doom"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.6666666666666666,
+          "top_score": 0.6443652164481581,
+          "all_scores": [
+            0.5519149303436279,
+            0.5596625804901123,
+            0.5822839140892029,
+            0.5893656015396118
+          ],
+          "retrieval_time_ms": 377.0752079999511
+        },
+        {
+          "question": "What is the relationship between Bilbo and Frodo?",
+          "difficulty": "hard",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt"
+          ],
+          "expected_sources": [
+            "bilbo",
+            "frodo"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "the two grew very close in the following years; frodo, treated by his adopted guardian as he were his own son, learned much of the elvish language during his time with bilbo, as well as much of the lore of middle-earth. they also had a weekly tradition of taking long walking trips together from hobbiton to michel delving and buckland; all throughout the shire. the two shared the same birthday, september 22 by shire reckoning (around september 12–14 of our calendar), and a party of special magnif",
+          "expected_keywords": [
+            "uncle",
+            "cousin",
+            "heir",
+            "adopted"
+          ],
+          "keyword_hits": 4,
+          "keyword_recall": 1.0,
+          "top_score": 0.617133656510485,
+          "all_scores": [
+            0.6203945279121399,
+            0.8211033344268799,
+            0.8369748592376709,
+            0.8437008857727051
+          ],
+          "retrieval_time_ms": 199.19583299997612
+        },
+        {
+          "question": "Why couldn't the Eagles fly the Ring to Mordor?",
+          "difficulty": "hard",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/nazgul.txt",
+            "data/raw/nazgul.txt",
+            "data/raw/nazgul.txt",
+            "data/raw/sauron.txt"
+          ],
+          "expected_sources": [
+            "eagle",
+            "ring"
+          ],
+          "source_hit": false,
+          "source_precision": 0.0,
+          "retrieved_text": "\"come back! come back! to mordor we will take you!\"\n—the fellowship of the ring, \"flight to the ford\"\nwith frodo wounded, aragorn and the hobbits made haste to rivendell knowing that ringwraiths were pursuing them. the elf glorfindel drove the four pursuing gandalf off the last bridge and then found the hobbits and aragorn. taking frodo onto his white horse, asfaloth, they headed to rivendell at great speed. regrouping, the nazgûl chased after him and frodo until they reached the ford of bruinen",
+          "expected_keywords": [
+            "nazgul",
+            "sauron",
+            "corrupt"
+          ],
+          "keyword_hits": 1,
+          "keyword_recall": 0.3333333333333333,
+          "top_score": 0.5347777661539407,
+          "all_scores": [
+            0.8699356317520142,
+            0.9135236144065857,
+            0.9197165966033936,
+            0.9276657700538635
+          ],
+          "retrieval_time_ms": 148.8554590014246
+        },
+        {
+          "question": "What are the Silmarils?",
+          "difficulty": "hard",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/silmarils.txt",
+            "data/raw/silmarils.txt",
+            "data/raw/silmarils.txt",
+            "data/raw/silmarils.txt"
+          ],
+          "expected_sources": [
+            "silmaril",
+            "feanor"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "title: silmarils\nsource: https://lotr.fandom.com/wiki/silmaril\n\nthe silmarils (originally called silmarilli in quenya), also known as the jewels of fëanor, were a set of three gems crafted by fëanor from essence of the two trees of valinor, laurelin and telperion, during the years of the trees of the first age. they were the most prized of all the wonders crafted by the elves and were coveted by many. it was said that the fate of arda was woven about the silmarils. however, they were stolen by m",
+          "expected_keywords": [
+            "jewel",
+            "light",
+            "feanor"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.6666666666666666,
+          "top_score": 0.7156637571117024,
+          "all_scores": [
+            0.3973042368888855,
+            0.5159111022949219,
+            0.5541292428970337,
+            0.561260461807251
+          ],
+          "retrieval_time_ms": 132.9321670000354
+        },
+        {
+          "question": "Who is Tom Bombadil?",
+          "difficulty": "hard",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/bombadil.txt",
+            "data/raw/bombadil.txt",
+            "data/raw/bombadil.txt",
+            "data/raw/bombadil.txt"
+          ],
+          "expected_sources": [
+            "tom",
+            "bombadil"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "title: tom bombadil\nsource: https://lotr.fandom.com/wiki/tom_bombadil\n\ntom bombadil\n\"old tom bombadil is a merry fellow! bright blue his jacket is, and his boots are yellow!\"\n—tom bombadil (the fellowship of the ring)\n\ntom bombadil was a mysterious entity that lived for much of the history of the world, being known in the third age to dwell in the valley of the withywindle in the depths of the old forest, east of buckland, and close to the dangerous barrow-downs.\n\nhis domain was of modest size, ",
+          "expected_keywords": [
+            "old",
+            "forest",
+            "goldberry"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.790675214130985,
+          "all_scores": [
+            0.26474180817604065,
+            0.45362311601638794,
+            0.47549790143966675,
+            0.48738816380500793
+          ],
+          "retrieval_time_ms": 226.2614159990335
+        },
+        {
+          "question": "What is the difference between Sauron and Morgoth?",
+          "difficulty": "hard",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/morgoth.txt",
+            "data/raw/sauron.txt",
+            "data/raw/sauron.txt",
+            "data/raw/morgoth.txt"
+          ],
+          "expected_sources": [
+            "sauron",
+            "morgoth",
+            "melkor"
+          ],
+          "source_hit": true,
+          "source_precision": 0.5,
+          "retrieved_text": "morgoth's lies, sowed in the hearts of elves and men, would continue to sprout in new, changing ways.[13] sauron (once mairon) succeeded him as the new dark lord and tyrant of arda, and sought dominion over all life. in the late second age, sauron was captured and held prisoner in númenor, but managed to deceive its last king, ar-pharazôn, and his subjects, into revering morgoth as a deity by lying that worshiping him would make them more powerful than the valar. in the third age, sauron claimed",
+          "expected_keywords": [
+            "servant",
+            "first",
+            "dark lord"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.6209229578764879,
+          "all_scores": [
+            0.6105057597160339,
+            0.6633044481277466,
+            0.6746377348899841,
+            0.7177882194519043
+          ],
+          "retrieval_time_ms": 292.09787500076345
+        },
+        {
+          "question": "Vem är Gandalf?",
+          "difficulty": "easy",
+          "language": "sv",
+          "retrieved_sources": [
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt"
+          ],
+          "expected_sources": [
+            "gandalf"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "title: gandalf\nsource: https://lotr.fandom.com/wiki/gandalf\n\ngandalf\n\"all we have to decide is what to do with the time that is given us.\"\n—gandalf the grey to frodo baggins, in the fellowship of the ring\ngandalf, known largely as the grey and later, briefly, the white, and originally named olórin (quenya), was an istar (wizard), dispatched to middle-earth in the third age to combat the threat of sauron. he joined thorin ii and his company to reclaim the lonely mountain from smaug, helped form t",
+          "expected_keywords": [
+            "wizard",
+            "istari",
+            "trollkarl"
+          ],
+          "keyword_hits": 1,
+          "keyword_recall": 0.3333333333333333,
+          "top_score": 0.5829066198188617,
+          "all_scores": [
+            0.7155406475067139,
+            0.8211533427238464,
+            0.8469778895378113,
+            0.8530569076538086
+          ],
+          "retrieval_time_ms": 95.52099999928032
+        },
+        {
+          "question": "Vad är Härskarringen?",
+          "difficulty": "medium",
+          "language": "sv",
+          "retrieved_sources": [
+            "data/raw/easterlings.txt",
+            "data/raw/nazgul.txt",
+            "data/raw/sauron.txt",
+            "data/raw/easterlings.txt"
+          ],
+          "expected_sources": [
+            "ring",
+            "sauron"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "the lord of the rings strategy battle game\n\nin the lord of the rings strategy battle game, the easterlings have a unique type of cavalry known as kataphrakts*. these were easterlings mounted upon heavily armored horses and wielding a scimitar and broad shield. they were notorious for their ferocity of their attacks and defensive power when they were deployed side-by-side. the brass lamellar armor on the fronts of their horses allowed them to safely trample spearmen and pikemen. rhunic composite ",
+          "expected_keywords": [
+            "sauron",
+            "power",
+            "makt"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.6666666666666666,
+          "top_score": 0.40886986383495255,
+          "all_scores": [
+            1.4457659721374512,
+            1.4601266384124756,
+            1.4969868659973145,
+            1.498218059539795
+          ],
+          "retrieval_time_ms": 194.5064999999886
+        },
+        {
+          "question": "Vilka är medlemmarna i Ringens brödraskap?",
+          "difficulty": "medium",
+          "language": "sv",
+          "retrieved_sources": [
+            "data/raw/finrod.txt",
+            "data/raw/easterlings.txt",
+            "data/raw/elrond.txt",
+            "data/raw/nazgul.txt"
+          ],
+          "expected_sources": [
+            "fellowship"
+          ],
+          "source_hit": false,
+          "source_precision": 0.0,
+          "retrieved_text": "during the dagor bragollach, barahir of the house of bëor saved finrod's life, and in friendship finrod gave him his ring.this ring was later known as the ring of barahir and was eventually handed down to aragorn when told of his true identity. years after the dagor bragollach, barahir's son beren came to nargothrond seeking help, and finrod went with him on the quest for the silmaril to repay his debt, laying down his kingship. celegorm and curufin, who were living in nargothrond at the time, p",
+          "expected_keywords": [
+            "frodo",
+            "gandalf",
+            "aragorn"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.4190696438970512,
+          "all_scores": [
+            1.3862382173538208,
+            1.394742727279663,
+            1.4318047761917114,
+            1.4335362911224365
+          ],
+          "retrieval_time_ms": 119.63641699912841
+        }
+      ]
+    },
+    {
+      "model_name": "all-MiniLM-L6-v2",
+      "model_type": "huggingface",
+      "metrics": {
+        "source_hit_rate": 0.6666666666666666,
+        "avg_source_precision": 0.18055555555555555,
+        "avg_keyword_recall": 0.6148148148148148,
+        "avg_top_score": 0.5773847472566832,
+        "avg_retrieval_time_ms": 11.307143555819088,
+        "total_retrieval_time_ms": 203.5285840047436
+      },
+      "by_difficulty": {
+        "easy": 0.6666666666666666,
+        "medium": 0.5714285714285714,
+        "hard": 0.8
+      },
+      "results": [
+        {
+          "question": "Who is Gandalf?",
+          "difficulty": "easy",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt"
+          ],
+          "expected_sources": [
+            "gandalf"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "the ship passed west upon the sea, and then took the hidden straight path to valinor: gandalf became olórin once more. there, presumably, he dwells still in the gardens of irmo. olórin, the wisest of the maiar and the sole istar to remain true to his mission, had successfully kindled the hearts of the free people in middle-earth to overcome the evil of their time. in a large way, it was his victory.\n\netymology\nthe name gandalf means \"elf of the wand\" or \"wand-elf\", from the northern language of ",
+          "expected_keywords": [
+            "wizard",
+            "istari",
+            "maia"
+          ],
+          "keyword_hits": 1,
+          "keyword_recall": 0.3333333333333333,
+          "top_score": 0.6500684428749975,
+          "all_scores": [
+            0.538299560546875,
+            0.6049265265464783,
+            0.7021663188934326,
+            0.7418100833892822
+          ],
+          "retrieval_time_ms": 53.435167001225636
+        },
+        {
+          "question": "Who is Frodo Baggins?",
+          "difficulty": "easy",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt"
+          ],
+          "expected_sources": [
+            "frodo"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "after frodo's discussion with gandalf, a rumor started that he was running out of money. this rumor, though not begun by frodo, was encouraged by him. merry helped frodo to purchase a small house at crickhollow. with the exception of his gardener sam gamgee, who had agreed to accompany him to rivendell, frodo told the other hobbits of the shire that he intended to move to buckland. he sold his home to the sackville-bagginses, and, on the september 23, 3018, the day after his fiftieth birthday, f",
+          "expected_keywords": [
+            "hobbit",
+            "ring",
+            "shire"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.6485960552321315,
+          "all_scores": [
+            0.5417916774749756,
+            0.611595869064331,
+            0.6215273141860962,
+            0.7072039842605591
+          ],
+          "retrieval_time_ms": 10.295375001078355
+        },
+        {
+          "question": "What is the One Ring?",
+          "difficulty": "easy",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/moria.txt",
+            "data/raw/sauron.txt",
+            "data/raw/sauron.txt",
+            "data/raw/sauron.txt"
+          ],
+          "expected_sources": [
+            "ring",
+            "sauron"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "quest of the ring loss of the ring this is the master-ring, the one ring to rule them all. this is the one ring that he lost many ages ago, to the great weakening of his power. he greatly desires it – but he must not get it.\n—gandalf the grey, the lord of the rings, \"the shadow of the past\"\n\neventually, sauron gave the elven smiths he worked with the knowledge and encouragement to forge magic rings, which he infused with potent spells without their knowledge. these included the great rings of po",
+          "expected_keywords": [
+            "sauron",
+            "power",
+            "mordor"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.6666666666666666,
+          "top_score": 0.5666876017834098,
+          "all_scores": [
+            0.7646406888961792,
+            0.7908485531806946,
+            0.8137090802192688,
+            0.8986778259277344
+          ],
+          "retrieval_time_ms": 10.086083000715007
+        },
+        {
+          "question": "Who is Aragorn?",
+          "difficulty": "easy",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/witch-king.txt",
+            "data/raw/galadriel.txt",
+            "data/raw/elendil.txt",
+            "data/raw/sauron.txt"
+          ],
+          "expected_sources": [
+            "aragorn"
+          ],
+          "source_hit": false,
+          "source_precision": 0.0,
+          "retrieved_text": "the lord of the rings: aragorn's quest\nthe witch-king appears as a boss in the wii and ps3 versions of the lord of the rings: aragorn's quest, which depict aragorn directly confronting this powerful foe. however, to stay true to the source material, aragorn is unable to actually kill the witch-king.\n\nmiddle-earth: shadow of war\nin middle-earth: shadow of war, the witch-king appears as the ranger talion's nemesis, much like the wraith celebrimbor is sauron's. his ultimate goal is corrupting the f",
+          "expected_keywords": [
+            "king",
+            "ranger",
+            "gondor"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.5397249082299316,
+          "all_scores": [
+            0.8527957201004028,
+            0.8705421686172485,
+            0.882215142250061,
+            0.9444694519042969
+          ],
+          "retrieval_time_ms": 10.228666000330122
+        },
+        {
+          "question": "What is Mordor?",
+          "difficulty": "easy",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/galadriel.txt",
+            "data/raw/witch-king.txt",
+            "data/raw/minas-morgul.txt",
+            "data/raw/minas-morgul.txt"
+          ],
+          "expected_sources": [
+            "mordor",
+            "sauron"
+          ],
+          "source_hit": false,
+          "source_precision": 0.0,
+          "retrieved_text": "the southlands were also created for the series. tolkien's work and various notes suggest mordor already existed and was called by that name because of its volcanic activity by this point in the 2nd return to mordor and rise of minas morgul\n\ndespite the rout at fornost, the witch-king had fulfilled his mission to destroy the northern dúnedain kingdoms in eriador, and so now he returned to mordor. although sauron was still hiding in dol guldur (disguised as \"the necromancer\"), the nazgûl rallied ",
+          "expected_keywords": [
+            "sauron",
+            "dark",
+            "mount doom"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.6666666666666666,
+          "top_score": 0.5434277459809717,
+          "all_scores": [
+            0.8401710391044617,
+            0.8655453324317932,
+            0.8812576532363892,
+            0.9461706280708313
+          ],
+          "retrieval_time_ms": 10.092417000123532
+        },
+        {
+          "question": "How did Gandalf die and return?",
+          "difficulty": "medium",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt",
+            "data/raw/moria.txt",
+            "data/raw/gandalf.txt"
+          ],
+          "expected_sources": [
+            "gandalf"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "what gandalf did during the next two years is unknown; it is possible that his \"long talk\" with bombadil was just that. at any rate, on september 29 3021, he met frodo at the grey havens ready to take a white ship over the sea to aman. he wore narya openly on his finger, and shadowfax was beside him (perhaps even to take ship with him). his mission was over, and his homecoming after more than 2000 years was nigh. he bade farewell to samwise, merry, and pippin (the latter two of whom he had forew",
+          "expected_keywords": [
+            "balrog",
+            "white",
+            "moria"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.6157789780894588,
+          "all_scores": [
+            0.6239593029022217,
+            0.6332754492759705,
+            0.6357136368751526,
+            0.6678409576416016
+          ],
+          "retrieval_time_ms": 8.517666999978246
+        },
+        {
+          "question": "What happened at the Council of Elrond?",
+          "difficulty": "medium",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/galadriel.txt",
+            "data/raw/elrond.txt",
+            "data/raw/elrond.txt",
+            "data/raw/elrond.txt"
+          ],
+          "expected_sources": [
+            "elrond",
+            "council",
+            "fellowship"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "they travelled to imladris, a refuge created by elrond during the war. once there, a council was held, in which it was decided that imladris would be the elvish stronghold in the east, rather than the desolate eregion. with the arrival of the númenóreans, the army besieging rivendell was caught between the forces of gil-galad and elrond and destroyed. elrond remained in rivendell and hosted the first white council, attended by galadriel, at which it was decided that elrond's home, the last homel",
+          "expected_keywords": [
+            "ring",
+            "fellowship",
+            "decide"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.6666666666666666,
+          "top_score": 0.5913431536318777,
+          "all_scores": [
+            0.6910654902458191,
+            0.8250360488891602,
+            0.8631713390350342,
+            0.8669530153274536
+          ],
+          "retrieval_time_ms": 8.37912499991944
+        },
+        {
+          "question": "Who are the members of the Fellowship?",
+          "difficulty": "medium",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/gandalf.txt",
+            "data/raw/elrond.txt",
+            "data/raw/istari.txt",
+            "data/raw/elrond.txt"
+          ],
+          "expected_sources": [
+            "fellowship"
+          ],
+          "source_hit": false,
+          "source_precision": 0.0,
+          "retrieved_text": "forming of the fellowship in the fellowship of the ring, elrond is first seen in the prologue at the battle of dagorlad as a lieutenant of the ñoldor. he later appears in rivendell, having summoned a council of men, dwarves, and elves to decide the fate of the one ring. he learns from gandalf that saruman, head of the white council, has betrayed them by becoming one of sauron's allies, which causes him to acknowledge that their allies were reducing. he tells gandalf that the ring cannot stay her",
+          "expected_keywords": [
+            "frodo",
+            "gandalf",
+            "aragorn",
+            "legolas",
+            "gimli"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.4,
+          "top_score": 0.6838448632486848,
+          "all_scores": [
+            0.4623199701309204,
+            1.1109236478805542,
+            1.1192700862884521,
+            1.15037202835083
+          ],
+          "retrieval_time_ms": 8.223124999858555
+        },
+        {
+          "question": "What is the significance of Rivendell?",
+          "difficulty": "medium",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt",
+            "data/raw/elrond.txt",
+            "data/raw/glorfindel.txt"
+          ],
+          "expected_sources": [
+            "rivendell",
+            "elrond"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "as time went on, the wizard became increasingly troubled by his knowledge of sauron's resurgent strength. he knew that sauron was already plotting war from dol guldur, and that as soon as he felt strong enough, he would attack rivendell. unfortunately, the only power left besides rivendell to resist an attempt from mirkwood to regain the lands of angmar were the isolated dwarves of the iron hills. journey to rivendell\ngandalf hurriedly went to rohan, desiring to find a strong steed; there he obt",
+          "expected_keywords": [
+            "elves",
+            "refuge",
+            "imladris"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.5018407570330534,
+          "all_scores": [
+            0.9926639795303345,
+            1.084427833557129,
+            1.120626449584961,
+            1.1391922235488892
+          ],
+          "retrieval_time_ms": 8.547707999241538
+        },
+        {
+          "question": "How was Sauron defeated?",
+          "difficulty": "medium",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/sauron.txt",
+            "data/raw/witch-king.txt",
+            "data/raw/sauron.txt",
+            "data/raw/sauron.txt"
+          ],
+          "expected_sources": [
+            "sauron",
+            "ring"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "losing his ability to present himself as fair, sauron had achieved an overwhelming victory in destroying númenor, which rid him of his most powerful opposition by far in ruling middle-earth. gandalf: sauron studies the signs: the sword that robbed him of his treasure remade; the winds of fortune turning in our favour, and the defeat unlooked-for of his first assault; the fall of his great captain. his doubt will be growing, even as we speak here. his eye is now straining towards us, blind almost",
+          "expected_keywords": [
+            "ring",
+            "destroy",
+            "mount doom"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.6666666666666666,
+          "top_score": 0.631843191321026,
+          "all_scores": [
+            0.5826711654663086,
+            0.6666492223739624,
+            0.6876728534698486,
+            0.6952944397926331
+          ],
+          "retrieval_time_ms": 9.003125000162981
+        },
+        {
+          "question": "What is the relationship between Bilbo and Frodo?",
+          "difficulty": "hard",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/gandalf.txt"
+          ],
+          "expected_sources": [
+            "bilbo",
+            "frodo"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "frodo, as described by gandalf, was \"taller than some and fairer than most,\" with \"a cleft in his chin: perky chap with a bright eye.\"  he had thick, curly brown hair like most other hobbits, and had lighter-than-usual skin due to his fallohide ancestry through his brandybuck mother. he could be described as fairly good looking for a hobbit. frodo is described as appearing thirty-three, even when he is fifty, due to the influence of the ring. bilbo and frodo shared a common birthday on september",
+          "expected_keywords": [
+            "uncle",
+            "cousin",
+            "heir",
+            "adopted"
+          ],
+          "keyword_hits": 4,
+          "keyword_recall": 1.0,
+          "top_score": 0.5873878044919026,
+          "all_scores": [
+            0.7024527788162231,
+            0.7896310091018677,
+            0.8395827412605286,
+            0.8797909021377563
+          ],
+          "retrieval_time_ms": 8.124792000671732
+        },
+        {
+          "question": "Why couldn't the Eagles fly the Ring to Mordor?",
+          "difficulty": "hard",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/nazgul.txt",
+            "data/raw/nazgul.txt",
+            "data/raw/sauron.txt",
+            "data/raw/morgoth.txt"
+          ],
+          "expected_sources": [
+            "eagle",
+            "ring"
+          ],
+          "source_hit": false,
+          "source_precision": 0.0,
+          "retrieved_text": "\"come back! come back! to mordor we will take you!\"\n—the fellowship of the ring, \"flight to the ford\"\nwith frodo wounded, aragorn and the hobbits made haste to rivendell knowing that ringwraiths were pursuing them. the elf glorfindel drove the four pursuing gandalf off the last bridge and then found the hobbits and aragorn. taking frodo onto his white horse, asfaloth, they headed to rivendell at great speed. regrouping, the nazgûl chased after him and frodo until they reached the ford of bruinen",
+          "expected_keywords": [
+            "nazgul",
+            "sauron",
+            "corrupt"
+          ],
+          "keyword_hits": 1,
+          "keyword_recall": 0.3333333333333333,
+          "top_score": 0.5323679141987678,
+          "all_scores": [
+            0.8784002065658569,
+            0.886019229888916,
+            0.920259416103363,
+            0.9366481304168701
+          ],
+          "retrieval_time_ms": 9.343959000034374
+        },
+        {
+          "question": "What are the Silmarils?",
+          "difficulty": "hard",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/beren.txt",
+            "data/raw/silmarils.txt",
+            "data/raw/silmarils.txt",
+            "data/raw/silmarils.txt"
+          ],
+          "expected_sources": [
+            "silmaril",
+            "feanor"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "quest for the silmaril title: silmarils\nsource: https://lotr.fandom.com/wiki/silmaril\n\nthe silmarils (originally called silmarilli in quenya), also known as the jewels of fëanor, were a set of three gems crafted by fëanor from essence of the two trees of valinor, laurelin and telperion, during the years of the trees of the first age. they were the most prized of all the wonders crafted by the elves and were coveted by many. it was said that the fate of arda was woven about the silmarils. however",
+          "expected_keywords": [
+            "jewel",
+            "light",
+            "feanor"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.6666666666666666,
+          "top_score": 0.6981591320000845,
+          "all_scores": [
+            0.4323382079601288,
+            0.6607297658920288,
+            0.6862748861312866,
+            0.7988957166671753
+          ],
+          "retrieval_time_ms": 8.317792000525515
+        },
+        {
+          "question": "Who is Tom Bombadil?",
+          "difficulty": "hard",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/bombadil.txt",
+            "data/raw/bombadil.txt",
+            "data/raw/bombadil.txt",
+            "data/raw/bombadil.txt"
+          ],
+          "expected_sources": [
+            "tom",
+            "bombadil"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "speculations on nature\nmain article: theories about tom bombadil title: tom bombadil\nsource: https://lotr.fandom.com/wiki/tom_bombadil\n\ntom bombadil\n\"old tom bombadil is a merry fellow! bright blue his jacket is, and his boots are yellow!\"\n—tom bombadil (the fellowship of the ring)\n\ntom bombadil was a mysterious entity that lived for much of the history of the world, being known in the third age to dwell in the valley of the withywindle in the depths of the old forest, east of buckland, and clos",
+          "expected_keywords": [
+            "old",
+            "forest",
+            "goldberry"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.644479053701658,
+          "all_scores": [
+            0.5516408085823059,
+            0.5846942663192749,
+            0.6139225363731384,
+            0.6724186539649963
+          ],
+          "retrieval_time_ms": 7.961625000461936
+        },
+        {
+          "question": "What is the difference between Sauron and Morgoth?",
+          "difficulty": "hard",
+          "language": "en",
+          "retrieved_sources": [
+            "data/raw/morgoth.txt",
+            "data/raw/sauron.txt",
+            "data/raw/sauron.txt",
+            "data/raw/sauron.txt"
+          ],
+          "expected_sources": [
+            "sauron",
+            "morgoth",
+            "melkor"
+          ],
+          "source_hit": true,
+          "source_precision": 0.5,
+          "retrieved_text": "morgoth's lies, sowed in the hearts of elves and men, would continue to sprout in new, changing ways.[13] sauron (once mairon) succeeded him as the new dark lord and tyrant of arda, and sought dominion over all life. in the late second age, sauron was captured and held prisoner in númenor, but managed to deceive its last king, ar-pharazôn, and his subjects, into revering morgoth as a deity by lying that worshiping him would make them more powerful than the valar. in the third age, sauron claimed",
+          "expected_keywords": [
+            "servant",
+            "first",
+            "dark lord"
+          ],
+          "keyword_hits": 2,
+          "keyword_recall": 0.6666666666666666,
+          "top_score": 0.5531133647242639,
+          "all_scores": [
+            0.8079476356506348,
+            0.8081321716308594,
+            0.8203721642494202,
+            0.8268656730651855
+          ],
+          "retrieval_time_ms": 8.05495799977507
+        },
+        {
+          "question": "Vem är Gandalf?",
+          "difficulty": "easy",
+          "language": "sv",
+          "retrieved_sources": [
+            "data/raw/gandalf.txt",
+            "data/raw/gandalf.txt",
+            "data/raw/sauron.txt",
+            "data/raw/gandalf.txt"
+          ],
+          "expected_sources": [
+            "gandalf"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "the ship passed west upon the sea, and then took the hidden straight path to valinor: gandalf became olórin once more. there, presumably, he dwells still in the gardens of irmo. olórin, the wisest of the maiar and the sole istar to remain true to his mission, had successfully kindled the hearts of the free people in middle-earth to overcome the evil of their time. in a large way, it was his victory.\n\netymology\nthe name gandalf means \"elf of the wand\" or \"wand-elf\", from the northern language of ",
+          "expected_keywords": [
+            "wizard",
+            "istari",
+            "trollkarl"
+          ],
+          "keyword_hits": 0,
+          "keyword_recall": 0.0,
+          "top_score": 0.5146626188698281,
+          "all_scores": [
+            0.9430204629898071,
+            1.0086373090744019,
+            1.0147550106048584,
+            1.0362305641174316
+          ],
+          "retrieval_time_ms": 7.904457999757142
+        },
+        {
+          "question": "Vad är Härskarringen?",
+          "difficulty": "medium",
+          "language": "sv",
+          "retrieved_sources": [
+            "data/raw/morgoth.txt",
+            "data/raw/hurin.txt",
+            "data/raw/dwarves.txt",
+            "data/raw/hurin.txt"
+          ],
+          "expected_sources": [
+            "ring",
+            "sauron"
+          ],
+          "source_hit": false,
+          "source_precision": 0.0,
+          "retrieved_text": "dagor bragollach nirnaeth arnoediad durin i\n \t \ndurin ii\n \t \ndurin iii\n \ndurin iv\n  \ndurin v\n \ndurin vi\n \nnáin i\n \nthráin i\n  \nthorin i\n  \t \nglóin\n \t \nóin\n \nnáin ii\n \ndáin i\t\n \t \nborin\n\nthrór\t\t \n \t \nfrór \t \n \t \ngrór\t\n \t \nfarin\n \nthráin ii\t\n \t \nnáin\t\n \t \nfundin\t\n \t \ngróin\n\nthorin ii\t \n \t \nfrerin\t\n \t \ndís\t\n \t \n \t \ndáin ii\t\n \t \n \t \nbalin\t\n \t \n \t \ndwalin\t\n \t \n \t \nóin\t\n \t \n \t \nglóin\n \t \nfíli\t\n \t  \n \t \nkíli\t\n \t \n \t \nthorin iii\t\n  \ngimli\n\ndurin vii and last\n\n\nnaming\nnames\nthe dwarves called themselves ",
+          "expected_keywords": [
+            "sauron",
+            "power",
+            "makt"
+          ],
+          "keyword_hits": 0,
+          "keyword_recall": 0.0,
+          "top_score": 0.4603938255278874,
+          "all_scores": [
+            1.1720534563064575,
+            1.2097795009613037,
+            1.3885166645050049,
+            1.4318726062774658
+          ],
+          "retrieval_time_ms": 8.396999999604304
+        },
+        {
+          "question": "Vilka är medlemmarna i Ringens brödraskap?",
+          "difficulty": "medium",
+          "language": "sv",
+          "retrieved_sources": [
+            "data/raw/elves.txt",
+            "data/raw/tulkas.txt",
+            "data/raw/hurin.txt",
+            "data/raw/tulkas.txt"
+          ],
+          "expected_sources": [
+            "fellowship"
+          ],
+          "source_hit": false,
+          "source_precision": 0.0,
+          "retrieved_text": "teleri as rather useless to him, and the vanyar would have nothing to do with him, being content in their development. but the ñoldor, desiring more knowledge than other clans, were willing to listen to him, and melkor saw that, due to their creative skill, they were more potentially useful than the teleri. and so melkor began to teach them, and for a long while none of his evil was made manifest, for any who sought his aid and counsel benefited greatly from it. but with his genuine teachings ca",
+          "expected_keywords": [
+            "frodo",
+            "gandalf",
+            "aragorn"
+          ],
+          "keyword_hits": 0,
+          "keyword_recall": 0.0,
+          "top_score": 0.4292060396803639,
+          "all_scores": [
+            1.329883337020874,
+            1.3334113359451294,
+            1.3390390872955322,
+            1.3600704669952393
+          ],
+          "retrieval_time_ms": 8.615542001280119
+        }
+      ]
+    }
+  ]
+}

@@ -20,10 +20,12 @@ if str(APP_ROOT) not in sys.path:
     sys.path.insert(0, str(APP_ROOT))
 
 try:
-    from src.rag import answer_question, get_db, to_float
+    from src.rag import answer_question, get_db, to_float, get_collection_name_for_model
+    from src.embeddings import SUPPORTED_MODELS
 except ModuleNotFoundError:
     # Fallback if someone runs from inside src/ in a weird way
-    from rag import answer_question, get_db, to_float
+    from rag import answer_question, get_db, to_float, get_collection_name_for_model
+    from embeddings import SUPPORTED_MODELS
 
 
 # --- Helpers --------------------------------------------------------
@@ -143,7 +145,14 @@ def render_used_docs(docs, *, max_chars: int = 900) -> None:
 
         with st.expander(f"{i}. {label} (chunk {chunk_idx})", expanded=False):
             text = d.page_content or ""
-            st.code(text[:max_chars] + ("..." if len(text) > max_chars else ""))
+            display_text = text[:max_chars] + ("..." if len(text) > max_chars else "")
+            st.markdown(
+                f"<div style='white-space: pre-wrap; word-wrap: break-word; "
+                f"font-family: monospace; font-size: 0.85em; "
+                f"background-color: rgba(0,0,0,0.15); padding: 12px; "
+                f"border-radius: 6px; line-height: 1.5;'>{display_text}</div>",
+                unsafe_allow_html=True,
+            )
 
 
 # --- App ------------------------------------------------------------
@@ -175,11 +184,25 @@ def main() -> None:
     default_embedding_model = env("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
     default_threshold = to_float(env("RAG_RELEVANCE_THRESHOLD", "0.35"), 0.35)
 
+    # Get list of available embedding models
+    available_models = list(SUPPORTED_MODELS.keys())
+
+    # Check which models have pre-built indexes
+    def get_available_indexed_models() -> list[str]:
+        """Return models that have a built index."""
+        indexed = []
+        for model in available_models:
+            model_dir = persist_dir / model.replace("/", "_")
+            if model_dir.exists() and (model_dir / "chroma.sqlite3").exists():
+                indexed.append(model)
+        return indexed
+
+    indexed_models = get_available_indexed_models()
+
     # Sidebar
 
     with st.sidebar:
         st.image(str(APP_ROOT / "assets" / "gandalf.gif"), use_container_width=True)
-        st.caption(f"Build: {APP_BUILD}")
         st.divider()
 
     with st.sidebar:
@@ -211,11 +234,41 @@ def main() -> None:
         show_sources = st.toggle("Show sources", value=True)
         show_context = st.toggle("Show context (top chunks)", value=False)
 
-        st.caption("Models")
-        st.code(
-            f"Chat: {default_chat_model}\nEmbeddings: {default_embedding_model}",
-            language=None,
-        )
+        # Embedding model selector
+        st.divider()
+        st.subheader("Embedding Model")
+
+        # Show which models have indexes
+        if indexed_models:
+            # Set default to first indexed model, or default_embedding_model if it's indexed
+            default_idx = 0
+            if default_embedding_model in indexed_models:
+                default_idx = indexed_models.index(default_embedding_model)
+
+            selected_embedding_model = st.selectbox(
+                "Select model",
+                options=indexed_models,
+                index=default_idx,
+                help="Choose which embedding model to use for retrieval",
+            )
+
+            # Show model info
+            model_info = SUPPORTED_MODELS.get(selected_embedding_model, {})
+            model_type = model_info.get("type", "unknown")
+            model_dim = model_info.get("dimension", "?")
+            model_desc = model_info.get("description", "")
+
+            st.caption(f"**Type:** {model_type.upper()}")
+            st.caption(f"**Dimension:** {model_dim}")
+            if model_desc:
+                st.caption(f"{model_desc}")
+        else:
+            st.warning("No indexed models found. Build an index first.")
+            selected_embedding_model = default_embedding_model
+
+        # Chat model info
+        st.divider()
+        st.caption(f"**Chat model:** {default_chat_model}")
 
         st.divider()
         if st.button("Clear chat", use_container_width=True):
@@ -228,10 +281,25 @@ def main() -> None:
     st.session_state.setdefault("history", [])  # list[(role, content, sources)]
     st.session_state.setdefault("last_topic", None)
     st.session_state.setdefault("last_language", None)
+    st.session_state.setdefault("current_embedding_model", selected_embedding_model)
 
-    # Ensure vector DB exists (deployment-friendly)
-    if not is_vector_db_present(persist_dir):
-        st.warning("No vector DB found yet.")
+    # Clear chat if model changed (embeddings are different, context won't match)
+    if st.session_state["current_embedding_model"] != selected_embedding_model:
+        st.session_state["history"] = []
+        st.session_state["last_topic"] = None
+        st.session_state["last_language"] = None
+        st.session_state["current_embedding_model"] = selected_embedding_model
+        st.toast(f"Switched to {selected_embedding_model} - chat cleared", icon="🔄")
+
+    # Calculate model-specific paths
+    model_persist_dir = persist_dir / selected_embedding_model.replace("/", "_")
+    model_collection_name = get_collection_name_for_model(
+        collection_name, selected_embedding_model
+    )
+
+    # Ensure vector DB exists for selected model
+    if not is_vector_db_present(model_persist_dir):
+        st.warning(f"No vector DB found for model: {selected_embedding_model}")
         st.caption(
             "On deploy you usually need to build the index from data/raw/. "
             "This requires OPENAI_API_KEY (Streamlit secrets/env)."
@@ -258,8 +326,8 @@ def main() -> None:
         if should_build:
             st.session_state["db_build_attempted"] = True
             try:
-                persist_dir.mkdir(parents=True, exist_ok=True)
-                with st.spinner("Building vector DB (this may take a few minutes)…"):
+                model_persist_dir.mkdir(parents=True, exist_ok=True)
+                with st.spinner(f"Building vector DB with {selected_embedding_model}…"):
                     # Lazy import to avoid slowing down normal app startup.
                     try:
                         from src.ingest import build_index
@@ -271,7 +339,7 @@ def main() -> None:
                         raw_dir=raw_dir,
                         persist_dir=persist_dir,
                         collection=collection_name,
-                        embedding_model=default_embedding_model,
+                        embedding_model=selected_embedding_model,
                         rebuild=bool(rebuild_clicked),
                         chunk_size=900,
                         chunk_overlap=150,
@@ -285,7 +353,7 @@ def main() -> None:
 
         st.stop()
 
-    # Cache DB
+    # Cache DB - key includes model for proper invalidation on model change
     @st.cache_resource(show_spinner=False)
     def _db(persist: str, collection: str, embed_model: str):
         return get_db(
@@ -294,7 +362,7 @@ def main() -> None:
             embedding_model=embed_model,
         )
 
-    db = _db(str(persist_dir), collection_name, default_embedding_model)
+    db = _db(str(model_persist_dir), model_collection_name, selected_embedding_model)
 
     # Render history
     for role, content, sources in st.session_state["history"]:

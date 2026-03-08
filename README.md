@@ -1,8 +1,15 @@
-# Tolkien RAG Chatbot
+# Examensarbete: Jämförelse av Embedding-modeller i RAG-system
 
-En enkel RAG-baserad chattbot som indexerar `.txt`-filer i `data/raw/` till en vektordatabas (Chroma) och besvarar frågor med stöd i källorna.
+Detta projekt är en vidareutveckling av [tolkien-rag-chatbot](https://github.com/ecthelionofthefountain-510/tolkien-rag-chatbot) för examensarbete på NBI/Handelsakademin.
 
-Modellen får inte svara fritt, utan endast utifrån innehållet i de indexerade texterna.
+## Syfte
+
+Undersöka hur valet av embedding-modell påverkar retrieval-kvaliteten i ett Retrieval-Augmented Generation-system, med fokus på precision, svarstid och kostnad.
+
+## Frågeställningar
+
+1. Hur skiljer sig retrieval-precisionen mellan OpenAI:s embedding-modell och open-source-alternativ?
+2. Vilka trade-offs finns mellan prestanda, kostnad och svarstid vid val av embedding-modell?
 
 ---
 
@@ -23,50 +30,84 @@ pip install -r requirements.txt
 
 ### 3. Skapa `.env`
 
-Kopiera `.env.example` → `.env` och fyll i:
-
 ```env
 OPENAI_API_KEY=din_api_nyckel
 ```
 
 ---
 
-## Bygg index (ingest)
+## Embedding-modeller som jämförs
 
-Detta steg läser textfiler, delar upp dem i chunks, skapar embeddings och sparar allt i Chroma.
+| Modell | Typ | Dimension | Beskrivning |
+|--------|-----|-----------|-------------|
+| `text-embedding-3-small` | OpenAI (betald) | 1536 | Baseline, bra balans kostnad/prestanda |
+| `all-MiniLM-L6-v2` | HuggingFace (gratis) | 384 | Snabb, populär för RAG |
+| `multilingual-e5-base` | HuggingFace (gratis) | 768 | Bra på flerspråkigt innehåll |
+
+### Lista alla stödda modeller
 
 ```bash
-python -m src.ingest --rebuild
+python -m src.ingest --list-models
 ```
-
-Vanliga flaggor:
-
-- `--chunk-size 900` – storlek på varje textbit
-- `--chunk-overlap 150` – överlapp mellan chunks
-- `--rebuild` – rensar och bygger om Chroma-index
 
 ---
 
-## Starta chatten (terminal)
+## Bygg index
 
-Ett minimalt gränssnitt för att testa RAG-flödet utan UI-logik.
+### En modell (som tidigare)
 
 ```bash
-python -m src.chat
+python -m src.ingest --rebuild --embedding-model text-embedding-3-small
 ```
 
-Vanliga flaggor:
+### Flera modeller för jämförelse
 
-- `--k 4` – antal chunks som hämtas
-- `--threshold 0.35` – relevans-tröskel
-- `--chat-model gpt-4o-mini`
-- `--embedding-model text-embedding-3-small`
+```bash
+python -m src.ingest --rebuild --models text-embedding-3-small all-MiniLM-L6-v2 multilingual-e5-base
+```
+
+### Alla stödda modeller
+
+```bash
+python -m src.ingest --rebuild --all-models
+```
 
 ---
 
-## Webbsida (Streamlit)
+## Kör utvärdering
 
-Streamlit-appen använder exakt samma RAG-logik som terminalchatten, men med ett grafiskt gränssnitt.
+Kör test-datasetet mot olika modeller och samla in mätvärden:
+
+```bash
+python -m src.evaluate --models text-embedding-3-small all-MiniLM-L6-v2
+```
+
+### Output
+
+Resultaten sparas i `results/evaluation.json` och skrivs ut i terminalen:
+
+```
+================================================================
+COMPARISON RESULTS
+================================================================
+
+Model                          Type         Hit Rate   Precision  Keywords   Avg Time
+--------------------------------------------------------------------------------
+text-embedding-3-small         openai         85.0%      72.0%      68.0%     45.2ms
+all-MiniLM-L6-v2               huggingface    78.0%      65.0%      62.0%     12.3ms
+```
+
+---
+
+## Starta chatten
+
+### Terminal
+
+```bash
+python -m src.chat --embedding-model text-embedding-3-small
+```
+
+### Streamlit (webb)
 
 ```bash
 streamlit run src/streamlit.py
@@ -74,39 +115,45 @@ streamlit run src/streamlit.py
 
 ---
 
-## Projektstruktur (översikt)
+## Projektstruktur
 
-- `src/ingest.py` – bygger vektordatabasen från textfiler  
-- `src/rag.py` – RAG-logik (retrieval, prompt, svar)  
-- `src/chat.py` – terminalbaserat gränssnitt  
-- `src/streamlit.py` – Streamlit-UI  
-- `data/raw/` – källtexter  
-- `data/chroma/` – genererad vektordatabas (ej versionshanterad)
-
----
-
-## Varför dessa val (kopplat till RAG)
-
-- **Chunking + overlap**  
-  Ger bättre träffar vid retrieval men kräver viss tuning.
-
-- **Relevans-tröskel**  
-  Minskar hallucinationer genom att hellre säga  
-  “hittar inte i källor” om inget relevant material hittas.
-
-- **Metadata + chunk-ID**  
-  Gör källhänvisningar stabila och spårbara.
+```
+├── src/
+│   ├── embeddings.py    # NY: Factory för embedding-modeller
+│   ├── evaluate.py      # NY: Utvärderingsskript
+│   ├── ingest.py        # Uppdaterad: Stödjer flera modeller
+│   ├── rag.py           # Uppdaterad: Använder embeddings.py
+│   ├── chat.py          # Terminalchat
+│   └── streamlit.py     # Webb-UI
+├── data/
+│   ├── raw/             # Källtexter (.txt)
+│   └── chroma/          # Vektordatabaser (en per modell)
+├── results/             # Utvärderingsresultat
+└── requirements.txt
+```
 
 ---
 
-## Tips: enkel evaluering
+## Mätvärden som samlas in
 
-För att utvärdera RAG-flödet kan man testa att:
-
-- ställa frågor där svaret finns i `data/raw/`
-- ställa frågor där svaret inte finns i källorna
-
-Boten ska då antingen svara korrekt med källor,
-eller tydligt säga att den inte hittar stöd i sina källor.
+- **Source Hit Rate**: Andel frågor där rätt källa hämtades
+- **Source Precision**: Andel av hämtade källor som var relevanta
+- **Keyword Recall**: Andel av förväntade nyckelord som hittades
+- **Average Top Score**: Genomsnittlig relevans-score
+- **Retrieval Time**: Tid för sökning (ms)
 
 ---
+
+## Nästa steg (TODO)
+
+- [ ] Bygga index för alla modeller
+- [ ] Köra fullständig utvärdering
+- [ ] Analysera resultat
+- [ ] Skriva rapport
+
+---
+
+## Ursprungligt projekt
+
+Baserat på kunskapskontroll i AI – teori och tillämpning:
+- [tolkien-rag-chatbot](https://github.com/ecthelionofthefountain-510/tolkien-rag-chatbot)
