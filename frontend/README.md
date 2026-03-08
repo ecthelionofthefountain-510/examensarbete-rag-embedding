@@ -81,8 +81,4 @@ Appen körs på `http://localhost:3000`
 ```bash
 # Bygg React-appen
 cd frontend && npm run build
-
-# Servera static files via FastAPI (lägg till i main.py):
-# from fastapi.staticfiles import StaticFiles
-# app.mount("/", StaticFiles(directory="frontend/dist", html=True), name="static")
 ```
