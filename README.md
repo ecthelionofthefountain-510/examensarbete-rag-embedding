@@ -1,113 +1,127 @@
-# Examensarbete: Jämförelse av Embedding-modeller i RAG-system
+# RAG Embedding Lab
 
-Detta projekt är en vidareutveckling av [tolkien-rag-chatbot](https://github.com/ecthelionofthefountain-510/tolkien-rag-chatbot) för examensarbete på NBI/Handelsakademin.
+> **Examensarbete** — Jämförelse av embedding-modeller i RAG-system  
+> NBI/Handelsakademin
 
-## Syfte
+En fullstack-applikation för att utvärdera och jämföra hur olika embedding-modeller påverkar retrieval-kvaliteten i ett RAG-system (Retrieval-Augmented Generation). Projektet använder Tolkien-lore som test-domän.
 
-Undersöka hur valet av embedding-modell påverkar retrieval-kvaliteten i ett Retrieval-Augmented Generation-system, med fokus på precision, svarstid och kostnad.
+## ✨ Features
 
-## Frågeställningar
-
-1. Hur skiljer sig retrieval-precisionen mellan OpenAI:s embedding-modell och open-source-alternativ?
-2. Vilka trade-offs finns mellan prestanda, kostnad och svarstid vid val av embedding-modell?
+- **Jämför embedding-modeller i realtid** – ställ en fråga och se hur tre olika modeller svarar sida vid sida
+- **Visualiserad utvärdering** – radar-diagram och stapeldiagram för att jämföra precision, recall och svarstid
+- **Modern React-frontend** – snygg, mörkt tema med live-resultat
+- **FastAPI-backend** – RESTful API som wrappar RAG-logiken
+- **CLI-verktyg** – bygg index, kör utvärdering och chatta direkt i terminalen
 
 ---
 
-## Setup
+## 🏗️ Arkitektur
 
-### 1. Skapa och aktivera en venv
+```
+examensarbete-rag-embedding/
+├── main.py                 # FastAPI backend
+├── frontend/               # React + Vite frontend
+│   ├── App.jsx             # Hela frontend (single-file)
+│   ├── src/main.jsx
+│   └── ...
+├── src/                    # Python RAG-logik
+│   ├── embeddings.py       # Factory för embedding-modeller
+│   ├── evaluate.py         # Utvärderingsskript
+│   ├── ingest.py           # Bygg vektorindex
+│   ├── rag.py              # RAG-pipeline
+│   ├── chat.py             # Terminal-chat
+│   └── streamlit.py        # Alternativ Webb-UI
+├── data/
+│   ├── raw/                # Källtexter (.txt)
+│   ├── chroma/             # Vektordatabaser (en per modell)
+│   └── evaluation.json     # Testfrågor för utvärdering
+└── results/                # Utvärderingsresultat
+```
+
+---
+
+## 🚀 Snabbstart
+
+### 1. Backend-setup
 
 ```bash
+# Skapa och aktivera venv
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+
+# Installera dependencies
+pip install -r requirements.txt
+
+# Skapa .env med din API-nyckel
+echo "OPENAI_API_KEY=din_nyckel_här" > .env
+
+# Bygg index för alla modeller
+python -m src.ingest --rebuild --all-models
+
+# Starta API:et
+uvicorn main:app --reload --port 8000
 ```
 
-### 2. Installera dependencies
+API:et körs på `http://localhost:8000`  
+Swagger-docs: `http://localhost:8000/docs`
+
+### 2. Frontend-setup
 
 ```bash
-pip install -r requirements.txt
+cd frontend
+npm install
+npm run dev
 ```
 
-### 3. Skapa `.env`
-
-```env
-OPENAI_API_KEY=din_api_nyckel
-```
+Öppna `http://localhost:5173` i webbläsaren.
 
 ---
 
-## Embedding-modeller som jämförs
+## 📊 Embedding-modeller
 
-| Modell | Typ | Dimension | Beskrivning |
-|--------|-----|-----------|-------------|
-| `text-embedding-3-small` | OpenAI (betald) | 1536 | Baseline, bra balans kostnad/prestanda |
-| `all-MiniLM-L6-v2` | HuggingFace (gratis) | 384 | Snabb, populär för RAG |
-| `multilingual-e5-base` | HuggingFace (gratis) | 768 | Bra på flerspråkigt innehåll |
-
-### Lista alla stödda modeller
+| Modell                   | Typ         | Dimension | Beskrivning                             |
+| ------------------------ | ----------- | --------- | --------------------------------------- |
+| `text-embedding-3-small` | OpenAI      | 1536      | Baseline – bra balans kostnad/prestanda |
+| `all-MiniLM-L6-v2`       | HuggingFace | 384       | Snabb och populär för RAG               |
+| `multilingual-e5-base`   | HuggingFace | 768       | Bra för flerspråkigt innehåll           |
 
 ```bash
+# Lista alla stödda modeller
 python -m src.ingest --list-models
 ```
 
 ---
 
-## Bygg index
+## 🔧 CLI-kommandon
 
-### En modell (som tidigare)
+### Bygg vektorindex
 
 ```bash
+# En specifik modell
 python -m src.ingest --rebuild --embedding-model text-embedding-3-small
-```
 
-### Flera modeller för jämförelse
+# Flera modeller
+python -m src.ingest --rebuild --models text-embedding-3-small all-MiniLM-L6-v2
 
-```bash
-python -m src.ingest --rebuild --models text-embedding-3-small all-MiniLM-L6-v2 multilingual-e5-base
-```
-
-### Alla stödda modeller
-
-```bash
+# Alla modeller
 python -m src.ingest --rebuild --all-models
 ```
 
----
-
-## Kör utvärdering
-
-Kör test-datasetet mot olika modeller och samla in mätvärden:
+### Kör utvärdering
 
 ```bash
-python -m src.evaluate --models text-embedding-3-small all-MiniLM-L6-v2
+python -m src.evaluate --models text-embedding-3-small all-MiniLM-L6-v2 multilingual-e5-base
 ```
 
-### Output
+Resultaten sparas i `results/evaluation.json`.
 
-Resultaten sparas i `results/evaluation.json` och skrivs ut i terminalen:
-
-```
-================================================================
-COMPARISON RESULTS
-================================================================
-
-Model                          Type         Hit Rate   Precision  Keywords   Avg Time
---------------------------------------------------------------------------------
-text-embedding-3-small         openai         85.0%      72.0%      68.0%     45.2ms
-all-MiniLM-L6-v2               huggingface    78.0%      65.0%      62.0%     12.3ms
-```
-
----
-
-## Starta chatten
-
-### Terminal
+### Terminal-chat
 
 ```bash
 python -m src.chat --embedding-model text-embedding-3-small
 ```
 
-### Streamlit (webb)
+### Streamlit (alternativ UI)
 
 ```bash
 streamlit run src/streamlit.py
@@ -115,45 +129,35 @@ streamlit run src/streamlit.py
 
 ---
 
-## Projektstruktur
+## 📡 API-endpoints
 
-```
-├── src/
-│   ├── embeddings.py    # NY: Factory för embedding-modeller
-│   ├── evaluate.py      # NY: Utvärderingsskript
-│   ├── ingest.py        # Uppdaterad: Stödjer flera modeller
-│   ├── rag.py           # Uppdaterad: Använder embeddings.py
-│   ├── chat.py          # Terminalchat
-│   └── streamlit.py     # Webb-UI
-├── data/
-│   ├── raw/             # Källtexter (.txt)
-│   └── chroma/          # Vektordatabaser (en per modell)
-├── results/             # Utvärderingsresultat
-└── requirements.txt
-```
+| Metod  | Endpoint      | Beskrivning                          |
+| ------ | ------------- | ------------------------------------ |
+| `GET`  | `/models`     | Lista alla modeller med metadata     |
+| `POST` | `/chat`       | RAG-fråga med en modell              |
+| `POST` | `/compare`    | Jämför flera modeller på samma fråga |
+| `GET`  | `/evaluation` | Hämta sparade utvärderingsresultat   |
+| `GET`  | `/health`     | Hälsokontroll                        |
 
 ---
 
-## Mätvärden som samlas in
+## 📈 Mätvärden
 
-- **Source Hit Rate**: Andel frågor där rätt källa hämtades
-- **Source Precision**: Andel av hämtade källor som var relevanta
-- **Keyword Recall**: Andel av förväntade nyckelord som hittades
-- **Average Top Score**: Genomsnittlig relevans-score
-- **Retrieval Time**: Tid för sökning (ms)
-
----
-
-## Nästa steg (TODO)
-
-- [ ] Bygga index för alla modeller
-- [ ] Köra fullständig utvärdering
-- [ ] Analysera resultat
-- [ ] Skriva rapport
+- **Source Hit Rate** – Andel frågor där rätt källa hämtades
+- **Source Precision** – Andel av hämtade källor som var relevanta
+- **Keyword Recall** – Andel förväntade nyckelord som hittades
+- **Average Top Score** – Genomsnittlig relevans-score
+- **Retrieval Time** – Tid för sökning (ms)
 
 ---
 
-## Ursprungligt projekt
+## 🎓 Forskningsfrågor
 
-Baserat på kunskapskontroll i AI – teori och tillämpning:
-- [tolkien-rag-chatbot](https://github.com/ecthelionofthefountain-510/tolkien-rag-chatbot)
+1. Hur skiljer sig retrieval-precisionen mellan OpenAI:s embedding-modell och open-source-alternativ?
+2. Vilka trade-offs finns mellan prestanda, kostnad och svarstid vid val av embedding-modell?
+
+---
+
+## 📚 Ursprung
+
+Vidareutveckling av [tolkien-rag-chatbot](https://github.com/ecthelionofthefountain-510/tolkien-rag-chatbot) från kursen _AI – teori och tillämpning_.

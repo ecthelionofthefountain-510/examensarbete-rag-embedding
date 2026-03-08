@@ -8,18 +8,18 @@ En snygg, modern frontend för examensarbetet. Ersätter/kompletterar Streamlit-
 
 ```
 examensarbete-rag-embedding/
-├── src/                    # Befintlig Python-kod (oförändrad)
+├── src/                    
 │   ├── rag.py
 │   ├── embeddings.py
 │   ├── ingest.py
 │   └── evaluate.py
-├── frontend/               # NY — React-app
-│   ├── App.jsx             # Hela frontend-appen (en fil)
-│   ├── src/main.jsx        # Entry point
+├── frontend/               
+│   ├── App.jsx             
+│   ├── src/main.jsx        
 │   ├── index.html
 │   ├── package.json
 │   └── vite.config.js
-├── main.py                 # NY — FastAPI backend
+├── main.py                 
 └── ...
 ```
 
