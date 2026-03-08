@@ -5,7 +5,7 @@
 
 En fullstack-applikation för att utvärdera och jämföra hur olika embedding-modeller påverkar retrieval-kvaliteten i ett RAG-system (Retrieval-Augmented Generation). Projektet använder Tolkien-lore som test-domän.
 
-## ✨ Features
+##  Features
 
 - **Jämför embedding-modeller i realtid** – ställ en fråga och se hur tre olika modeller svarar sida vid sida
 - **Visualiserad utvärdering** – radar-diagram och stapeldiagram för att jämföra precision, recall och svarstid
@@ -15,7 +15,7 @@ En fullstack-applikation för att utvärdera och jämföra hur olika embedding-m
 
 ---
 
-## 🏗️ Arkitektur
+##  Arkitektur
 
 ```
 examensarbete-rag-embedding/
@@ -40,7 +40,7 @@ examensarbete-rag-embedding/
 
 ---
 
-## 🚀 Snabbstart
+##  Snabbstart
 
 ### 1. Backend-setup
 
@@ -77,7 +77,7 @@ npm run dev
 
 ---
 
-## 📊 Embedding-modeller
+##  Embedding-modeller
 
 | Modell                   | Typ         | Dimension | Beskrivning                             |
 | ------------------------ | ----------- | --------- | --------------------------------------- |
@@ -92,7 +92,7 @@ python -m src.ingest --list-models
 
 ---
 
-## 🔧 CLI-kommandon
+##  CLI-kommandon
 
 ### Bygg vektorindex
 
@@ -129,7 +129,7 @@ streamlit run src/streamlit.py
 
 ---
 
-## 📡 API-endpoints
+##  API-endpoints
 
 | Metod  | Endpoint      | Beskrivning                          |
 | ------ | ------------- | ------------------------------------ |
@@ -141,7 +141,7 @@ streamlit run src/streamlit.py
 
 ---
 
-## 📈 Mätvärden
+##  Mätvärden
 
 - **Source Hit Rate** – Andel frågor där rätt källa hämtades
 - **Source Precision** – Andel av hämtade källor som var relevanta
@@ -151,13 +151,6 @@ streamlit run src/streamlit.py
 
 ---
 
-## 🎓 Forskningsfrågor
-
-1. Hur skiljer sig retrieval-precisionen mellan OpenAI:s embedding-modell och open-source-alternativ?
-2. Vilka trade-offs finns mellan prestanda, kostnad och svarstid vid val av embedding-modell?
-
----
-
-## 📚 Ursprung
+##  Ursprung
 
 Vidareutveckling av [tolkien-rag-chatbot](https://github.com/ecthelionofthefountain-510/tolkien-rag-chatbot) från kursen _AI – teori och tillämpning_.
