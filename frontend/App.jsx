@@ -1,8 +1,24 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
-  RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  Legend, LineChart, Line, ScatterChart, Scatter, ZAxis,
+  RadarChart,
+  Radar,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+  LineChart,
+  Line,
+  ScatterChart,
+  Scatter,
+  ZAxis,
+  Cell,
 } from "recharts";
 
 // ─── Config ────────────────────────────────────────────────────────────────
@@ -10,8 +26,8 @@ const API = "http://localhost:8000";
 
 const MODEL_META = {
   "text-embedding-3-small": { color: "#22d3ee", short: "OpenAI", icon: "⬡" },
-  "all-MiniLM-L6-v2":       { color: "#a78bfa", short: "MiniLM", icon: "◈" },
-  "multilingual-e5-base":   { color: "#34d399", short: "E5-base", icon: "◉" },
+  "all-MiniLM-L6-v2": { color: "#a78bfa", short: "MiniLM", icon: "◈" },
+  "multilingual-e5-base": { color: "#34d399", short: "E5-base", icon: "◉" },
 };
 
 const DEMO_QUESTIONS = [
@@ -28,7 +44,7 @@ const EVAL_FALLBACK = null; // will be loaded from API
 
 // ─── Styles (CSS-in-JS via a style tag) ────────────────────────────────────
 const CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@500;700&family=Syne:wght@400;700;800&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -45,6 +61,7 @@ const CSS = `
     --emerald:  #34d399;
     --amber:    #fbbf24;
     --red:      #f87171;
+    --num-font: 'Space Grotesk', 'Syne', sans-serif;
     --glow-c:   0 0 20px rgba(34,211,238,.25);
     --glow-v:   0 0 20px rgba(167,139,250,.25);
     --glow-e:   0 0 20px rgba(52,211,153,.25);
@@ -261,6 +278,473 @@ const CSS = `
   }
   .source-item::before { content: '↳ '; color: var(--cyan); }
 
+  .compare-empty {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 64px 24px 56px;
+    border-radius: 16px;
+    border: 1px solid var(--border2);
+    background:
+      radial-gradient(circle at 50% 18%, rgba(34,211,238,.16), transparent 42%),
+      linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)),
+      rgba(7,12,24,.45);
+  }
+  .compare-empty::before {
+    content: '';
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    left: 50%;
+    top: -120px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(34,211,238,.16), transparent 70%);
+    filter: blur(8px);
+    pointer-events: none;
+    animation: palantirPulse 5s ease-in-out infinite;
+  }
+  .compare-empty-core {
+    position: relative;
+    z-index: 1;
+    width: 158px;
+    height: 158px;
+    margin: 0 auto 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid rgba(184, 196, 214, .24);
+    background:
+      radial-gradient(circle at 34% 24%, rgba(255,255,255,.22), rgba(154,166,184,.12) 22%, rgba(16,20,30,.94) 58%, rgba(4,6,10,.99) 100%),
+      radial-gradient(circle at 62% 74%, rgba(72,82,98,.2), transparent 56%);
+    box-shadow:
+      inset 0 0 46px rgba(220,228,242,.1),
+      inset 0 -24px 36px rgba(0,0,0,.7),
+      0 0 20px rgba(184,198,220,.12),
+      0 26px 42px rgba(0,0,0,.5);
+    animation: palantirFloat 8.6s ease-in-out infinite, palantirBreath 6.8s ease-in-out infinite;
+  }
+  .palantir-liquid {
+    position: absolute;
+    inset: 6%;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 24% 30%, rgba(244,248,255,.28), transparent 36%),
+      radial-gradient(circle at 70% 42%, rgba(210,220,236,.2), transparent 42%),
+      radial-gradient(circle at 44% 74%, rgba(164,178,202,.2), transparent 46%),
+      radial-gradient(circle at 52% 48%, rgba(18,24,36,.68), transparent 68%);
+    filter: blur(2.8px) saturate(72%);
+    opacity: .66;
+    mix-blend-mode: screen;
+    animation: palantirLiquid 14s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .palantir-mist {
+    position: absolute;
+    inset: 7%;
+    border-radius: 50%;
+    background:
+      radial-gradient(ellipse at 32% 24%, rgba(246,250,255,.2), transparent 48%),
+      radial-gradient(ellipse at 66% 62%, rgba(186,196,214,.2), transparent 52%),
+      radial-gradient(ellipse at 40% 72%, rgba(142,152,170,.18), transparent 46%);
+    filter: blur(3px);
+    mix-blend-mode: screen;
+    opacity: .6;
+    animation: palantirMistDrift 19s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .palantir-depth {
+    position: absolute;
+    inset: 11%;
+    border-radius: 50%;
+    background:
+      conic-gradient(from 120deg, rgba(8,12,18,.12), rgba(44,52,66,.44), rgba(10,14,20,.2), rgba(34,40,54,.36), rgba(8,12,18,.12));
+    filter: blur(5px);
+    mix-blend-mode: multiply;
+    opacity: .9;
+    animation: palantirDepthRoll 24s linear infinite;
+    pointer-events: none;
+  }
+  .palantir-vortex {
+    position: absolute;
+    inset: 9%;
+    border-radius: 50%;
+    background:
+      conic-gradient(from 30deg, rgba(236,242,255,.2), rgba(62,72,90,.12), rgba(214,224,242,.22), rgba(32,38,52,.12), rgba(236,242,255,.2));
+    filter: blur(6px) saturate(70%);
+    mix-blend-mode: screen;
+    opacity: .54;
+    animation: palantirVortexSpin 32s linear infinite;
+    pointer-events: none;
+  }
+  .palantir-wisps {
+    position: absolute;
+    inset: 5%;
+    border-radius: 50%;
+    background:
+      radial-gradient(ellipse at 22% 44%, rgba(242,246,255,.22), transparent 36%),
+      radial-gradient(ellipse at 58% 28%, rgba(220,228,242,.18), transparent 34%),
+      radial-gradient(ellipse at 74% 58%, rgba(172,186,208,.2), transparent 38%),
+      radial-gradient(ellipse at 38% 76%, rgba(128,140,164,.22), transparent 40%);
+    filter: blur(4px);
+    mix-blend-mode: screen;
+    opacity: .58;
+    animation: palantirWispsShift 21s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .palantir-current {
+    position: absolute;
+    inset: 13%;
+    border-radius: 50%;
+    background:
+      linear-gradient(124deg, rgba(242,248,255,.2) 8%, transparent 28%, rgba(188,204,226,.22) 46%, transparent 62%, rgba(230,238,250,.18) 78%, transparent 92%);
+    filter: blur(3.5px);
+    mix-blend-mode: screen;
+    opacity: .46;
+    animation: palantirCurrentSweep 17s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .palantir-cloud-a {
+    position: absolute;
+    inset: 4%;
+    border-radius: 50%;
+    background:
+      radial-gradient(ellipse at 26% 38%, rgba(248,252,255,.34), transparent 34%),
+      radial-gradient(ellipse at 66% 56%, rgba(192,204,224,.28), transparent 42%),
+      radial-gradient(ellipse at 46% 70%, rgba(140,152,174,.34), transparent 40%);
+    mix-blend-mode: screen;
+    filter: blur(5px) saturate(108%);
+    opacity: .56;
+    animation: palantirCloudA 12s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .palantir-cloud-b {
+    position: absolute;
+    inset: 10%;
+    border-radius: 50%;
+    background:
+      radial-gradient(ellipse at 34% 62%, rgba(232,240,252,.3), transparent 36%),
+      radial-gradient(ellipse at 74% 34%, rgba(174,190,214,.24), transparent 36%),
+      radial-gradient(ellipse at 50% 50%, rgba(22,28,40,.5), transparent 60%);
+    mix-blend-mode: screen;
+    filter: blur(4px);
+    opacity: .42;
+    animation: palantirCloudB 9.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .palantir-streaks {
+    position: absolute;
+    inset: 8%;
+    border-radius: 50%;
+    background:
+      linear-gradient(130deg, transparent 8%, rgba(246,252,255,.22) 24%, transparent 42%, rgba(190,204,224,.24) 56%, transparent 74%),
+      linear-gradient(18deg, transparent 10%, rgba(226,236,252,.16) 30%, transparent 52%, rgba(160,176,200,.2) 66%, transparent 86%);
+    mix-blend-mode: screen;
+    filter: blur(2.8px);
+    opacity: .44;
+    animation: palantirStreakFlow 6.8s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .palantir-smoke {
+    position: absolute;
+    inset: 3%;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 28% 72%, rgba(0,0,0,.56), transparent 48%),
+      radial-gradient(circle at 64% 62%, rgba(2,8,16,.5), transparent 54%),
+      radial-gradient(circle at 52% 34%, rgba(52,70,96,.24), transparent 56%);
+    filter: blur(2.8px);
+    animation: palantirSmoke 12s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .palantir-arc {
+    position: absolute;
+    inset: 10%;
+    border-radius: 50%;
+    border-top: 1px solid rgba(246,252,255,.24);
+    border-right: 1px solid rgba(190,204,224,.16);
+    border-left: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+  .palantir-arc.a {
+    transform: rotate(18deg);
+    animation: palantirArcOne 16s linear infinite;
+    opacity: .22;
+  }
+  .palantir-arc.b {
+    inset: 17%;
+    border-top-width: 1.2px;
+    border-top-color: rgba(236, 244, 255, .24);
+    border-right-color: rgba(190, 204, 224, .18);
+    transform: rotate(46deg);
+    animation: palantirArcTwo 20s linear infinite reverse;
+    opacity: .16;
+  }
+  .compare-empty-core::before {
+    content: '';
+    position: absolute;
+    inset: -14%;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 34% 30%, rgba(248,252,255,.18), transparent 44%),
+      radial-gradient(circle at 62% 66%, rgba(184,198,220,.2), transparent 48%),
+      radial-gradient(circle at 52% 48%, rgba(16,20,30,.68), transparent 62%);
+    filter: blur(8px) saturate(68%);
+    mix-blend-mode: screen;
+    animation: palantirSwirl 26s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .compare-empty-core::after {
+    content: '';
+    position: absolute;
+    width: 52px;
+    height: 16px;
+    top: 15px;
+    left: 19px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(255,255,255,.56), rgba(255,255,255,0) 74%);
+    transform: rotate(-19deg);
+    filter: blur(.8px);
+    pointer-events: none;
+  }
+  .palantir-ring {
+    position: absolute;
+    width: 82%;
+    height: 82%;
+    border-radius: 50%;
+    border: 1px solid rgba(134,154,184,.1);
+    box-shadow: inset 0 0 10px rgba(132,162,208,.06);
+    animation: palantirRingPulse 12s ease-in-out infinite;
+    opacity: .35;
+  }
+  .palantir-glass-sheen {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+      radial-gradient(ellipse at 34% 16%, rgba(255,255,255,.44), rgba(255,255,255,0) 40%),
+      radial-gradient(ellipse at 70% 30%, rgba(230,238,250,.16), rgba(230,238,250,0) 46%),
+      radial-gradient(ellipse at 50% 86%, rgba(0,0,0,.26), rgba(0,0,0,0) 52%);
+    mix-blend-mode: screen;
+    opacity: .62;
+    animation: palantirSheenDrift 12s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .palantir-sparkles {
+    position: absolute;
+    inset: -24%;
+    animation: palantirOrbit 34s linear infinite;
+    pointer-events: none;
+    opacity: .24;
+  }
+  .palantir-spark {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(198, 224, 255, .46);
+    box-shadow: 0 0 6px rgba(164, 196, 236, .28);
+    opacity: .2;
+    animation: palantirSparkle 6.6s ease-in-out infinite;
+  }
+  .palantir-spark.s1 { top: 14%; left: 52%; animation-delay: .2s; }
+  .palantir-spark.s2 { top: 30%; right: 8%; animation-delay: .9s; }
+  .palantir-spark.s3 { bottom: 20%; right: 18%; animation-delay: 1.5s; }
+  .palantir-spark.s4 { bottom: 8%; left: 36%; animation-delay: .5s; }
+  .palantir-spark.s5 { top: 42%; left: 6%; animation-delay: 1.1s; }
+  .palantir-sigil {
+    display: none;
+  }
+  .compare-empty-title {
+    position: relative;
+    z-index: 1;
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: .2px;
+  }
+  .compare-empty-copy {
+    position: relative;
+    z-index: 1;
+    margin: 0 auto 22px;
+    max-width: 620px;
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .compare-empty-suggestions {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .compare-empty-suggestion {
+    border: 1px solid rgba(34,211,238,.2);
+    background: rgba(34,211,238,.08);
+    color: color-mix(in srgb, var(--cyan) 88%, white);
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .3px;
+    font-family: 'JetBrains Mono', monospace;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .compare-empty-suggestion:hover {
+    transform: translateY(-1px);
+    border-color: rgba(34,211,238,.38);
+    background: rgba(34,211,238,.14);
+    box-shadow: 0 0 18px rgba(34,211,238,.2);
+  }
+  .compare-empty-tip {
+    position: relative;
+    z-index: 1;
+    font-size: 10px;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  @keyframes palantirPulse {
+    0%, 100% { opacity: .68; transform: translateX(-50%) scale(1); }
+    50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+  }
+  @keyframes palantirFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+  @keyframes palantirBreath {
+    0%, 100% {
+      box-shadow:
+        inset 0 0 42px rgba(156,186,228,.1),
+        inset 0 -24px 34px rgba(0,0,0,.66),
+        0 0 26px rgba(130,166,210,.16),
+        0 26px 42px rgba(0,0,0,.5);
+    }
+    50% {
+      box-shadow:
+        inset 0 0 50px rgba(156,186,228,.15),
+        inset 0 -22px 32px rgba(0,0,0,.62),
+        0 0 34px rgba(130,166,210,.2),
+        0 30px 46px rgba(0,0,0,.56);
+    }
+  }
+  @keyframes palantirSwirl {
+    0% { transform: rotate(0deg) scale(1) translate(-1px, -1px); opacity: .62; }
+    50% { transform: rotate(180deg) scale(1.06) translate(1px, 1px); opacity: .88; }
+    100% { transform: rotate(360deg) scale(1) translate(-1px, -1px); opacity: .62; }
+  }
+  @keyframes palantirLiquid {
+    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: .5; }
+    30% { transform: translate(-1px, 1.6px) rotate(5deg) scale(1.03); opacity: .66; }
+    65% { transform: translate(1.2px, -1.1px) rotate(-4deg) scale(.98); opacity: .6; }
+  }
+  @keyframes palantirMistDrift {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: .5; }
+    40% { transform: translate(-2px, 1.2px) scale(1.06); opacity: .74; }
+    72% { transform: translate(1.8px, -1.4px) scale(1.02); opacity: .58; }
+  }
+  @keyframes palantirDepthRoll {
+    0% { transform: rotate(0deg) scale(1); opacity: .64; }
+    50% { transform: rotate(180deg) scale(1.04); opacity: .84; }
+    100% { transform: rotate(360deg) scale(1); opacity: .64; }
+  }
+  @keyframes palantirVortexSpin {
+    0% { transform: rotate(0deg) scale(1); opacity: .44; }
+    50% { transform: rotate(180deg) scale(1.06); opacity: .62; }
+    100% { transform: rotate(360deg) scale(1); opacity: .44; }
+  }
+  @keyframes palantirWispsShift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: .42; }
+    30% { transform: translate(-2px, 1.4px) rotate(5deg) scale(1.08); opacity: .64; }
+    65% { transform: translate(1.6px, -1.8px) rotate(-6deg) scale(1.04); opacity: .52; }
+  }
+  @keyframes palantirCurrentSweep {
+    0%, 100% { transform: translateX(-1px) rotate(-8deg) scale(1); opacity: .42; }
+    50% { transform: translateX(2.6px) rotate(10deg) scale(1.08); opacity: .72; }
+  }
+  @keyframes palantirSheenDrift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: .54; }
+    50% { transform: translate(1px, -1px) rotate(4deg); opacity: .72; }
+  }
+  @keyframes palantirCloudA {
+    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: .5; }
+    35% { transform: translate(-3px, 2px) rotate(6deg) scale(1.12); opacity: .76; }
+    70% { transform: translate(3px, -2px) rotate(-7deg) scale(1.06); opacity: .64; }
+  }
+  @keyframes palantirCloudB {
+    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: .36; }
+    40% { transform: translate(2px, -2px) rotate(-8deg) scale(1.12); opacity: .62; }
+    78% { transform: translate(-2px, 2px) rotate(6deg) scale(1.04); opacity: .48; }
+  }
+  @keyframes palantirStreakFlow {
+    0%, 100% { transform: translateX(-2px) rotate(-5deg) scale(1); opacity: .34; }
+    50% { transform: translateX(3px) rotate(8deg) scale(1.1); opacity: .68; }
+  }
+  @keyframes palantirSmoke {
+    0%, 100% { transform: translate(0, 0) scale(1.02); opacity: .54; }
+    35% { transform: translate(-2px, 1px) scale(1.08); opacity: .76; }
+    70% { transform: translate(2px, -1px) scale(1.04); opacity: .62; }
+  }
+  @keyframes palantirArcOne {
+    0% { transform: rotate(18deg); }
+    100% { transform: rotate(378deg); }
+  }
+  @keyframes palantirArcTwo {
+    0% { transform: rotate(46deg); }
+    100% { transform: rotate(406deg); }
+  }
+  @keyframes palantirRingPulse {
+    0%, 100% { opacity: .24; transform: scale(1); }
+    50% { opacity: .38; transform: scale(1.015); }
+  }
+  @keyframes palantirOrbit {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes palantirSparkle {
+    0%, 100% { opacity: .08; transform: scale(.7); }
+    50% { opacity: .3; transform: scale(1); }
+  }
+  @keyframes palantirSigilFlicker {
+    0%, 100% { opacity: .86; filter: brightness(1); }
+    45% { opacity: .94; filter: brightness(1.08); }
+    52% { opacity: .8; filter: brightness(.95); }
+    60% { opacity: .9; filter: brightness(1.06); }
+  }
+  @media (max-width: 760px) {
+    .compare-empty {
+      padding: 52px 14px 42px;
+    }
+    .compare-empty-title {
+      font-size: 16px;
+    }
+    .compare-empty-suggestions {
+      gap: 8px;
+    }
+    .compare-empty-suggestion {
+      width: 100%;
+      max-width: 340px;
+      text-align: center;
+    }
+    .compare-empty-core {
+      width: 126px;
+      height: 126px;
+      margin-bottom: 16px;
+    }
+    .palantir-sigil {
+      font-size: 22px;
+    }
+  }
+
   .demo-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
   .demo-pill {
     padding: 6px 12px; border-radius: 20px;
@@ -276,12 +760,311 @@ const CSS = `
     padding: 16px 20px; border: 1px solid var(--border);
     display: flex; flex-direction: column; gap: 6px;
   }
+  .overview-card {
+    position: relative;
+    overflow: hidden;
+    padding: 22px;
+    isolation: isolate;
+    border-radius: 16px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)),
+      linear-gradient(135deg, rgba(17,24,39,.96), rgba(13,18,32,.96));
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.04),
+      0 18px 40px rgba(0,0,0,.22),
+      0 0 0 1px rgba(255,255,255,.02),
+      0 0 32px var(--overview-glow, rgba(34,211,238,.12));
+    animation: overviewCardPulse 6s ease-in-out infinite;
+    animation-delay: var(--overview-delay, 0s);
+  }
+  .overview-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: var(--overview-accent, var(--cyan));
+    opacity: .8;
+  }
+  .overview-card::after {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -50px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--overview-glow, rgba(34,211,238,.16)) 0%, rgba(34,211,238,0) 70%);
+    filter: blur(8px);
+    opacity: .9;
+    pointer-events: none;
+    z-index: -1;
+    animation: overviewGlowFloat 6s ease-in-out infinite;
+    animation-delay: var(--overview-delay, 0s);
+  }
+  @keyframes overviewCardPulse {
+    0%, 100% {
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04),
+        0 18px 40px rgba(0,0,0,.22),
+        0 0 0 1px rgba(255,255,255,.02),
+        0 0 24px var(--overview-glow, rgba(34,211,238,.1));
+    }
+    50% {
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.05),
+        0 22px 52px rgba(0,0,0,.26),
+        0 0 0 1px rgba(255,255,255,.04),
+        0 0 44px var(--overview-glow, rgba(34,211,238,.18));
+    }
+  }
+  @keyframes overviewGlowFloat {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: .72;
+    }
+    50% {
+      transform: translate3d(-8px, 10px, 0) scale(1.08);
+      opacity: 1;
+    }
+  }
+  .overview-card-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .overview-model-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+    border: 1px solid var(--overview-accent, var(--cyan));
+    color: var(--overview-accent, var(--cyan));
+    background: color-mix(in srgb, var(--overview-accent, var(--cyan)) 10%, transparent);
+  }
+  .overview-model-type {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
+  .overview-badges {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .overview-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--overview-accent, var(--cyan));
+    background: color-mix(in srgb, var(--overview-accent, var(--cyan)) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--overview-accent, var(--cyan)) 30%, transparent);
+  }
+  .overview-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .overview-hero-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 8px;
+  }
+  .overview-hero-value {
+    font-size: 56px;
+    font-weight: 800;
+    line-height: .95;
+    font-family: var(--num-font);
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: -0.01em;
+    color: var(--overview-accent, var(--cyan));
+    text-shadow: 0 0 28px var(--overview-glow, rgba(34,211,238,.16));
+  }
+  .overview-watermark {
+    font-size: 76px;
+    line-height: 1;
+    font-weight: 800;
+    color: color-mix(in srgb, var(--overview-accent, var(--cyan)) 35%, transparent);
+    opacity: .28;
+    transform: translateY(4px);
+    text-shadow: 0 0 28px var(--overview-glow, rgba(34,211,238,.16));
+    user-select: none;
+  }
+  .overview-progress {
+    position: relative;
+    height: 8px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.05);
+    margin-bottom: 18px;
+  }
+  .overview-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--overview-accent, var(--cyan)), color-mix(in srgb, var(--overview-accent, var(--cyan)) 55%, white));
+  }
+  .overview-stats {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .overview-stat {
+    min-width: 0;
+    padding: 12px 12px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.07);
+    background: rgba(255,255,255,.025);
+  }
+  .overview-stat .metric-label {
+    margin-bottom: 8px;
+  }
+  .overview-stat-value {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+    font-family: var(--num-font);
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: -0.005em;
+    color: var(--overview-accent, var(--cyan));
+    word-break: break-word;
+  }
+  .overview-banner {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 32px 24px;
+    border-radius: 16px;
+    border: 1px solid var(--border2);
+    background:
+      linear-gradient(90deg, rgba(34,211,238,.08), rgba(167,139,250,.08) 52%, rgba(52,211,153,.08)),
+      linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.03), 0 16px 34px rgba(0,0,0,.16);
+  }
+  .overview-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.06) 48%, transparent 100%);
+    transform: translateX(-120%);
+    animation: overviewBannerSweep 9s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes overviewBannerSweep {
+    to { transform: translateX(120%); }
+  }
+  .overview-banner-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    color: var(--text);
+    background: rgba(34,211,238,.12);
+    border: 1px solid rgba(34,211,238,.2);
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+  }
+  .overview-banner-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .overview-banner-copy {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .overview-banner-copy strong {
+    color: var(--cyan);
+    font-weight: 700;
+  }
+  .overview-insights {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .overview-insight-badge {
+    position: relative;
+    padding: 14px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.06);
+    background: rgba(255,255,255,.02);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    text-align: center;
+  }
+  .overview-insight-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .overview-insight-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cyan);
+    font-family: var(--num-font);
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: -0.005em;
+  }
+  .overview-insight-value.violet {
+    color: var(--violet);
+  }
+  .overview-insight-value.emerald {
+    color: var(--emerald);
+  }
   .metric-label {
     font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
     text-transform: uppercase; color: var(--muted);
     font-family: 'JetBrains Mono', monospace;
   }
-  .metric-value { font-size: 28px; font-weight: 800; line-height: 1; }
+  .metric-value {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+    font-family: var(--num-font);
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: -0.01em;
+  }
   .metric-sub { font-size: 10px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
 
   .winner-tag {
@@ -391,8 +1174,8 @@ const CSS = `
 `;
 
 // ─── Utility ───────────────────────────────────────────────────────────────
-const pct = (v) => v != null ? `${(v * 100).toFixed(1)}%` : "—";
-const ms  = (v) => v != null ? `${v.toFixed(0)}ms` : "—";
+const pct = (v) => (v != null ? `${(v * 100).toFixed(1)}%` : "—");
+const ms = (v) => (v != null ? `${v.toFixed(0)}ms` : "—");
 const modelColor = (m) => MODEL_META[m]?.color ?? "#64748b";
 const modelShort = (m) => MODEL_META[m]?.short ?? m;
 
@@ -417,7 +1200,11 @@ function ModelBadge({ model }) {
   return (
     <div
       className="model-badge"
-      style={{ background: color + "18", border: `1px solid ${color}40`, color }}
+      style={{
+        background: color + "18",
+        border: `1px solid ${color}40`,
+        color,
+      }}
     >
       <span>{meta.icon ?? "◆"}</span>
       <span>{meta.short ?? model}</span>
@@ -427,16 +1214,30 @@ function ModelBadge({ model }) {
 
 function AnswerCard({ model, data, loading }) {
   const color = modelColor(model);
-  const meta  = MODEL_META[model] ?? {};
-  const info  = { "text-embedding-3-small": "OpenAI", "all-MiniLM-L6-v2": "HuggingFace", "multilingual-e5-base": "HuggingFace" };
+  const meta = MODEL_META[model] ?? {};
+  const info = {
+    "text-embedding-3-small": "OpenAI",
+    "all-MiniLM-L6-v2": "HuggingFace",
+    "multilingual-e5-base": "HuggingFace",
+  };
 
   return (
-    <div className={`answer-card ${data ? "loaded" : ""}`}
-      style={{ borderColor: data ? color + "50" : undefined }}>
+    <div
+      className={`answer-card ${data ? "loaded" : ""}`}
+      style={{ borderColor: data ? color + "50" : undefined }}
+    >
       <div className="model-header">
-        <div className="model-name" style={{ color }}>{meta.icon} {meta.short ?? model}</div>
-        <span className="model-type-tag"
-          style={{ background: color + "15", color, border: `1px solid ${color}30` }}>
+        <div className="model-name" style={{ color }}>
+          {meta.icon} {meta.short ?? model}
+        </div>
+        <span
+          className="model-type-tag"
+          style={{
+            background: color + "15",
+            color,
+            border: `1px solid ${color}30`,
+          }}
+        >
           {info[model] ?? "Model"}
         </span>
       </div>
@@ -457,7 +1258,10 @@ function AnswerCard({ model, data, loading }) {
             </span>
             {data.top_score != null && (
               <span className="meta-chip">
-                🎯 <span className="val">{(data.top_score * 100).toFixed(0)}%</span>
+                🎯{" "}
+                <span className="val">
+                  {(data.top_score * 100).toFixed(0)}%
+                </span>
               </span>
             )}
           </div>
@@ -483,54 +1287,83 @@ function AnswerCard({ model, data, loading }) {
 // ─── View: Compare ─────────────────────────────────────────────────────────
 function CompareView({ indexedModels }) {
   const [question, setQuestion] = useState("");
-  const [loading, setLoading]   = useState(false);
-  const [error, setError]       = useState(null);
-  const [history, setHistory]   = useState([]); // [{question, results, timestamp}]
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [history, setHistory] = useState([]); // [{question, results, timestamp}]
   const [loadingQuestion, setLoadingQuestion] = useState(null);
   const bottomRef = useRef(null);
 
-  const displayModels = indexedModels.length > 0
-    ? indexedModels
-    : Object.keys(MODEL_META);
+  const displayModels =
+    indexedModels.length > 0 ? indexedModels : Object.keys(MODEL_META);
 
-  const submit = useCallback(async (q) => {
-    const text = (q || question).trim();
-    if (!text) return;
-    setLoading(true);
-    setLoadingQuestion(text);
-    setError(null);
-    setQuestion("");
-    try {
-      const data = await apiFetch("/compare", {
-        method: "POST",
-        body: JSON.stringify({ question: text, k: 4, threshold: 0.35 }),
+  const submit = useCallback(
+    async (q) => {
+      const text = (q || question).trim();
+      if (!text) return;
+      setLoading(true);
+      setLoadingQuestion(text);
+      setError(null);
+      setQuestion("");
+
+      const timestamp = new Date().toLocaleTimeString("sv-SE", {
+        hour: "2-digit",
+        minute: "2-digit",
       });
-      const map = {};
-      for (const r of data.results) map[r.model] = r;
-      setHistory((prev) => [...prev, {
-        question: text,
-        results: map,
-        timestamp: new Date().toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" }),
-      }]);
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
-      setLoadingQuestion(null);
-    }
-  }, [question]);
+
+      // Lägg till frågan DIREKT med loading-state så den syns direkt
+      setHistory((prev) => [
+        { question: text, results: null, loading: true, timestamp },
+        ...prev,
+      ]);
+
+      try {
+        const data = await apiFetch("/compare", {
+          method: "POST",
+          body: JSON.stringify({ question: text, k: 4, threshold: 0.35 }),
+        });
+        const map = {};
+        for (const r of data.results) map[r.model] = r;
+
+        // Ersätt loading-entryn med riktiga svar
+        setHistory((prev) =>
+          prev.map((entry) =>
+            entry.loading && entry.question === text
+              ? { question: text, results: map, loading: false, timestamp }
+              : entry,
+          ),
+        );
+      } catch (e) {
+        setError(e.message);
+        // Ta bort loading-entryn om det gick fel
+        setHistory((prev) =>
+          prev.filter((entry) => !(entry.loading && entry.question === text)),
+        );
+      } finally {
+        setLoading(false);
+        setLoadingQuestion(null);
+      }
+    },
+    [question],
+  );
 
   // No auto-scroll needed — newest entry appears at top
 
-  const onKey = (e) => { if (e.key === "Enter") submit(); };
+  const onKey = (e) => {
+    if (e.key === "Enter") submit();
+  };
 
   return (
     <div className="stack">
       {/* Demo pills */}
       <div className="demo-pills">
         {DEMO_QUESTIONS.map((q) => (
-          <div key={q} className="demo-pill"
-            onClick={() => { setQuestion(q); submit(q); }}>
+          <div
+            key={q}
+            className="demo-pill"
+            onClick={() => {
+              submit(q);
+            }}
+          >
             {q}
           </div>
         ))}
@@ -546,96 +1379,147 @@ function CompareView({ indexedModels }) {
             placeholder="Ask about Tolkien's world…"
           />
         </div>
-        <button className="btn btn-primary" onClick={() => submit()} disabled={loading}>
+        <button
+          className="btn btn-primary"
+          onClick={() => submit()}
+          disabled={loading}
+        >
           {loading ? <div className="spinner" /> : "▶"}
           {loading ? "Querying…" : "Compare"}
         </button>
         {history.length > 0 && (
-          <button className="btn btn-ghost" onClick={() => setHistory([])}
-            title="Clear history">
+          <button
+            className="btn btn-ghost"
+            onClick={() => setHistory([])}
+            title="Clear history"
+          >
             ✕ Clear
           </button>
         )}
       </div>
 
       {error && (
-        <div style={{ color: "var(--red)", fontSize: 12, fontFamily: "'JetBrains Mono', monospace",
-          background: "rgba(248,113,113,.08)", padding: "12px 16px", borderRadius: 8,
-          border: "1px solid rgba(248,113,113,.2)" }}>
+        <div
+          style={{
+            color: "var(--red)",
+            fontSize: 12,
+            fontFamily: "'JetBrains Mono', monospace",
+            background: "rgba(248,113,113,.08)",
+            padding: "12px 16px",
+            borderRadius: 8,
+            border: "1px solid rgba(248,113,113,.2)",
+          }}
+        >
           ⚠ {error}
         </div>
       )}
 
       {/* Empty state */}
       {history.length === 0 && !loading && (
-        <div style={{ textAlign: "center", padding: "60px 20px", color: "var(--muted)" }}>
-          <div style={{ fontSize: 36, marginBottom: 12 }}>⬡</div>
-          <div style={{ fontSize: 12, fontFamily: "'JetBrains Mono',monospace", lineHeight: 1.8 }}>
-            Ask a question to compare all three models side by side.<br />
-            Your conversation history will appear here.
+        <div className="compare-empty">
+          <div className="compare-empty-core">
+            <div className="palantir-liquid" />
+            <div className="palantir-mist" />
+            <div className="palantir-depth" />
+            <div className="palantir-vortex" />
+            <div className="palantir-wisps" />
+            <div className="palantir-current" />
+            <div className="palantir-cloud-a" />
+            <div className="palantir-cloud-b" />
+            <div className="palantir-streaks" />
+            <div className="palantir-smoke" />
+            <div className="palantir-glass-sheen" />
+            <div className="palantir-arc a" />
+            <div className="palantir-arc b" />
+          </div>
+          <div className="compare-empty-title">The Palantir Is Waiting</div>
+          <p className="compare-empty-copy">
+            Ask a question to compare all three models side by side. Your
+            conversation history appears here once you begin.
+          </p>
+          <div className="compare-empty-suggestions">
+            {[
+              "Who is Morgoth and why is he feared?",
+              "Compare Sauron vs Saruman as villains",
+              "What happened to the Two Trees of Valinor?",
+            ].map((suggestion) => (
+              <button
+                key={suggestion}
+                className="compare-empty-suggestion"
+                onClick={() => submit(suggestion)}
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
+          <div className="compare-empty-tip">
+            Press Enter to compare quickly
           </div>
         </div>
       )}
 
       {/* History */}
       <div className="stack">
-        {[...history].reverse().map((entry, idx) => (
-          <div key={idx} style={{
-            borderRadius: 12, overflow: "hidden",
-            border: "1px solid var(--border)",
-            background: "var(--bg2)",
-          }}>
+        {[...history].map((entry, idx) => (
+          <div
+            key={idx}
+            style={{
+              borderRadius: 12,
+              overflow: "hidden",
+              border: "1px solid var(--border)",
+              background: "var(--bg2)",
+            }}
+          >
             {/* Question header */}
-            <div style={{
-              padding: "12px 20px",
-              borderBottom: "1px solid var(--border)",
-              display: "flex", alignItems: "center", justifyContent: "space-between",
-              background: "rgba(255,255,255,.02)",
-            }}>
+            <div
+              style={{
+                padding: "12px 20px",
+                borderBottom: "1px solid var(--border)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                background: "rgba(255,255,255,.02)",
+              }}
+            >
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ fontSize: 10, fontFamily: "'JetBrains Mono',monospace",
-                  color: "var(--cyan)", fontWeight: 700, letterSpacing: 1 }}>
+                <span
+                  style={{
+                    fontSize: 10,
+                    fontFamily: "'JetBrains Mono',monospace",
+                    color: "var(--cyan)",
+                    fontWeight: 700,
+                    letterSpacing: 1,
+                  }}
+                >
                   Q{idx + 1}
                 </span>
-                <span style={{ fontSize: 13, fontWeight: 600 }}>{entry.question}</span>
+                <span style={{ fontSize: 13, fontWeight: 600 }}>
+                  {entry.question}
+                </span>
               </div>
-              <span style={{ fontSize: 10, fontFamily: "'JetBrains Mono',monospace",
-                color: "var(--muted)" }}>
+              <span
+                style={{
+                  fontSize: 10,
+                  fontFamily: "'JetBrains Mono',monospace",
+                  color: "var(--muted)",
+                }}
+              >
                 {entry.timestamp}
               </span>
             </div>
             {/* Answers grid */}
             <div className="compare-grid" style={{ padding: 16 }}>
               {displayModels.map((m) => (
-                <AnswerCard key={m} model={m} data={entry.results[m]} loading={false} />
+                <AnswerCard
+                  key={m}
+                  model={m}
+                  data={entry.results?.[m]}
+                  loading={entry.loading}
+                />
               ))}
             </div>
           </div>
         ))}
-
-        {/* Loading entry */}
-        {loading && loadingQuestion && (
-          <div style={{
-            borderRadius: 12, overflow: "hidden",
-            border: "1px solid var(--border)",
-            background: "var(--bg2)",
-          }}>
-            <div style={{
-              padding: "12px 20px",
-              borderBottom: "1px solid var(--border)",
-              display: "flex", alignItems: "center", gap: 10,
-              background: "rgba(255,255,255,.02)",
-            }}>
-              <div className="spinner" style={{ width: 12, height: 12, borderWidth: 1.5 }} />
-              <span style={{ fontSize: 13, fontWeight: 600 }}>{loadingQuestion}</span>
-            </div>
-            <div className="compare-grid" style={{ padding: 16 }}>
-              {displayModels.map((m) => (
-                <AnswerCard key={m} model={m} data={null} loading={true} />
-              ))}
-            </div>
-          </div>
-        )}
 
         <div ref={bottomRef} />
       </div>
@@ -652,29 +1536,86 @@ function BenchmarkView({ evalData }) {
       <div style={{ textAlign: "center", padding: 60, color: "var(--muted)" }}>
         <div style={{ fontSize: 40, marginBottom: 12 }}>📊</div>
         <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12 }}>
-          No evaluation data found.<br />Run <code style={{ color: "var(--cyan)" }}>evaluate.py</code> first.
+          No evaluation data found.
+          <br />
+          Run <code style={{ color: "var(--cyan)" }}>evaluate.py</code> first.
         </div>
       </div>
     );
   }
 
   const models = evalData.models ?? [];
+  const bestHitRate = Math.max(
+    ...models.map((m) => m.metrics?.source_hit_rate ?? 0),
+  );
+  const bestKeywordRecall = Math.max(
+    ...models.map((m) => m.metrics?.avg_keyword_recall ?? 0),
+  );
+  const fastestResponse = Math.min(
+    ...models.map((m) => m.metrics?.avg_retrieval_time_ms ?? Infinity),
+  );
+  const hitRateLeaders = models.filter(
+    (m) => m.metrics?.source_hit_rate === bestHitRate,
+  );
+  const recallLeader = models.find(
+    (m) => m.metrics?.avg_keyword_recall === bestKeywordRecall,
+  );
+  const speedLeader = models.find(
+    (m) => m.metrics?.avg_retrieval_time_ms === fastestResponse,
+  );
+  const hitRateLeaderText = hitRateLeaders
+    .map((m) => modelShort(m.model_name))
+    .join(" and ");
 
   // Radar chart data
   const radarData = [
-    { metric: "Hit Rate",         ...Object.fromEntries(models.map(m => [modelShort(m.model_name), m.metrics.source_hit_rate * 100])) },
-    { metric: "Keyword Recall",   ...Object.fromEntries(models.map(m => [modelShort(m.model_name), m.metrics.avg_keyword_recall * 100])) },
-    { metric: "Relevance Score",  ...Object.fromEntries(models.map(m => [modelShort(m.model_name), m.metrics.avg_top_score * 100])) },
-    { metric: "Speed (inv)",      ...Object.fromEntries(models.map(m => [modelShort(m.model_name), Math.max(0, 100 - m.metrics.avg_retrieval_time_ms / 20)])) },
+    {
+      metric: "Hit Rate",
+      ...Object.fromEntries(
+        models.map((m) => [
+          modelShort(m.model_name),
+          m.metrics.source_hit_rate * 100,
+        ]),
+      ),
+    },
+    {
+      metric: "Keyword Recall",
+      ...Object.fromEntries(
+        models.map((m) => [
+          modelShort(m.model_name),
+          m.metrics.avg_keyword_recall * 100,
+        ]),
+      ),
+    },
+    {
+      metric: "Relevance Score",
+      ...Object.fromEntries(
+        models.map((m) => [
+          modelShort(m.model_name),
+          m.metrics.avg_top_score * 100,
+        ]),
+      ),
+    },
+    {
+      metric: "Speed (inv)",
+      ...Object.fromEntries(
+        models.map((m) => [
+          modelShort(m.model_name),
+          Math.max(0, 100 - m.metrics.avg_retrieval_time_ms / 20),
+        ]),
+      ),
+    },
   ];
 
   // Difficulty bar chart data
   const difficultyData = ["easy", "medium", "hard"].map((d) => ({
     difficulty: d,
-    ...Object.fromEntries(models.map((m) => [
-      modelShort(m.model_name),
-      (m.by_difficulty?.[d] ?? 0) * 100,
-    ])),
+    ...Object.fromEntries(
+      models.map((m) => [
+        modelShort(m.model_name),
+        (m.by_difficulty?.[d] ?? 0) * 100,
+      ]),
+    ),
   }));
 
   // Speed comparison
@@ -685,31 +1626,52 @@ function BenchmarkView({ evalData }) {
   }));
 
   // Per-question table
-  const allQuestions = models[0]?.results?.map((r, i) => ({
-    q: r.question,
-    difficulty: r.difficulty,
-    ...Object.fromEntries(models.map((m) => [
-      m.model_name,
-      { hit: m.results[i]?.source_hit, score: m.results[i]?.top_score, time: m.results[i]?.retrieval_time_ms }
-    ])),
-  })) ?? [];
+  const allQuestions =
+    models[0]?.results?.map((r, i) => ({
+      q: r.question,
+      difficulty: r.difficulty,
+      ...Object.fromEntries(
+        models.map((m) => [
+          m.model_name,
+          {
+            hit: m.results[i]?.source_hit,
+            score: m.results[i]?.top_score,
+            time: m.results[i]?.retrieval_time_ms,
+          },
+        ]),
+      ),
+    })) ?? [];
 
   // Cost data
   // OpenAI text-embedding-3-small: $0.020 per 1M tokens
   // Avg query ~15 tokens, so cost per query = 15 * 0.020 / 1_000_000
-  const OPENAI_COST_PER_TOKEN = 0.020 / 1_000_000;
+  const OPENAI_COST_PER_TOKEN = 0.2 / 1_000_000;
   const AVG_TOKENS_PER_QUERY = 15;
   const OPENAI_COST_PER_QUERY = OPENAI_COST_PER_TOKEN * AVG_TOKENS_PER_QUERY;
 
   const costMeta = {
-    "text-embedding-3-small": { costPerQuery: OPENAI_COST_PER_QUERY, type: "paid", note: "$0.020 / 1M tokens (OpenAI API)" },
-    "all-MiniLM-L6-v2":       { costPerQuery: 0, type: "free", note: "Free — runs locally on CPU" },
-    "multilingual-e5-base":   { costPerQuery: 0, type: "free", note: "Free — runs locally on CPU" },
+    "text-embedding-3-small": {
+      costPerQuery: OPENAI_COST_PER_QUERY,
+      type: "paid",
+      note: "0.20kr / 1M tokens (OpenAI API)",
+    },
+    "all-MiniLM-L6-v2": {
+      costPerQuery: 0,
+      type: "free",
+      note: "Free — runs locally on CPU",
+    },
+    "multilingual-e5-base": {
+      costPerQuery: 0,
+      type: "free",
+      note: "Free — runs locally on CPU",
+    },
   };
 
   // Break-even chart: cumulative cost at N queries
-  const breakEvenData = [1, 100, 1000, 10000, 50000, 100000, 500000, 1000000].map((n) => ({
-    queries: n >= 1000000 ? "1M" : n >= 1000 ? `${n/1000}k` : `${n}`,
+  const breakEvenData = [
+    1, 100, 1000, 10000, 50000, 100000, 500000, 1000000,
+  ].map((n) => ({
+    queries: n >= 1000000 ? "1M" : n >= 1000 ? `${n / 1000}k` : `${n}`,
     queriesRaw: n,
     OpenAI: parseFloat((n * OPENAI_COST_PER_QUERY).toFixed(4)),
     "Open-Source": 0,
@@ -719,7 +1681,11 @@ function BenchmarkView({ evalData }) {
     <div className="stack">
       <div className="tabs">
         {["overview", "difficulty", "speed", "cost", "questions"].map((t) => (
-          <div key={t} className={`tab ${activeTab === t ? "active" : ""}`} onClick={() => setActiveTab(t)}>
+          <div
+            key={t}
+            className={`tab ${activeTab === t ? "active" : ""}`}
+            onClick={() => setActiveTab(t)}
+          >
             {t}
           </div>
         ))}
@@ -731,21 +1697,88 @@ function BenchmarkView({ evalData }) {
           <div className="grid-3">
             {models.map((m) => {
               const color = modelColor(m.model_name);
+              const badges = [
+                m.metrics.source_hit_rate === bestHitRate
+                  ? "Best hit rate"
+                  : null,
+                m.metrics.avg_keyword_recall === bestKeywordRecall
+                  ? "Best recall"
+                  : null,
+                m.metrics.avg_retrieval_time_ms === fastestResponse
+                  ? "Fastest"
+                  : null,
+              ].filter(Boolean);
+              const metricCards = [
+                {
+                  label: "Keyword Recall",
+                  val: pct(m.metrics.avg_keyword_recall),
+                },
+                {
+                  label: "Avg Top Score",
+                  val: pct(m.metrics.avg_top_score),
+                },
+                {
+                  label: "Avg Response",
+                  val: ms(m.metrics.avg_retrieval_time_ms),
+                },
+              ];
+
               return (
-                <div key={m.model_name} className="metric-card" style={{ borderColor: color + "40" }}>
-                  <div className="model-name" style={{ color, fontSize: 11, marginBottom: 12 }}>
-                    {MODEL_META[m.model_name]?.icon} {modelShort(m.model_name)}
+                <div
+                  key={m.model_name}
+                  className="metric-card overview-card"
+                  style={{
+                    borderColor: color + "40",
+                    "--overview-accent": color,
+                    "--overview-glow": color + "22",
+                    "--overview-delay": `${models.indexOf(m) * 1.1}s`,
+                  }}
+                >
+                  <div className="overview-card-header">
+                    <div className="overview-model-tag">
+                      <span>{MODEL_META[m.model_name]?.icon}</span>
+                      <span>{modelShort(m.model_name)}</span>
+                    </div>
+                    <div className="overview-model-type">
+                      {m.model_type === "openai" ? "OpenAI API" : "Local model"}
+                    </div>
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    {[
-                      { label: "Source Hit Rate", val: pct(m.metrics.source_hit_rate) },
-                      { label: "Keyword Recall",  val: pct(m.metrics.avg_keyword_recall) },
-                      { label: "Avg Top Score",   val: pct(m.metrics.avg_top_score) },
-                      { label: "Avg Response",    val: ms(m.metrics.avg_retrieval_time_ms) },
-                    ].map(({ label, val }) => (
-                      <div key={label}>
+
+                  {badges.length > 0 && (
+                    <div className="overview-badges">
+                      {badges.map((badge) => (
+                        <div key={badge} className="overview-badge">
+                          <span>+</span>
+                          <span>{badge}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="overview-hero">
+                    <div>
+                      <div className="overview-hero-label">Source Hit Rate</div>
+                      <div className="overview-hero-value">
+                        {pct(m.metrics.source_hit_rate)}
+                      </div>
+                    </div>
+                    <div className="overview-watermark">
+                      {MODEL_META[m.model_name]?.icon}
+                    </div>
+                  </div>
+
+                  <div className="overview-progress">
+                    <div
+                      className="overview-progress-fill"
+                      style={{ width: `${m.metrics.source_hit_rate * 100}%` }}
+                    />
+                  </div>
+
+                  <div className="overview-stats">
+                    {metricCards.map(({ label, val }) => (
+                      <div key={label} className="overview-stat">
                         <div className="metric-label">{label}</div>
-                        <div className="metric-value" style={{ color, fontSize: 22 }}>{val}</div>
+                        <div className="overview-stat-value">{val}</div>
                       </div>
                     ))}
                   </div>
@@ -754,25 +1787,56 @@ function BenchmarkView({ evalData }) {
             })}
           </div>
 
-          {/* Radar chart */}
-          <div className="card">
-            <div className="card-title">Performance Radar</div>
-            <ResponsiveContainer width="100%" height={320}>
-              <RadarChart data={radarData}>
-                <PolarGrid stroke="var(--border)" />
-                <PolarAngleAxis dataKey="metric" tick={{ fill: "var(--muted)", fontSize: 11, fontFamily: "'JetBrains Mono',monospace" }} />
-                <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} />
-                {models.map((m) => (
-                  <Radar key={m.model_name} name={modelShort(m.model_name)}
-                    dataKey={modelShort(m.model_name)}
-                    stroke={modelColor(m.model_name)}
-                    fill={modelColor(m.model_name)} fillOpacity={0.1}
-                    strokeWidth={2} />
-                ))}
-                <Legend wrapperStyle={{ fontSize: 11, fontFamily: "'JetBrains Mono',monospace" }} />
-                <Tooltip contentStyle={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 8, fontSize: 11 }} />
-              </RadarChart>
-            </ResponsiveContainer>
+          <div className="overview-banner">
+            <div className="overview-banner-header">
+              <div className="overview-banner-icon">///</div>
+              <div className="overview-banner-copy">
+                <strong>{hitRateLeaderText}</strong> lead on hit rate,{" "}
+                <strong>
+                  {recallLeader
+                    ? modelShort(recallLeader.model_name)
+                    : "OpenAI"}
+                </strong>{" "}
+                leads keyword recall, and{" "}
+                <strong>
+                  {speedLeader ? modelShort(speedLeader.model_name) : "MiniLM"}
+                </strong>{" "}
+                is fastest.
+              </div>
+            </div>
+            <div className="overview-insights">
+              <div className="overview-insight-badge">
+                <div className="overview-insight-label">Best Hit Rate</div>
+                <div className="overview-insight-value">
+                  {pct(
+                    models.find(
+                      (m) => m.metrics.source_hit_rate === bestHitRate,
+                    )?.metrics.source_hit_rate || 0,
+                  )}
+                </div>
+              </div>
+              <div className="overview-insight-badge">
+                <div className="overview-insight-label">Best Recall</div>
+                <div className="overview-insight-value violet">
+                  {pct(
+                    models.find(
+                      (m) => m.metrics.avg_keyword_recall === bestKeywordRecall,
+                    )?.metrics.avg_keyword_recall || 0,
+                  )}
+                </div>
+              </div>
+              <div className="overview-insight-badge">
+                <div className="overview-insight-label">Fastest Response</div>
+                <div className="overview-insight-value emerald">
+                  {ms(
+                    models.find(
+                      (m) =>
+                        m.metrics.avg_retrieval_time_ms === fastestResponse,
+                    )?.metrics.avg_retrieval_time_ms || 0,
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -782,14 +1846,52 @@ function BenchmarkView({ evalData }) {
           <div className="card-title">Source Hit Rate by Difficulty</div>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={difficultyData} barGap={4}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-              <XAxis dataKey="difficulty" tick={{ fill: "var(--muted)", fontSize: 11, fontFamily: "'JetBrains Mono',monospace", textTransform: "uppercase" }} axisLine={false} tickLine={false} />
-              <YAxis domain={[0, 100]} tickFormatter={(v) => `${v}%`} tick={{ fill: "var(--muted)", fontSize: 10 }} axisLine={false} tickLine={false} />
-              <Tooltip formatter={(v) => `${v.toFixed(1)}%`} contentStyle={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 8, fontSize: 11 }} />
-              <Legend wrapperStyle={{ fontSize: 11, fontFamily: "'JetBrains Mono',monospace" }} />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="var(--border)"
+                vertical={false}
+              />
+              <XAxis
+                dataKey="difficulty"
+                tick={{
+                  fill: "var(--muted)",
+                  fontSize: 11,
+                  fontFamily: "'JetBrains Mono',monospace",
+                  textTransform: "uppercase",
+                }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                domain={[0, 100]}
+                tickFormatter={(v) => `${v}%`}
+                tick={{ fill: "var(--muted)", fontSize: 10 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <Tooltip
+                formatter={(v) => `${v.toFixed(1)}%`}
+                contentStyle={{
+                  background: "var(--bg2)",
+                  border: "1px solid var(--border2)",
+                  borderRadius: 8,
+                  fontSize: 11,
+                }}
+              />
+              <Legend
+                wrapperStyle={{
+                  fontSize: 11,
+                  fontFamily: "'JetBrains Mono',monospace",
+                }}
+              />
               {models.map((m) => (
-                <Bar key={m.model_name} dataKey={modelShort(m.model_name)}
-                  fill={modelColor(m.model_name)} radius={[4, 4, 0, 0]} maxBarSize={40} />
+                <Bar
+                  key={m.model_name}
+                  dataKey={modelShort(m.model_name)}
+                  fill={modelColor(m.model_name)}
+                  radius={[4, 4, 0, 0]}
+                  maxBarSize={40}
+                />
               ))}
             </BarChart>
           </ResponsiveContainer>
@@ -802,13 +1904,43 @@ function BenchmarkView({ evalData }) {
             <div className="card-title">Average Response Time (ms)</div>
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={speedData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
-                <XAxis type="number" tick={{ fill: "var(--muted)", fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v}ms`} />
-                <YAxis dataKey="name" type="category" tick={{ fill: "var(--muted)", fontSize: 11, fontFamily: "'JetBrains Mono',monospace" }} axisLine={false} tickLine={false} width={70} />
-                <Tooltip formatter={(v) => `${v.toFixed(0)}ms`} contentStyle={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 8, fontSize: 11 }} />
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="var(--border)"
+                  horizontal={false}
+                />
+                <XAxis
+                  type="number"
+                  tick={{ fill: "var(--muted)", fontSize: 10 }}
+                  axisLine={false}
+                  tickLine={false}
+                  tickFormatter={(v) => `${v}ms`}
+                />
+                <YAxis
+                  dataKey="name"
+                  type="category"
+                  tick={{
+                    fill: "var(--muted)",
+                    fontSize: 11,
+                    fontFamily: "'JetBrains Mono',monospace",
+                  }}
+                  axisLine={false}
+                  tickLine={false}
+                  width={70}
+                />
+                <Tooltip
+                  formatter={(v) => `${v.toFixed(0)}ms`}
+                  contentStyle={{
+                    background: "var(--bg2)",
+                    border: "1px solid var(--border2)",
+                    borderRadius: 8,
+                    fontSize: 11,
+                  }}
+                  cursor={{ fill: "transparent" }}
+                />
                 <Bar dataKey="time" radius={[0, 4, 4, 0]} maxBarSize={32}>
                   {speedData.map((entry, i) => (
-                    <rect key={i} fill={entry.color} />
+                    <Cell key={i} fill={entry.color} />
                   ))}
                 </Bar>
               </BarChart>
@@ -817,17 +1949,33 @@ function BenchmarkView({ evalData }) {
 
           {/* Speed cards */}
           <div className="grid-3">
-            {[...models].sort((a, b) => a.metrics.avg_retrieval_time_ms - b.metrics.avg_retrieval_time_ms).map((m, i) => {
-              const color = modelColor(m.model_name);
-              return (
-                <div key={m.model_name} className="metric-card" style={{ borderColor: color + "40" }}>
-                  {i === 0 && <div style={{ color: "var(--amber)", fontSize: 10, fontWeight: 700, letterSpacing: 1, fontFamily: "'JetBrains Mono',monospace", marginBottom: 8 }}>🏆 FASTEST</div>}
-                  <div className="model-name" style={{ color }}>{modelShort(m.model_name)}</div>
-                  <div className="metric-value" style={{ color, fontSize: 32, marginTop: 8 }}>{ms(m.metrics.avg_retrieval_time_ms)}</div>
-                  <div className="metric-sub">avg per query</div>
-                </div>
-              );
-            })}
+            {[...models]
+              .sort(
+                (a, b) =>
+                  a.metrics.avg_retrieval_time_ms -
+                  b.metrics.avg_retrieval_time_ms,
+              )
+              .map((m, i) => {
+                const color = modelColor(m.model_name);
+                return (
+                  <div
+                    key={m.model_name}
+                    className="metric-card"
+                    style={{ borderColor: color + "40" }}
+                  >
+                    <div className="model-name" style={{ color }}>
+                      {modelShort(m.model_name)}
+                    </div>
+                    <div
+                      className="metric-value"
+                      style={{ color, fontSize: 32, marginTop: 8 }}
+                    >
+                      {ms(m.metrics.avg_retrieval_time_ms)}
+                    </div>
+                    <div className="metric-sub">avg per query</div>
+                  </div>
+                );
+              })}
           </div>
         </div>
       )}
@@ -838,30 +1986,51 @@ function BenchmarkView({ evalData }) {
           <div className="grid-3">
             {models.map((m) => {
               const color = modelColor(m.model_name);
-              const meta = costMeta[m.model_name] ?? { costPerQuery: 0, type: "free", note: "" };
+              const meta = costMeta[m.model_name] ?? {
+                costPerQuery: 0,
+                type: "free",
+                note: "",
+              };
               const per1k = (meta.costPerQuery * 1000).toFixed(4);
               const per1M = (meta.costPerQuery * 1_000_000).toFixed(2);
               return (
-                <div key={m.model_name} className="metric-card" style={{ borderColor: color + "40" }}>
-                  <div className="model-name" style={{ color, marginBottom: 12 }}>
+                <div
+                  key={m.model_name}
+                  className="metric-card"
+                  style={{ borderColor: color + "40" }}
+                >
+                  <div
+                    className="model-name"
+                    style={{ color, marginBottom: 12 }}
+                  >
                     {MODEL_META[m.model_name]?.icon} {modelShort(m.model_name)}
                   </div>
                   <div style={{ marginBottom: 12 }}>
                     <div className="metric-label">Cost per query</div>
-                    <div className="metric-value" style={{ color, fontSize: 28 }}>
-                      {meta.type === "free" ? "$0.00" : `$${meta.costPerQuery.toFixed(6)}`}
+                    <div
+                      className="metric-value"
+                      style={{ color, fontSize: 28 }}
+                    >
+                      {meta.type === "free"
+                        ? "0 kr"
+                        : `${meta.costPerQuery.toFixed(6)} kr`}
                     </div>
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                    <div style={{ fontSize: 10, fontFamily: "'JetBrains Mono',monospace", color: "var(--muted)" }}>
-                      Per 1,000 queries: <span style={{ color }}>{meta.type === "free" ? "$0.00" : `$${per1k}`}</span>
-                    </div>
-                    <div style={{ fontSize: 10, fontFamily: "'JetBrains Mono',monospace", color: "var(--muted)" }}>
-                      Per 1,000,000 queries: <span style={{ color }}>{meta.type === "free" ? "$0.00" : `$${per1M}`}</span>
-                    </div>
-                    <div style={{ marginTop: 8, fontSize: 10, fontFamily: "'JetBrains Mono',monospace",
-                      padding: "4px 8px", borderRadius: 6, border: `1px solid ${color}30`,
-                      background: color + "10", color }}>
+                  <div
+                    style={{ display: "flex", flexDirection: "column", gap: 6 }}
+                  >
+                    <div
+                      style={{
+                        marginTop: 8,
+                        fontSize: 10,
+                        fontFamily: "'JetBrains Mono',monospace",
+                        padding: "4px 8px",
+                        borderRadius: 6,
+                        border: `1px solid ${color}30`,
+                        background: color + "10",
+                        color,
+                      }}
+                    >
                       {meta.note}
                     </div>
                   </div>
@@ -872,52 +2041,96 @@ function BenchmarkView({ evalData }) {
 
           {/* Break-even chart */}
           <div className="card">
-            <div className="card-title">Cumulative API Cost — OpenAI vs Open-Source</div>
-            <p style={{ fontSize: 11, color: "var(--muted)", marginBottom: 20, fontFamily: "'JetBrains Mono',monospace", lineHeight: 1.6 }}>
-              Open-source models run locally at zero API cost. The more queries you run, the larger the saving.
+            <div className="card-title">
+              Cumulative API Cost — OpenAI vs Open-Source
+            </div>
+            <p
+              style={{
+                fontSize: 11,
+                color: "var(--muted)",
+                marginBottom: 20,
+                fontFamily: "'JetBrains Mono',monospace",
+                lineHeight: 1.6,
+              }}
+            >
+              Open-source models run locally at zero API cost. The more queries
+              you run, the larger the saving.
             </p>
             <ResponsiveContainer width="100%" height={280}>
-              <LineChart data={breakEvenData} margin={{ top: 10, right: 30, bottom: 10, left: 60 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-                <XAxis dataKey="queries"
-                  tick={{ fill: "var(--muted)", fontSize: 10, fontFamily: "'JetBrains Mono',monospace" }}
-                  axisLine={false} tickLine={false} />
-                <YAxis tickFormatter={(v) => `$${v}`}
-                  tick={{ fill: "var(--muted)", fontSize: 10, fontFamily: "'JetBrains Mono',monospace" }}
-                  axisLine={false} tickLine={false} width={55} />
-                <Tooltip
-                  formatter={(v, name) => [`$${v}`, name]}
-                  contentStyle={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 8, fontSize: 11, fontFamily: "'JetBrains Mono',monospace" }}
+              <LineChart
+                data={breakEvenData}
+                margin={{ top: 10, right: 30, bottom: 10, left: 60 }}
+              >
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="var(--border)"
+                  vertical={false}
                 />
-                <Legend wrapperStyle={{ fontSize: 11, fontFamily: "'JetBrains Mono',monospace" }} />
-                <Line type="monotone" dataKey="OpenAI" stroke="var(--cyan)" strokeWidth={2} dot={{ fill: "var(--cyan)", r: 4 }} />
-                <Line type="monotone" dataKey="Open-Source" stroke="var(--emerald)" strokeWidth={2} strokeDasharray="6 3" dot={{ fill: "var(--emerald)", r: 4 }} />
+                <XAxis
+                  dataKey="queries"
+                  tick={{
+                    fill: "var(--muted)",
+                    fontSize: 10,
+                    fontFamily: "'JetBrains Mono',monospace",
+                  }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis
+                  tickFormatter={(v) => `${v} kr`}
+                  tick={{
+                    fill: "var(--muted)",
+                    fontSize: 10,
+                    fontFamily: "'JetBrains Mono',monospace",
+                  }}
+                  axisLine={false}
+                  tickLine={false}
+                  width={55}
+                />
+                <Tooltip
+                  formatter={(v, name) => [`${v} kr`, name]}
+                  contentStyle={{
+                    background: "var(--bg2)",
+                    border: "1px solid var(--border2)",
+                    borderRadius: 8,
+                    fontSize: 11,
+                    fontFamily: "'JetBrains Mono',monospace",
+                  }}
+                />
+                <Legend
+                  wrapperStyle={{
+                    fontSize: 11,
+                    fontFamily: "'JetBrains Mono',monospace",
+                  }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="OpenAI"
+                  stroke="var(--cyan)"
+                  strokeWidth={2}
+                  dot={{ fill: "var(--cyan)", r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="Open-Source"
+                  stroke="var(--emerald)"
+                  strokeWidth={2}
+                  strokeDasharray="6 3"
+                  dot={{ fill: "var(--emerald)", r: 4 }}
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
           {/* Summary insight */}
-          <div className="card" style={{ borderColor: "rgba(52,211,153,.3)", background: "rgba(52,211,153,.05)" }}>
-            <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-              <div style={{ fontSize: 28, flexShrink: 0 }}>💡</div>
-              <div>
-                <div style={{ fontWeight: 700, marginBottom: 6, fontSize: 13 }}>Key insight</div>
-                <div style={{ fontSize: 12, color: "var(--muted)", lineHeight: 1.8, fontFamily: "'JetBrains Mono',monospace" }}>
-                  At <span style={{ color: "var(--cyan)" }}>100,000 queries/month</span>, OpenAI's API would cost approximately{" "}
-                  <span style={{ color: "var(--cyan)" }}>${(100000 * OPENAI_COST_PER_QUERY).toFixed(2)}/month</span>.
-                  Open-source alternatives like <span style={{ color: "var(--emerald)" }}>multilingual-e5-base</span> achieve
-                  equal precision at <span style={{ color: "var(--emerald)" }}>$0.00</span> — making them the clear choice
-                  for cost-sensitive production deployments.
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       )}
 
       {activeTab === "questions" && (
         <div className="card">
-          <div className="card-title">Per-Question Results ({allQuestions.length} questions)</div>
+          <div className="card-title">
+            Per-Question Results ({allQuestions.length} questions)
+          </div>
           <div className="table-wrap">
             <table>
               <thead>
@@ -925,7 +2138,10 @@ function BenchmarkView({ evalData }) {
                   <th>Question</th>
                   <th>Difficulty</th>
                   {models.map((m) => (
-                    <th key={m.model_name} style={{ color: modelColor(m.model_name) }}>
+                    <th
+                      key={m.model_name}
+                      style={{ color: modelColor(m.model_name) }}
+                    >
                       {modelShort(m.model_name)}
                     </th>
                   ))}
@@ -934,14 +2150,38 @@ function BenchmarkView({ evalData }) {
               <tbody>
                 {allQuestions.map((row, i) => (
                   <tr key={i}>
-                    <td style={{ maxWidth: 240, color: "var(--text)", fontSize: 11 }}>{row.q}</td>
+                    <td
+                      style={{
+                        maxWidth: 240,
+                        color: "var(--text)",
+                        fontSize: 11,
+                      }}
+                    >
+                      {row.q}
+                    </td>
                     <td>
-                      <span style={{
-                        fontSize: 9, fontWeight: 700, letterSpacing: 1,
-                        padding: "2px 6px", borderRadius: 4, textTransform: "uppercase",
-                        background: row.difficulty === "easy" ? "rgba(52,211,153,.1)" : row.difficulty === "medium" ? "rgba(251,191,36,.1)" : "rgba(248,113,113,.1)",
-                        color: row.difficulty === "easy" ? "var(--emerald)" : row.difficulty === "medium" ? "var(--amber)" : "var(--red)",
-                      }}>
+                      <span
+                        style={{
+                          fontSize: 9,
+                          fontWeight: 700,
+                          letterSpacing: 1,
+                          padding: "2px 6px",
+                          borderRadius: 4,
+                          textTransform: "uppercase",
+                          background:
+                            row.difficulty === "easy"
+                              ? "rgba(52,211,153,.1)"
+                              : row.difficulty === "medium"
+                                ? "rgba(251,191,36,.1)"
+                                : "rgba(248,113,113,.1)",
+                          color:
+                            row.difficulty === "easy"
+                              ? "var(--emerald)"
+                              : row.difficulty === "medium"
+                                ? "var(--amber)"
+                                : "var(--red)",
+                        }}
+                      >
                         {row.difficulty}
                       </span>
                     </td>
@@ -949,11 +2189,24 @@ function BenchmarkView({ evalData }) {
                       const d = row[m.model_name];
                       return (
                         <td key={m.model_name}>
-                          <span style={{ color: d?.hit ? "var(--emerald)" : "var(--red)", fontSize: 14 }}>
+                          <span
+                            style={{
+                              color: d?.hit ? "var(--emerald)" : "var(--red)",
+                              fontSize: 14,
+                            }}
+                          >
                             {d?.hit ? "✓" : "✗"}
                           </span>
-                          <span style={{ color: "var(--muted)", marginLeft: 6, fontSize: 10 }}>
-                            {d?.score != null ? (d.score * 100).toFixed(0) + "%" : ""}
+                          <span
+                            style={{
+                              color: "var(--muted)",
+                              marginLeft: 6,
+                              fontSize: 10,
+                            }}
+                          >
+                            {d?.score != null
+                              ? (d.score * 100).toFixed(0) + "%"
+                              : ""}
                           </span>
                         </td>
                       );
@@ -981,8 +2234,10 @@ function ExplorerView({ evalData }) {
     if (!model) return [];
     const results = model.results ?? [];
     return results.map((r, i) => ({
-      x: (r.top_score ?? 0.5) * 100 + (Math.sin(i * 0.7 + modelIdx) * 12),
-      y: (r.keyword_recall ?? r.keyword_hits / 3 ?? 0.5) * 100 + (Math.cos(i * 0.5 + modelIdx * 2) * 12),
+      x: (r.top_score ?? 0.5) * 100 + Math.sin(i * 0.7 + modelIdx) * 12,
+      y:
+        (r.keyword_recall ?? r.keyword_hits / 3 ?? 0.5) * 100 +
+        Math.cos(i * 0.5 + modelIdx * 2) * 12,
       question: r.question,
       difficulty: r.difficulty,
       hit: r.source_hit,
@@ -995,36 +2250,76 @@ function ExplorerView({ evalData }) {
   const diffColor = { easy: "#34d399", medium: "#fbbf24", hard: "#f87171" };
   const [hovered, setHovered] = useState(null);
 
-  if (!evalData) return (
-    <div style={{ textAlign: "center", padding: 60, color: "var(--muted)" }}>
-      <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12 }}>
-        Load evaluation data to explore embeddings.
+  if (!evalData)
+    return (
+      <div style={{ textAlign: "center", padding: 60, color: "var(--muted)" }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12 }}>
+          Load evaluation data to explore embeddings.
+        </div>
       </div>
-    </div>
-  );
+    );
 
   return (
     <div className="stack">
       <div className="card">
-        <div className="card-title">Embedding Space Projection — Query Score Distribution</div>
-        <p style={{ fontSize: 12, color: "var(--muted)", marginBottom: 20, fontFamily: "'JetBrains Mono',monospace", lineHeight: 1.6 }}>
-          Each point is a test question, positioned by its retrieval quality metrics.<br />
-          X-axis: top relevance score · Y-axis: keyword recall · Color: difficulty level
+        <div className="card-title">
+          Embedding Space Projection — Query Score Distribution
+        </div>
+        <p
+          style={{
+            fontSize: 12,
+            color: "var(--muted)",
+            marginBottom: 20,
+            fontFamily: "'JetBrains Mono',monospace",
+            lineHeight: 1.6,
+          }}
+        >
+          Each point is a test question, positioned by its retrieval quality
+          metrics.
+          <br />
         </p>
         <div style={{ position: "relative" }}>
-          <ResponsiveContainer width="100%" height={420}>
+          <ResponsiveContainer width="100%" height={400}>
             <ScatterChart margin={{ top: 20, right: 30, bottom: 40, left: 60 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-              <XAxis type="number" dataKey="x" name="Relevance Score" domain={[0, 110]}
+              <XAxis
+                type="number"
+                dataKey="x"
+                name="Relevance Score"
+                domain={[0, 110]}
                 ticks={[0, 20, 40, 60, 80, 100]}
                 tickFormatter={(v) => `${v}`}
-                tick={{ fill: "var(--muted)", fontSize: 10 }} axisLine={false} tickLine={false}
-                label={{ value: "Relevance Score", position: "insideBottom", offset: -20, fill: "var(--muted)", fontSize: 10 }} />
-              <YAxis type="number" dataKey="y" name="Keyword Recall" domain={[0, 120]}
+                tick={{ fill: "var(--muted)", fontSize: 10 }}
+                axisLine={false}
+                tickLine={false}
+                label={{
+                  value: "Relevance Score",
+                  position: "insideBottom",
+                  offset: -20,
+                  fill: "var(--muted)",
+                  fontSize: 10,
+                }}
+              />
+              <YAxis
+                type="number"
+                dataKey="y"
+                name="Keyword Recall"
+                domain={[0, 120]}
                 ticks={[0, 30, 60, 90, 120]}
                 tickFormatter={(v) => `${v}`}
-                tick={{ fill: "var(--muted)", fontSize: 10 }} axisLine={false} tickLine={false} width={35}
-                label={{ value: "Keyword Recall", angle: -90, position: "insideLeft", dx: -20, fill: "var(--muted)", fontSize: 10 }} />
+                tick={{ fill: "var(--muted)", fontSize: 10 }}
+                axisLine={false}
+                tickLine={false}
+                width={35}
+                label={{
+                  value: "Keyword Recall",
+                  angle: -90,
+                  position: "insideLeft",
+                  dx: -20,
+                  fill: "var(--muted)",
+                  fontSize: 10,
+                }}
+              />
               <ZAxis range={[60, 60]} />
               <Tooltip
                 content={({ payload }) => {
@@ -1032,23 +2327,60 @@ function ExplorerView({ evalData }) {
                   const d = payload[0]?.payload;
                   if (!d) return null;
                   return (
-                    <div style={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 8, padding: "10px 14px", fontSize: 11, fontFamily: "'JetBrains Mono',monospace", maxWidth: 240 }}>
-                      <div style={{ color: modelColor(d.model), fontWeight: 700, marginBottom: 6 }}>{modelShort(d.model)}</div>
-                      <div style={{ color: "var(--muted)", marginBottom: 4, wordBreak: "break-word" }}>{d.question}</div>
-                      <div style={{ color: diffColor[d.difficulty] }}>{d.difficulty} · {d.hit ? "✓ hit" : "✗ miss"}</div>
+                    <div
+                      style={{
+                        background: "var(--bg2)",
+                        border: "1px solid var(--border2)",
+                        borderRadius: 8,
+                        padding: "10px 14px",
+                        fontSize: 11,
+                        fontFamily: "'JetBrains Mono',monospace",
+                        maxWidth: 240,
+                      }}
+                    >
+                      <div
+                        style={{
+                          color: modelColor(d.model),
+                          fontWeight: 700,
+                          marginBottom: 6,
+                        }}
+                      >
+                        {modelShort(d.model)}
+                      </div>
+                      <div
+                        style={{
+                          color: "var(--muted)",
+                          marginBottom: 4,
+                          wordBreak: "break-word",
+                        }}
+                      >
+                        {d.question}
+                      </div>
+                      <div style={{ color: diffColor[d.difficulty] }}>
+                        {d.difficulty} · {d.hit ? "✓ hit" : "✗ miss"}
+                      </div>
                     </div>
                   );
                 }}
               />
               {models.map((m, i) => (
-                <Scatter key={m.model_name}
+                <Scatter
+                  key={m.model_name}
                   name={modelShort(m.model_name)}
                   data={generatePoints(i)}
                   fill={modelColor(m.model_name)}
                   fillOpacity={0.7}
                 />
               ))}
-              <Legend verticalAlign="top" align="right" wrapperStyle={{ fontSize: 11, fontFamily: "'JetBrains Mono',monospace", paddingBottom: 10 }} />
+              <Legend
+                verticalAlign="top"
+                align="right"
+                wrapperStyle={{
+                  fontSize: 11,
+                  fontFamily: "'JetBrains Mono',monospace",
+                  paddingBottom: 10,
+                }}
+              />
             </ScatterChart>
           </ResponsiveContainer>
         </div>
@@ -1056,25 +2388,69 @@ function ExplorerView({ evalData }) {
 
       <div className="grid-3">
         {models.map((m) => {
-          const hits = m.results?.filter(r => r.source_hit).length ?? 0;
+          const hits = m.results?.filter((r) => r.source_hit).length ?? 0;
           const total = m.results?.length ?? 1;
           const color = modelColor(m.model_name);
           return (
-            <div key={m.model_name} className="metric-card" style={{ borderColor: color + "40" }}>
-              <div className="model-name" style={{ color, marginBottom: 8 }}>{MODEL_META[m.model_name]?.icon} {modelShort(m.model_name)}</div>
-              <div style={{ fontSize: 11, color: "var(--muted)", fontFamily: "'JetBrains Mono',monospace", display: "flex", flexDirection: "column", gap: 8 }}>
+            <div
+              key={m.model_name}
+              className="metric-card"
+              style={{ borderColor: color + "40" }}
+            >
+              <div className="model-name" style={{ color, marginBottom: 8 }}>
+                {MODEL_META[m.model_name]?.icon} {modelShort(m.model_name)}
+              </div>
+              <div
+                style={{
+                  fontSize: 11,
+                  color: "var(--muted)",
+                  fontFamily: "'JetBrains Mono',monospace",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8,
+                }}
+              >
                 <div>
-                  <div style={{ marginBottom: 4 }}>Source Hits: <span style={{ color }}>{hits}/{total}</span></div>
+                  <div style={{ marginBottom: 4 }}>
+                    Source Hits:{" "}
+                    <span style={{ color }}>
+                      {hits}/{total}
+                    </span>
+                  </div>
                   <div className="progress-bar">
-                    <div className="progress-fill" style={{ width: `${hits / total * 100}%`, background: color }} />
+                    <div
+                      className="progress-fill"
+                      style={{
+                        width: `${(hits / total) * 100}%`,
+                        background: color,
+                      }}
+                    />
                   </div>
                 </div>
-                <div style={{ fontSize: 10 }}>Dim: <span style={{ color: "var(--text)" }}>{
-                  { "text-embedding-3-small": 1536, "all-MiniLM-L6-v2": 384, "multilingual-e5-base": 768 }[m.model_name]
-                }</span></div>
-                <div style={{ fontSize: 10 }}>Type: <span style={{ color: "var(--text)" }}>
-                  { { "text-embedding-3-small": "OpenAI API", "all-MiniLM-L6-v2": "HuggingFace", "multilingual-e5-base": "HuggingFace" }[m.model_name] }
-                </span></div>
+                <div style={{ fontSize: 10 }}>
+                  Dim:{" "}
+                  <span style={{ color: "var(--text)" }}>
+                    {
+                      {
+                        "text-embedding-3-small": 1536,
+                        "all-MiniLM-L6-v2": 384,
+                        "multilingual-e5-base": 768,
+                      }[m.model_name]
+                    }
+                  </span>
+                </div>
+                <div style={{ fontSize: 10 }}>
+                  Type:{" "}
+                  <span style={{ color: "var(--text)" }}>
+                    {
+                      {
+                        "text-embedding-3-small": "OpenAI API",
+                        "all-MiniLM-L6-v2": "HuggingFace",
+                        "multilingual-e5-base": "HuggingFace",
+                      }[m.model_name]
+                    }
+                  </span>
+                </div>
               </div>
             </div>
           );
@@ -1084,177 +2460,18 @@ function ExplorerView({ evalData }) {
   );
 }
 
-// ─── View: Presentation ────────────────────────────────────────────────────
-function PresentationView({ evalData }) {
-  const [slide, setSlide] = useState(0);
-
-  const models = evalData?.models ?? [];
-  const openai  = models.find(m => m.model_name === "text-embedding-3-small");
-  const minilm  = models.find(m => m.model_name === "all-MiniLM-L6-v2");
-  const e5      = models.find(m => m.model_name === "multilingual-e5-base");
-
-  const fastest = models.length
-    ? [...models].sort((a,b) => a.metrics.avg_retrieval_time_ms - b.metrics.avg_retrieval_time_ms)[0]
-    : null;
-
-  const slides = [
-    // 0 — Title
-    <div className="pres-slide" key="title">
-      <div className="pres-step">Examensarbete · NBI/Handelsakademin</div>
-      <h1 className="pres-h1 glow-text-cyan">
-        Embedding Model<br />Comparison in RAG
-      </h1>
-      <p className="pres-body">
-        How does the choice of embedding model affect retrieval quality in a RAG system?<br />
-        A comparative study of commercial vs open-source models.
-      </p>
-    </div>,
-
-    // 1 — The Question
-    <div className="pres-slide" key="question">
-      <div className="pres-step">Research Question</div>
-      <h2 className="pres-h2">What are we measuring?</h2>
-      <div className="pres-cards-row">
-        {[
-          { icon: "🎯", title: "Retrieval Precision", body: "Does the right document surface for a given query?" },
-          { icon: "⚡", title: "Response Time", body: "How fast can each model embed and retrieve?" },
-          { icon: "💰", title: "Cost & Practicality", body: "Commercial API vs free open-source models." },
-        ].map((c) => (
-          <div key={c.title} className="pres-card">
-            <div className="pres-card-icon">{c.icon}</div>
-            <div className="pres-card-title">{c.title}</div>
-            <div className="pres-card-body">{c.body}</div>
-          </div>
-        ))}
-      </div>
-    </div>,
-
-    // 2 — Models
-    <div className="pres-slide" key="models">
-      <div className="pres-step">The Contestants</div>
-      <h2 className="pres-h2">3 Models · 18 Questions · 3 Difficulty Levels</h2>
-      <div className="pres-cards-row">
-        {[
-          { model: "text-embedding-3-small", label: "Paid · API", desc: "OpenAI's commercial embedding model. 1536 dimensions." },
-          { model: "all-MiniLM-L6-v2",       label: "Free · Local", desc: "Lightweight English model. 384 dimensions." },
-          { model: "multilingual-e5-base",    label: "Free · Local", desc: "Multilingual model. 768 dimensions. Swedish + English." },
-        ].map(({ model, label, desc }) => {
-          const color = modelColor(model);
-          return (
-            <div key={model} className="pres-card" style={{ borderColor: color + "50" }}>
-              <div style={{ fontSize: 28, marginBottom: 8 }}>{MODEL_META[model]?.icon}</div>
-              <div className="pres-card-title" style={{ color }}>{modelShort(model)}</div>
-              <div style={{ fontSize: 10, color: "var(--amber)", fontFamily: "'JetBrains Mono',monospace", marginBottom: 8, fontWeight: 700 }}>{label}</div>
-              <div className="pres-card-body">{desc}</div>
-            </div>
-          );
-        })}
-      </div>
-    </div>,
-
-    // 3 — Key result: hit rate
-    <div className="pres-slide" key="hitrate">
-      <div className="pres-step">Key Finding · Source Hit Rate</div>
-      <h2 className="pres-h2">Open-source matches commercial precision</h2>
-      <div className="pres-cards-row">
-        {models.map((m) => {
-          const color = modelColor(m.model_name);
-          return (
-            <div key={m.model_name} className="pres-card" style={{ borderColor: color + "50", textAlign: "center" }}>
-              <div style={{ fontSize: 24, color, fontFamily: "'JetBrains Mono',monospace", fontWeight: 700 }}>{MODEL_META[m.model_name]?.icon}</div>
-              <div style={{ fontSize: 13, fontWeight: 700, color, margin: "8px 0" }}>{modelShort(m.model_name)}</div>
-              <div style={{ fontSize: 42, fontWeight: 800, color }}>{pct(m.metrics.source_hit_rate)}</div>
-              <div className="pres-card-body">source hit rate</div>
-            </div>
-          );
-        })}
-      </div>
-    </div>,
-
-    // 4 — Speed
-    <div className="pres-slide" key="speed">
-      <div className="pres-step">Key Finding · Speed</div>
-      <h2 className="pres-h2">Local models are dramatically faster</h2>
-      {fastest && (
-        <>
-          <div className="pres-big-stat">{ms(fastest.metrics.avg_retrieval_time_ms)}</div>
-          <p className="pres-body">
-            <span className="pres-highlight">{modelShort(fastest.model_name)}</span> was the fastest model,
-            running entirely locally — no API calls, no latency, no cost per query.
-          </p>
-        </>
-      )}
-    </div>,
-
-    // 5 — Conclusion
-    <div className="pres-slide" key="conclusion">
-      <div className="pres-step">Conclusion</div>
-      <h2 className="pres-h2 glow-text-emerald">Open-source wins on value</h2>
-      <p className="pres-body" style={{ marginBottom: 32 }}>
-        For RAG systems where cost and latency matter, open-source embedding models offer
-        a compelling alternative to commercial APIs — without sacrificing retrieval quality.
-      </p>
-      <div className="pres-cards-row" style={{ maxWidth: 700 }}>
-        {[
-          { icon: "✓", label: "Equal precision", color: "var(--emerald)" },
-          { icon: "⚡", label: "Faster response", color: "var(--cyan)" },
-          { icon: "€0", label: "Zero API cost", color: "var(--violet)" },
-        ].map((c) => (
-          <div key={c.label} className="pres-card" style={{ borderColor: c.color + "50", textAlign: "center" }}>
-            <div style={{ fontSize: 32, color: c.color }}>{c.icon}</div>
-            <div style={{ fontWeight: 700, marginTop: 8 }}>{c.label}</div>
-          </div>
-        ))}
-      </div>
-    </div>,
-  ];
-
-  const prev = () => setSlide((s) => Math.max(0, s - 1));
-  const next = () => setSlide((s) => Math.min(slides.length - 1, s + 1));
-
-  useEffect(() => {
-    const handler = (e) => {
-      if (e.key === "ArrowRight" || e.key === "ArrowDown") next();
-      if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   prev();
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, []);
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 52px - 56px)", margin: "-28px", padding: "0 28px" }}>
-      <div style={{ flex: 1, overflow: "hidden", position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ width: "100%" }}>{slides[slide]}</div>
-      </div>
-      <div style={{ flexShrink: 0, paddingBottom: 20 }}>
-        <div className="pres-nav">
-          <button className="btn btn-ghost" onClick={prev} disabled={slide === 0} style={{ fontSize: 18, padding: "8px 16px" }}>←</button>
-          {slides.map((_, i) => (
-            <div key={i} className={`pres-dot ${i === slide ? "active" : ""}`} onClick={() => setSlide(i)} />
-          ))}
-          <button className="btn btn-ghost" onClick={next} disabled={slide === slides.length - 1} style={{ fontSize: 18, padding: "8px 16px" }}>→</button>
-        </div>
-        <div style={{ textAlign: "center", marginTop: 8, fontSize: 10, fontFamily: "'JetBrains Mono',monospace", color: "var(--muted)" }}>
-          {slide + 1} / {slides.length} · Use arrow keys to navigate
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ─── App Shell ─────────────────────────────────────────────────────────────
 const VIEWS = [
-  { id: "compare",      label: "A/B Compare",    icon: "⊞" },
-  { id: "benchmark",    label: "Benchmark",       icon: "◈" },
-  { id: "explorer",     label: "Embedding Space", icon: "⬡" },
-  { id: "presentation", label: "Presentation",    icon: "▷" },
+  { id: "compare", label: "The Palantír", icon: "⊞" },
+  { id: "benchmark", label: "The Halls of Mandos", icon: "◈" },
+  { id: "explorer", label: " The Unseen Realm", icon: "⬡" },
 ];
 
 export default function App() {
-  const [view,         setView]         = useState("compare");
-  const [evalData,     setEvalData]     = useState(null);
+  const [view, setView] = useState("compare");
+  const [evalData, setEvalData] = useState(null);
   const [indexedModels, setIndexedModels] = useState([]);
-  const [apiStatus,    setApiStatus]    = useState("checking");
+  const [apiStatus, setApiStatus] = useState("checking");
 
   // Inject styles
   useEffect(() => {
@@ -1289,14 +2506,22 @@ export default function App() {
     <div className="app">
       <aside className="sidebar">
         <div className="sidebar-brand">
-          <h1>RAG<br />Embedding<br />Lab</h1>
-          <p>Tolkien Chatbot · Thesis</p>
+          <h1>
+            The
+            <br />
+            Red Book
+            <br />
+            of Westmarch
+          </h1>
+          <p>Tolkien Chatbot</p>
         </div>
 
         {VIEWS.map((v) => (
-          <div key={v.id}
+          <div
+            key={v.id}
             className={`nav-item ${view === v.id ? "active" : ""}`}
-            onClick={() => setView(v.id)}>
+            onClick={() => setView(v.id)}
+          >
             <span className="icon">{v.icon}</span>
             {v.label}
           </div>
@@ -1304,16 +2529,30 @@ export default function App() {
 
         <div className="sidebar-footer">
           <div>
-            <span className={`status-dot`} style={{ background: apiStatus === "online" ? "var(--emerald)" : "var(--red)" }} />
+            <span
+              className={`status-dot`}
+              style={{
+                background:
+                  apiStatus === "online" ? "var(--emerald)" : "var(--red)",
+              }}
+            />
             API {apiStatus}
           </div>
           {indexedModels.length > 0 && (
             <div style={{ marginTop: 4 }}>
-              {indexedModels.length} model{indexedModels.length > 1 ? "s" : ""} indexed
+              {indexedModels.length} model{indexedModels.length > 1 ? "s" : ""}{" "}
+              indexed
             </div>
           )}
-          <div style={{ marginTop: 8, borderTop: "1px solid var(--border)", paddingTop: 8 }}>
-            NBI/Handelsakademin<br />
+          <div
+            style={{
+              marginTop: 8,
+              borderTop: "1px solid var(--border)",
+              paddingTop: 8,
+            }}
+          >
+            NBI/Handelsakademin
+            <br />
             Examensarbete 2026
           </div>
         </div>
@@ -1324,25 +2563,27 @@ export default function App() {
           <div>
             <div className="topbar-title">{viewMeta?.label}</div>
             <div className="topbar-sub">
-              {view === "compare"      && "Query all models simultaneously"}
-              {view === "benchmark"    && "Evaluation results — 18 test questions"}
-              {view === "explorer"     && "Visualize retrieval quality distribution"}
-              {view === "presentation" && "Slide deck — use arrow keys to navigate"}
+              {view === "compare" && "Query all models simultaneously"}
+              {view === "benchmark" && "Evaluation results — 19 test questions"}
+              {view === "explorer" &&
+                "Visualize retrieval quality distribution"}
             </div>
           </div>
           <div className="topbar-sep" />
           <div style={{ display: "flex", gap: 8 }}>
-            {(indexedModels.length > 0 ? indexedModels : Object.keys(MODEL_META)).map((m) => (
+            {(indexedModels.length > 0
+              ? indexedModels
+              : Object.keys(MODEL_META)
+            ).map((m) => (
               <ModelBadge key={m} model={m} />
             ))}
           </div>
         </div>
 
         <div className="content">
-          {view === "compare"      && <CompareView indexedModels={indexedModels} />}
-          {view === "benchmark"    && <BenchmarkView evalData={evalData} />}
-          {view === "explorer"     && <ExplorerView evalData={evalData} />}
-          {view === "presentation" && <PresentationView evalData={evalData} />}
+          {view === "compare" && <CompareView indexedModels={indexedModels} />}
+          {view === "benchmark" && <BenchmarkView evalData={evalData} />}
+          {view === "explorer" && <ExplorerView evalData={evalData} />}
         </div>
       </div>
     </div>

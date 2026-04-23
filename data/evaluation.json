@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-02-18T13:34:31.797853",
+  "timestamp": "2026-04-20T20:17:30.267382",
   "models": [
     {
       "model_name": "text-embedding-3-small",
       "model_type": "openai",
       "metrics": {
-        "source_hit_rate": 0.7222222222222222,
-        "avg_source_precision": 0.19444444444444445,
-        "avg_keyword_recall": 0.8148148148148148,
-        "avg_top_score": 0.6078313560359895,
-        "avg_retrieval_time_ms": 200.82018522245764,
-        "total_retrieval_time_ms": 3614.7633340042375
+        "source_hit_rate": 0.7368421052631579,
+        "avg_source_precision": 0.19736842105263158,
+        "avg_keyword_recall": 0.8245614035087719,
+        "avg_top_score": 0.6062011349246337,
+        "avg_retrieval_time_ms": 294.38481794970454,
+        "total_retrieval_time_ms": 5593.311541044386
       },
       "by_difficulty": {
-        "easy": 0.6666666666666666,
-        "medium": 0.7142857142857143,
+        "easy": 0.75,
+        "medium": 0.6666666666666666,
         "hard": 0.8
       },
       "results": [
@@ -41,14 +41,14 @@
           ],
           "keyword_hits": 3,
           "keyword_recall": 1.0,
-          "top_score": 0.700390177472545,
+          "top_score": 0.7003962445852223,
           "all_scores": [
-            0.4277755916118622,
-            0.5907326936721802,
-            0.6435678005218506,
-            0.6468564867973328
+            0.4277632236480713,
+            0.5907319784164429,
+            0.6434903144836426,
+            0.6468471884727478
           ],
-          "retrieval_time_ms": 367.64087499977904
+          "retrieval_time_ms": 2004.6310829930007
         },
         {
           "question": "Who is Frodo Baggins?",
@@ -73,14 +73,14 @@
           ],
           "keyword_hits": 3,
           "keyword_recall": 1.0,
-          "top_score": 0.6800572761614538,
+          "top_score": 0.6799854334136981,
           "all_scores": [
-            0.4704643785953522,
-            0.6389766335487366,
-            0.6415905356407166,
-            0.6917287111282349
+            0.47061973810195923,
+            0.6392077207565308,
+            0.6417990922927856,
+            0.6920013427734375
           ],
-          "retrieval_time_ms": 104.2769590003445
+          "retrieval_time_ms": 1010.857124987524
         },
         {
           "question": "What is the One Ring?",
@@ -106,14 +106,14 @@
           ],
           "keyword_hits": 2,
           "keyword_recall": 0.6666666666666666,
-          "top_score": 0.5989967460296491,
+          "top_score": 0.5990017717756584,
           "all_scores": [
-            0.6694581508636475,
-            0.6917879581451416,
-            0.7427667379379272,
-            0.7988952398300171
+            0.6694441437721252,
+            0.6916322708129883,
+            0.7425758838653564,
+            0.7987640500068665
           ],
-          "retrieval_time_ms": 111.53562499930558
+          "retrieval_time_ms": 158.0117919947952
         },
         {
           "question": "Who is Aragorn?",
@@ -138,14 +138,14 @@
           ],
           "keyword_hits": 3,
           "keyword_recall": 1.0,
-          "top_score": 0.5847155775397387,
+          "top_score": 0.5848147962756941,
           "all_scores": [
-            0.710233211517334,
-            0.7429500818252563,
-            0.7795681953430176,
-            0.8059255480766296
+            0.7099430561065674,
+            0.7426899075508118,
+            0.7792271971702576,
+            0.8057134747505188
           ],
-          "retrieval_time_ms": 176.59408299914503
+          "retrieval_time_ms": 145.4775409947615
         },
         {
           "question": "What is Mordor?",
@@ -171,14 +171,14 @@
           ],
           "keyword_hits": 3,
           "keyword_recall": 1.0,
-          "top_score": 0.5764663271822965,
+          "top_score": 0.5765373059198763,
           "all_scores": [
-            0.734706699848175,
-            0.7556322813034058,
-            0.7618411779403687,
-            0.7643954753875732
+            0.7344931364059448,
+            0.7552931904792786,
+            0.761488139629364,
+            0.764133095741272
           ],
-          "retrieval_time_ms": 134.71600000048056
+          "retrieval_time_ms": 142.93508301489055
         },
         {
           "question": "How did Gandalf die and return?",
@@ -203,14 +203,14 @@
           ],
           "keyword_hits": 2,
           "keyword_recall": 0.6666666666666666,
-          "top_score": 0.6171543829131548,
+          "top_score": 0.617043820360139,
           "all_scores": [
-            0.62034010887146,
-            0.6763718128204346,
-            0.6771270036697388,
-            0.7002249956130981
+            0.6206304430961609,
+            0.6767339706420898,
+            0.6773577928543091,
+            0.7004435062408447
           ],
-          "retrieval_time_ms": 462.19666700017115
+          "retrieval_time_ms": 138.1427499873098
         },
         {
           "question": "What happened at the Council of Elrond?",
@@ -237,14 +237,14 @@
           ],
           "keyword_hits": 3,
           "keyword_recall": 1.0,
-          "top_score": 0.6344310610302193,
+          "top_score": 0.6343871124992806,
           "all_scores": [
-            0.576215386390686,
-            0.6471601724624634,
-            0.6551610827445984,
-            0.6826778650283813
+            0.5763245820999146,
+            0.6474101543426514,
+            0.6555406451225281,
+            0.6829385757446289
           ],
-          "retrieval_time_ms": 167.81600000103936
+          "retrieval_time_ms": 151.66608299477957
         },
         {
           "question": "Who are the members of the Fellowship?",
@@ -271,14 +271,14 @@
           ],
           "keyword_hits": 5,
           "keyword_recall": 1.0,
-          "top_score": 0.632806528146798,
+          "top_score": 0.632795978521498,
           "all_scores": [
-            0.5802618265151978,
-            0.6464329957962036,
-            0.7772020101547241,
-            0.7975528240203857
+            0.5802881717681885,
+            0.6463748216629028,
+            0.7771271467208862,
+            0.7973999977111816
           ],
-          "retrieval_time_ms": 239.5512500006589
+          "retrieval_time_ms": 167.60358400642872
         },
         {
           "question": "What is the significance of Rivendell?",
@@ -304,14 +304,14 @@
           ],
           "keyword_hits": 2,
           "keyword_recall": 0.6666666666666666,
-          "top_score": 0.5815541657332121,
+          "top_score": 0.5816040020717967,
           "all_scores": [
-            0.7195302844047546,
-            0.8219014406204224,
-            0.8551715612411499,
-            0.8699267506599426
+            0.7193829417228699,
+            0.8217388987541199,
+            0.8550085425376892,
+            0.8697254657745361
           ],
-          "retrieval_time_ms": 170.08250000071712
+          "retrieval_time_ms": 124.7686670103576
         },
         {
           "question": "How was Sauron defeated?",
@@ -337,14 +337,14 @@
           ],
           "keyword_hits": 2,
           "keyword_recall": 0.6666666666666666,
-          "top_score": 0.6443577920623454,
+          "top_score": 0.6443808824635904,
           "all_scores": [
-            0.5519328117370605,
-            0.5596328377723694,
-            0.5824089050292969,
-            0.589547872543335
+            0.5518772006034851,
+            0.5596184730529785,
+            0.5822242498397827,
+            0.589373767375946
           ],
-          "retrieval_time_ms": 128.33233300079883
+          "retrieval_time_ms": 151.4683330024127
         },
         {
           "question": "What is the relationship between Bilbo and Frodo?",
@@ -371,14 +371,14 @@
           ],
           "keyword_hits": 4,
           "keyword_recall": 1.0,
-          "top_score": 0.6172011075558319,
+          "top_score": 0.6170443877120559,
           "all_scores": [
-            0.6202174425125122,
-            0.821060299873352,
-            0.8368319869041443,
-            0.8435422778129578
+            0.6206289529800415,
+            0.8214961290359497,
+            0.8373303413391113,
+            0.8439956307411194
           ],
-          "retrieval_time_ms": 230.68137500013108
+          "retrieval_time_ms": 181.28137500025332
         },
         {
           "question": "Why couldn't the Eagles fly the Ring to Mordor?",
@@ -404,14 +404,14 @@
           ],
           "keyword_hits": 1,
           "keyword_recall": 0.3333333333333333,
-          "top_score": 0.5347777661539407,
+          "top_score": 0.5351686134236309,
           "all_scores": [
-            0.8699356317520142,
-            0.9135236144065857,
-            0.9197165966033936,
-            0.9276657700538635
+            0.8685699701309204,
+            0.912483274936676,
+            0.9130774736404419,
+            0.9281554222106934
           ],
-          "retrieval_time_ms": 162.59179200096696
+          "retrieval_time_ms": 150.2199580136221
         },
         {
           "question": "What are the Silmarils?",
@@ -437,14 +437,14 @@
           ],
           "keyword_hits": 2,
           "keyword_recall": 0.6666666666666666,
-          "top_score": 0.7156637571117024,
+          "top_score": 0.7157183300476141,
           "all_scores": [
-            0.3973042368888855,
-            0.5159111022949219,
-            0.5541292428970337,
-            0.561260461807251
+            0.3971976935863495,
+            0.5157108306884766,
+            0.5539892911911011,
+            0.5611645579338074
           ],
-          "retrieval_time_ms": 96.53270899980271
+          "retrieval_time_ms": 155.6798749952577
         },
         {
           "question": "Who is Tom Bombadil?",
@@ -470,14 +470,14 @@
           ],
           "keyword_hits": 3,
           "keyword_recall": 1.0,
-          "top_score": 0.7906855733458173,
+          "top_score": 0.7906711338672836,
           "all_scores": [
-            0.2647252380847931,
-            0.4534592628479004,
-            0.4755053222179413,
-            0.4873872995376587
+            0.26474833488464355,
+            0.4535232186317444,
+            0.4755505919456482,
+            0.4874424934387207
           ],
-          "retrieval_time_ms": 133.36995899953763
+          "retrieval_time_ms": 154.92520801490173
         },
         {
           "question": "What is the difference between Sauron and Morgoth?",
@@ -504,14 +504,14 @@
           ],
           "keyword_hits": 3,
           "keyword_recall": 1.0,
-          "top_score": 0.6208707280669331,
+          "top_score": 0.6209689678297653,
           "all_scores": [
-            0.6106412410736084,
-            0.6634761691093445,
-            0.6748006939888,
-            0.7179082036018372
+            0.6103864312171936,
+            0.6631267070770264,
+            0.6745043992996216,
+            0.7175108194351196
           ],
-          "retrieval_time_ms": 179.9868329999299
+          "retrieval_time_ms": 161.87312500551343
         },
         {
           "question": "Vem är Gandalf?",
@@ -536,18 +536,50 @@
           ],
           "keyword_hits": 1,
           "keyword_recall": 0.3333333333333333,
-          "top_score": 0.5828851327362483,
+          "top_score": 0.5828607313260281,
           "all_scores": [
-            0.7156038880348206,
-            0.8210734724998474,
-            0.8470413088798523,
-            0.852968156337738
+            0.7156757116317749,
+            0.8211439251899719,
+            0.8470230102539062,
+            0.8531813621520996
           ],
-          "retrieval_time_ms": 229.75933300040197
+          "retrieval_time_ms": 141.97787499870174
+        },
+        {
+          "question": "Vem är Frodo Baggins?",
+          "difficulty": "easy",
+          "language": "sv",
+          "retrieved_sources": [
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt"
+          ],
+          "expected_sources": [
+            "frodo"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "title: frodo baggins\nsource: https://lotr.fandom.com/wiki/frodo_baggins\n\nfrodo baggins\n\n\"i will take the ring, though i do not know the way.\"\n—frodo baggins, at the council of elrond, in the fellowship of the ring\nfrodo baggins was a hobbit of the shire in the late third age. he was a key figure in the quest of mount doom, in which he bore the one ring to mount doom, where it was destroyed. he was a ring-bearer, best friend to his gardener, samwise gamgee, and was one of three hobbits who sailed",
+          "expected_keywords": [
+            "hobbit",
+            "ring",
+            "shire"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.5766376132397618,
+          "all_scores": [
+            0.7341914176940918,
+            0.814957857131958,
+            0.8400368690490723,
+            0.908201277256012
+          ],
+          "retrieval_time_ms": 143.60854201368056
         },
         {
           "question": "Vad är Härskarringen?",
-          "difficulty": "medium",
+          "difficulty": "easy",
           "language": "sv",
           "retrieved_sources": [
             "data/raw/easterlings.txt",
@@ -569,14 +601,14 @@
           ],
           "keyword_hits": 2,
           "keyword_recall": 0.6666666666666666,
-          "top_score": 0.4088806655088728,
+          "top_score": 0.4087840287551021,
           "all_scores": [
-            1.4457013607025146,
-            1.460221529006958,
-            1.4970295429229736,
-            1.4982059001922607
+            1.446279525756836,
+            1.4606531858444214,
+            1.4974846839904785,
+            1.498788595199585
           ],
-          "retrieval_time_ms": 416.8960410006548
+          "retrieval_time_ms": 156.58687500399537
         },
         {
           "question": "Vilka är medlemmarna i Ringens brödraskap?",
@@ -601,14 +633,14 @@
           ],
           "keyword_hits": 3,
           "keyword_recall": 1.0,
-          "top_score": 0.4190696438970512,
+          "top_score": 0.41902040948034397,
           "all_scores": [
-            1.3862382173538208,
-            1.394742727279663,
-            1.4318047761917114,
-            1.4335362911224365
+            1.3865185976028442,
+            1.3949311971664429,
+            1.4320743083953857,
+            1.4338353872299194
           ],
-          "retrieval_time_ms": 102.20300000037241
+          "retrieval_time_ms": 151.59666701219976
         }
       ]
     },
@@ -616,16 +648,16 @@
       "model_name": "all-MiniLM-L6-v2",
       "model_type": "huggingface",
       "metrics": {
-        "source_hit_rate": 0.6666666666666666,
-        "avg_source_precision": 0.18055555555555555,
-        "avg_keyword_recall": 0.6148148148148148,
-        "avg_top_score": 0.5773847472566832,
-        "avg_retrieval_time_ms": 10.86794438894382,
-        "total_retrieval_time_ms": 195.62299900098878
+        "source_hit_rate": 0.6842105263157895,
+        "avg_source_precision": 0.18421052631578946,
+        "avg_keyword_recall": 0.6350877192982456,
+        "avg_top_score": 0.5760243554923816,
+        "avg_retrieval_time_ms": 14.482442946724692,
+        "total_retrieval_time_ms": 275.16641598776914
       },
       "by_difficulty": {
-        "easy": 0.6666666666666666,
-        "medium": 0.5714285714285714,
+        "easy": 0.625,
+        "medium": 0.6666666666666666,
         "hard": 0.8
       },
       "results": [
@@ -659,7 +691,7 @@
             0.7021663188934326,
             0.7418100833892822
           ],
-          "retrieval_time_ms": 42.291957999623264
+          "retrieval_time_ms": 130.3617910016328
         },
         {
           "question": "Who is Frodo Baggins?",
@@ -691,7 +723,7 @@
             0.6215273141860962,
             0.7072039842605591
           ],
-          "retrieval_time_ms": 11.22320799913723
+          "retrieval_time_ms": 8.823499985737726
         },
         {
           "question": "What is the One Ring?",
@@ -724,7 +756,7 @@
             0.8137090802192688,
             0.8986778259277344
           ],
-          "retrieval_time_ms": 11.184750001120847
+          "retrieval_time_ms": 8.035332983126864
         },
         {
           "question": "Who is Aragorn?",
@@ -756,7 +788,7 @@
             0.882215142250061,
             0.9444694519042969
           ],
-          "retrieval_time_ms": 10.32525000118767
+          "retrieval_time_ms": 7.530000002589077
         },
         {
           "question": "What is Mordor?",
@@ -789,7 +821,7 @@
             0.8812576532363892,
             0.9461706280708313
           ],
-          "retrieval_time_ms": 8.739499999137479
+          "retrieval_time_ms": 7.911541004432365
         },
         {
           "question": "How did Gandalf die and return?",
@@ -821,7 +853,7 @@
             0.6357136368751526,
             0.6678409576416016
           ],
-          "retrieval_time_ms": 8.622125000329106
+          "retrieval_time_ms": 7.929042010800913
         },
         {
           "question": "What happened at the Council of Elrond?",
@@ -855,7 +887,7 @@
             0.8631713390350342,
             0.8669530153274536
           ],
-          "retrieval_time_ms": 8.061082999120117
+          "retrieval_time_ms": 8.618833002401516
         },
         {
           "question": "Who are the members of the Fellowship?",
@@ -889,7 +921,7 @@
             1.1192700862884521,
             1.15037202835083
           ],
-          "retrieval_time_ms": 8.322791998580215
+          "retrieval_time_ms": 7.5598749972414225
         },
         {
           "question": "What is the significance of Rivendell?",
@@ -922,7 +954,7 @@
             1.120626449584961,
             1.1391922235488892
           ],
-          "retrieval_time_ms": 8.304332999614417
+          "retrieval_time_ms": 8.141792000969872
         },
         {
           "question": "How was Sauron defeated?",
@@ -955,7 +987,7 @@
             0.6876728534698486,
             0.6952944397926331
           ],
-          "retrieval_time_ms": 8.415083000727464
+          "retrieval_time_ms": 7.420500012813136
         },
         {
           "question": "What is the relationship between Bilbo and Frodo?",
@@ -989,7 +1021,7 @@
             0.8395827412605286,
             0.8797909021377563
           ],
-          "retrieval_time_ms": 8.151709000230767
+          "retrieval_time_ms": 7.521583000198007
         },
         {
           "question": "Why couldn't the Eagles fly the Ring to Mordor?",
@@ -1022,7 +1054,7 @@
             0.920259416103363,
             0.9366481304168701
           ],
-          "retrieval_time_ms": 11.026500000298256
+          "retrieval_time_ms": 8.617667015641928
         },
         {
           "question": "What are the Silmarils?",
@@ -1055,7 +1087,7 @@
             0.6862748861312866,
             0.7988957166671753
           ],
-          "retrieval_time_ms": 8.445458001006045
+          "retrieval_time_ms": 8.157000003848225
         },
         {
           "question": "Who is Tom Bombadil?",
@@ -1088,7 +1120,7 @@
             0.6139225363731384,
             0.6724186539649963
           ],
-          "retrieval_time_ms": 8.492041000863537
+          "retrieval_time_ms": 7.396375003736466
         },
         {
           "question": "What is the difference between Sauron and Morgoth?",
@@ -1122,7 +1154,7 @@
             0.8203721642494202,
             0.8268656730651855
           ],
-          "retrieval_time_ms": 8.738000000448665
+          "retrieval_time_ms": 7.599916978506371
         },
         {
           "question": "Vem är Gandalf?",
@@ -1154,11 +1186,43 @@
             1.0147550106048584,
             1.0362305641174316
           ],
-          "retrieval_time_ms": 8.024333999856026
+          "retrieval_time_ms": 7.983874995261431
+        },
+        {
+          "question": "Vem är Frodo Baggins?",
+          "difficulty": "easy",
+          "language": "sv",
+          "retrieved_sources": [
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt"
+          ],
+          "expected_sources": [
+            "frodo"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "frodo baggins\nattire\nfrodo was dressed in typical hobbit-fashion when he left the shire: knee breeches, shirt, waistcoat, jacket, and cloak. colors such as bright green and yellow were typical for shire-folk. he was unarmed, save for a pocketknife. in the lord of the rings online, (2007), frodo is first met in rivendell, preparing for departure. later, he is found on cerin amroth in lothlórien, weary from the loss of gandalf. from amon hen onwards, player experiences frodo's journey in a series ",
+          "expected_keywords": [
+            "hobbit",
+            "ring",
+            "shire"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.5515373037349512,
+          "all_scores": [
+            0.8131139874458313,
+            0.8527417182922363,
+            0.8907568454742432,
+            0.9256325960159302
+          ],
+          "retrieval_time_ms": 7.161541987443343
         },
         {
           "question": "Vad är Härskarringen?",
-          "difficulty": "medium",
+          "difficulty": "easy",
           "language": "sv",
           "retrieved_sources": [
             "data/raw/morgoth.txt",
@@ -1187,7 +1251,7 @@
             1.3885166645050049,
             1.4318726062774658
           ],
-          "retrieval_time_ms": 8.140042000377434
+          "retrieval_time_ms": 8.965999993961304
         },
         {
           "question": "Vilka är medlemmarna i Ringens brödraskap?",
@@ -1219,7 +1283,7 @@
             1.3390390872955322,
             1.3600704669952393
           ],
-          "retrieval_time_ms": 9.114832999330247
+          "retrieval_time_ms": 9.430250007426366
         }
       ]
     },
@@ -1227,16 +1291,16 @@
       "model_name": "multilingual-e5-base",
       "model_type": "huggingface",
       "metrics": {
-        "source_hit_rate": 0.7222222222222222,
-        "avg_source_precision": 0.19444444444444445,
-        "avg_keyword_recall": 0.6388888888888888,
-        "avg_top_score": 0.7687505085027762,
-        "avg_retrieval_time_ms": 38.659018500159924,
-        "total_retrieval_time_ms": 695.8623330028786
+        "source_hit_rate": 0.7368421052631579,
+        "avg_source_precision": 0.19736842105263158,
+        "avg_keyword_recall": 0.6578947368421053,
+        "avg_top_score": 0.7690120070609797,
+        "avg_retrieval_time_ms": 71.56480042153578,
+        "total_retrieval_time_ms": 1359.7312080091797
       },
       "by_difficulty": {
-        "easy": 0.6666666666666666,
-        "medium": 0.7142857142857143,
+        "easy": 0.75,
+        "medium": 0.6666666666666666,
         "hard": 0.8
       },
       "results": [
@@ -1270,7 +1334,7 @@
             0.3331531286239624,
             0.3426523208618164
           ],
-          "retrieval_time_ms": 76.90345800074283
+          "retrieval_time_ms": 759.1933330113534
         },
         {
           "question": "Who is Frodo Baggins?",
@@ -1302,7 +1366,7 @@
             0.3207024335861206,
             0.3210345208644867
           ],
-          "retrieval_time_ms": 38.82954199980304
+          "retrieval_time_ms": 34.749832993838936
         },
         {
           "question": "What is the One Ring?",
@@ -1335,7 +1399,7 @@
             0.31487324833869934,
             0.319368839263916
           ],
-          "retrieval_time_ms": 38.05158300019684
+          "retrieval_time_ms": 33.840290998341516
         },
         {
           "question": "Who is Aragorn?",
@@ -1367,7 +1431,7 @@
             0.35171645879745483,
             0.3587854504585266
           ],
-          "retrieval_time_ms": 37.04637500050012
+          "retrieval_time_ms": 33.75891700852662
         },
         {
           "question": "What is Mordor?",
@@ -1400,7 +1464,7 @@
             0.3398647904396057,
             0.35213494300842285
           ],
-          "retrieval_time_ms": 34.66929200112645
+          "retrieval_time_ms": 33.072999998694286
         },
         {
           "question": "How did Gandalf die and return?",
@@ -1432,7 +1496,7 @@
             0.2982589602470398,
             0.308239609003067
           ],
-          "retrieval_time_ms": 34.375291999822366
+          "retrieval_time_ms": 32.89470900199376
         },
         {
           "question": "What happened at the Council of Elrond?",
@@ -1466,7 +1530,7 @@
             0.30957090854644775,
             0.320271760225296
           ],
-          "retrieval_time_ms": 39.10316700057592
+          "retrieval_time_ms": 33.55020799790509
         },
         {
           "question": "Who are the members of the Fellowship?",
@@ -1500,7 +1564,7 @@
             0.40060871839523315,
             0.4020141661167145
           ],
-          "retrieval_time_ms": 35.3374160004023
+          "retrieval_time_ms": 33.0054999794811
         },
         {
           "question": "What is the significance of Rivendell?",
@@ -1533,7 +1597,7 @@
             0.38258954882621765,
             0.3911513686180115
           ],
-          "retrieval_time_ms": 34.564125000542845
+          "retrieval_time_ms": 32.77058299863711
         },
         {
           "question": "How was Sauron defeated?",
@@ -1566,7 +1630,7 @@
             0.2861320674419403,
             0.29176265001296997
           ],
-          "retrieval_time_ms": 38.25462500026333
+          "retrieval_time_ms": 33.55291599291377
         },
         {
           "question": "What is the relationship between Bilbo and Frodo?",
@@ -1600,7 +1664,7 @@
             0.30558693408966064,
             0.32343578338623047
           ],
-          "retrieval_time_ms": 34.688084000663366
+          "retrieval_time_ms": 32.26545799407177
         },
         {
           "question": "Why couldn't the Eagles fly the Ring to Mordor?",
@@ -1633,7 +1697,7 @@
             0.3347775340080261,
             0.3349851369857788
           ],
-          "retrieval_time_ms": 37.45458299999882
+          "retrieval_time_ms": 33.131333999335766
         },
         {
           "question": "What are the Silmarils?",
@@ -1666,7 +1730,7 @@
             0.26115942001342773,
             0.3047106862068176
           ],
-          "retrieval_time_ms": 38.651249999020365
+          "retrieval_time_ms": 33.8301669980865
         },
         {
           "question": "Who is Tom Bombadil?",
@@ -1699,7 +1763,7 @@
             0.2783946990966797,
             0.2978949248790741
           ],
-          "retrieval_time_ms": 35.13862500039977
+          "retrieval_time_ms": 33.282000018516555
         },
         {
           "question": "What is the difference between Sauron and Morgoth?",
@@ -1733,7 +1797,7 @@
             0.3000597357749939,
             0.31208470463752747
           ],
-          "retrieval_time_ms": 34.28241699839418
+          "retrieval_time_ms": 32.81454200623557
         },
         {
           "question": "Vem är Gandalf?",
@@ -1765,11 +1829,43 @@
             0.3757771849632263,
             0.3851727247238159
           ],
-          "retrieval_time_ms": 35.279790999993565
+          "retrieval_time_ms": 32.801041001221165
+        },
+        {
+          "question": "Vem är Frodo Baggins?",
+          "difficulty": "easy",
+          "language": "sv",
+          "retrieved_sources": [
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt",
+            "data/raw/frodo.txt"
+          ],
+          "expected_sources": [
+            "frodo"
+          ],
+          "source_hit": true,
+          "source_precision": 0.25,
+          "retrieved_text": "title: frodo baggins\nsource: https://lotr.fandom.com/wiki/frodo_baggins\n\nfrodo baggins\n\n\"i will take the ring, though i do not know the way.\"\n—frodo baggins, at the council of elrond, in the fellowship of the ring\nfrodo baggins was a hobbit of the shire in the late third age. he was a key figure in the quest of mount doom, in which he bore the one ring to mount doom, where it was destroyed. he was a ring-bearer, best friend to his gardener, samwise gamgee, and was one of three hobbits who sailed",
+          "expected_keywords": [
+            "hobbit",
+            "ring",
+            "shire"
+          ],
+          "keyword_hits": 3,
+          "keyword_recall": 1.0,
+          "top_score": 0.773718981108647,
+          "all_scores": [
+            0.2924589216709137,
+            0.37138432264328003,
+            0.3882068991661072,
+            0.39728042483329773
+          ],
+          "retrieval_time_ms": 33.380209002643824
         },
         {
           "question": "Vad är Härskarringen?",
-          "difficulty": "medium",
+          "difficulty": "easy",
           "language": "sv",
           "retrieved_sources": [
             "data/raw/sauron.txt",
@@ -1798,7 +1894,7 @@
             0.44296175241470337,
             0.44948288798332214
           ],
-          "retrieval_time_ms": 37.42712500024936
+          "retrieval_time_ms": 34.49679201003164
         },
         {
           "question": "Vilka är medlemmarna i Ringens brödraskap?",
@@ -1830,7 +1926,7 @@
             0.4158785343170166,
             0.4193916320800781
           ],
-          "retrieval_time_ms": 35.805583000183105
+          "retrieval_time_ms": 33.34037499735132
         }
       ]
     }

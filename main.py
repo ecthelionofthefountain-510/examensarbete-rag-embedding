@@ -1,14 +1,3 @@
-"""
-FastAPI backend for Tolkien RAG Embedding Comparison
-Wraps the existing RAG/embeddings logic for the React frontend.
-
-Usage:
-    uvicorn main:app --reload --port 8000
-
-Install extras:
-    pip install fastapi uvicorn python-multipart
-"""
-
 from __future__ import annotations
 
 import json

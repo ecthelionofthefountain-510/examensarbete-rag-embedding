@@ -63,7 +63,6 @@ TEST_QUESTIONS = [
         "expected_keywords": ["sauron", "dark", "mount doom"],
         "difficulty": "easy",
     },
-    
     # Medium questions - require some inference
     {
         "question": "How did Gandalf die and return?",
@@ -95,7 +94,6 @@ TEST_QUESTIONS = [
         "expected_keywords": ["ring", "destroy", "mount doom"],
         "difficulty": "medium",
     },
-    
     # Hard questions - specific details or connections
     {
         "question": "What is the relationship between Bilbo and Frodo?",
@@ -127,7 +125,6 @@ TEST_QUESTIONS = [
         "expected_keywords": ["servant", "first", "dark lord"],
         "difficulty": "hard",
     },
-    
     # Swedish questions (to test multilingual)
     {
         "question": "Vem är Gandalf?",
@@ -137,10 +134,17 @@ TEST_QUESTIONS = [
         "language": "sv",
     },
     {
+        "question": "Vem är Frodo Baggins?",
+        "expected_sources": ["frodo"],
+        "expected_keywords": ["hobbit", "ring", "shire"],
+        "difficulty": "easy",
+        "language": "sv",
+    },
+    {
         "question": "Vad är Härskarringen?",
         "expected_sources": ["ring", "sauron"],
         "expected_keywords": ["sauron", "power", "makt"],
-        "difficulty": "medium",
+        "difficulty": "easy",
         "language": "sv",
     },
     {
@@ -159,36 +163,38 @@ TEST_QUESTIONS = [
 @dataclass
 class RetrievalResult:
     """Result of a single retrieval test."""
+
     question: str
     difficulty: str
     language: str
-    
+
     # Retrieval metrics
     retrieved_sources: list[str]
     expected_sources: list[str]
     source_hit: bool  # Did we retrieve at least one expected source?
     source_precision: float  # What fraction of retrieved sources were expected?
-    
+
     # Keyword metrics
     retrieved_text: str
     expected_keywords: list[str]
     keyword_hits: int  # How many expected keywords found?
     keyword_recall: float  # What fraction of expected keywords were found?
-    
+
     # Scores
     top_score: float | None
     all_scores: list[float]
-    
+
     # Timing
     retrieval_time_ms: float
 
 
-@dataclass 
+@dataclass
 class ModelEvaluationResult:
     """Aggregated results for one embedding model."""
+
     model_name: str
     model_type: str
-    
+
     # Aggregate metrics
     total_questions: int
     source_hit_rate: float  # % of questions where we got at least one right source
@@ -197,15 +203,15 @@ class ModelEvaluationResult:
     avg_top_score: float
     avg_retrieval_time_ms: float
     total_retrieval_time_ms: float
-    
+
     # By difficulty
     easy_hit_rate: float
     medium_hit_rate: float
     hard_hit_rate: float
-    
+
     # Individual results
     results: list[RetrievalResult]
-    
+
     # Metadata
     timestamp: str
     index_build_time_ms: float | None
@@ -222,30 +228,30 @@ def evaluate_retrieval(
     k: int = 4,
 ) -> RetrievalResult:
     """Run a single retrieval and evaluate the results."""
-    
+
     start_time = time.perf_counter()
-    
+
     try:
         results = db.similarity_search_with_score(question, k=k)
     except Exception as e:
         print(f"  Error during retrieval: {e}")
         results = []
-    
+
     retrieval_time_ms = (time.perf_counter() - start_time) * 1000
-    
+
     # Extract sources and text
     retrieved_sources = []
     retrieved_texts = []
     scores = []
-    
+
     for doc, score in results:
         source = doc.metadata.get("source", "unknown")
         retrieved_sources.append(source)
         retrieved_texts.append(doc.page_content)
         scores.append(float(score))
-    
+
     combined_text = " ".join(retrieved_texts).lower()
-    
+
     # Calculate source metrics
     source_hits = 0
     for expected in expected_sources:
@@ -254,23 +260,23 @@ def evaluate_retrieval(
             if expected_lower in retrieved.lower():
                 source_hits += 1
                 break
-    
+
     source_hit = source_hits > 0
     source_precision = source_hits / max(1, len(retrieved_sources))
-    
+
     # Calculate keyword metrics
     keyword_hits = 0
     for keyword in expected_keywords:
         if keyword.lower() in combined_text:
             keyword_hits += 1
-    
+
     keyword_recall = keyword_hits / max(1, len(expected_keywords))
-    
+
     # Convert distance to relevance score
     top_score = None
     if scores:
         top_score = 1.0 / (1.0 + scores[0])
-    
+
     return RetrievalResult(
         question=question,
         difficulty="unknown",
@@ -300,46 +306,46 @@ def evaluate_model(
     """
     Evaluate a single embedding model on all test questions.
     """
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Evaluating model: {model_name}")
-    print(f"{'='*60}")
-    
+    print(f"{'=' * 60}")
+
     model_info = SUPPORTED_MODELS.get(model_name, {})
     model_type = model_info.get("type", "unknown")
-    
+
     # Get or build the index
     full_collection = get_collection_name_for_model(collection_name, model_name)
-    
+
     # Use model-specific subdirectory (matching ingest.py behavior)
     model_persist_dir = Path(persist_dir) / model_name.replace("/", "_")
-    
+
     index_build_time = None
-    
+
     # Check if we need to build the index
     if rebuild_index or not model_persist_dir.exists():
         print(f"  Building index for {model_name}...")
         # We'll handle index building separately
         index_build_time = 0  # Placeholder
-    
+
     print(f"  Loading database from {model_persist_dir}...")
     db = get_db(
         persist_dir=str(model_persist_dir),
         collection_name=full_collection,
         embedding_model=model_name,
     )
-    
+
     # Run evaluations
     results: list[RetrievalResult] = []
-    
+
     for i, test_case in enumerate(test_questions, 1):
         question = test_case["question"]
         expected_sources = test_case["expected_sources"]
         expected_keywords = test_case["expected_keywords"]
         difficulty = test_case.get("difficulty", "unknown")
         language = test_case.get("language", "en")
-        
+
         print(f"  [{i}/{len(test_questions)}] {question[:50]}...")
-        
+
         result = evaluate_retrieval(
             db=db,
             question=question,
@@ -347,29 +353,31 @@ def evaluate_model(
             expected_keywords=expected_keywords,
             k=k,
         )
-        
+
         # Add metadata
         result = RetrievalResult(
             **{**asdict(result), "difficulty": difficulty, "language": language}
         )
-        
+
         results.append(result)
-        
+
         status = "✓" if result.source_hit else "✗"
         score_str = f"{result.top_score:.3f}" if result.top_score is not None else "N/A"
-        print(f"       {status} source_hit={result.source_hit}, "
-              f"keywords={result.keyword_hits}/{len(expected_keywords)}, "
-              f"score={score_str}, "
-              f"time={result.retrieval_time_ms:.1f}ms")
-    
+        print(
+            f"       {status} source_hit={result.source_hit}, "
+            f"keywords={result.keyword_hits}/{len(expected_keywords)}, "
+            f"score={score_str}, "
+            f"time={result.retrieval_time_ms:.1f}ms"
+        )
+
     # Calculate aggregates
     total = len(results)
     source_hits = sum(1 for r in results if r.source_hit)
-    
+
     easy_results = [r for r in results if r.difficulty == "easy"]
     medium_results = [r for r in results if r.difficulty == "medium"]
     hard_results = [r for r in results if r.difficulty == "hard"]
-    
+
     return ModelEvaluationResult(
         model_name=model_name,
         model_type=model_type,
@@ -380,9 +388,12 @@ def evaluate_model(
         avg_top_score=sum(r.top_score or 0 for r in results) / max(1, total),
         avg_retrieval_time_ms=sum(r.retrieval_time_ms for r in results) / max(1, total),
         total_retrieval_time_ms=sum(r.retrieval_time_ms for r in results),
-        easy_hit_rate=sum(1 for r in easy_results if r.source_hit) / max(1, len(easy_results)),
-        medium_hit_rate=sum(1 for r in medium_results if r.source_hit) / max(1, len(medium_results)),
-        hard_hit_rate=sum(1 for r in hard_results if r.source_hit) / max(1, len(hard_results)),
+        easy_hit_rate=sum(1 for r in easy_results if r.source_hit)
+        / max(1, len(easy_results)),
+        medium_hit_rate=sum(1 for r in medium_results if r.source_hit)
+        / max(1, len(medium_results)),
+        hard_hit_rate=sum(1 for r in hard_results if r.source_hit)
+        / max(1, len(hard_results)),
         results=results,
         timestamp=datetime.now().isoformat(),
         index_build_time_ms=index_build_time,
@@ -391,40 +402,46 @@ def evaluate_model(
 
 def print_comparison_table(evaluations: list[ModelEvaluationResult]) -> None:
     """Print a comparison table of all models."""
-    
-    print("\n" + "="*80)
+
+    print("\n" + "=" * 80)
     print("COMPARISON RESULTS")
-    print("="*80)
-    
+    print("=" * 80)
+
     # Header
-    print(f"\n{'Model':<30} {'Type':<12} {'Hit Rate':<10} {'Precision':<10} "
-          f"{'Keywords':<10} {'Avg Time':<10}")
-    print("-"*80)
-    
+    print(
+        f"\n{'Model':<30} {'Type':<12} {'Hit Rate':<10} {'Precision':<10} "
+        f"{'Keywords':<10} {'Avg Time':<10}"
+    )
+    print("-" * 80)
+
     for eval_result in evaluations:
-        print(f"{eval_result.model_name:<30} "
-              f"{eval_result.model_type:<12} "
-              f"{eval_result.source_hit_rate*100:>6.1f}%   "
-              f"{eval_result.avg_source_precision*100:>6.1f}%   "
-              f"{eval_result.avg_keyword_recall*100:>6.1f}%   "
-              f"{eval_result.avg_retrieval_time_ms:>6.1f}ms")
-    
+        print(
+            f"{eval_result.model_name:<30} "
+            f"{eval_result.model_type:<12} "
+            f"{eval_result.source_hit_rate * 100:>6.1f}%   "
+            f"{eval_result.avg_source_precision * 100:>6.1f}%   "
+            f"{eval_result.avg_keyword_recall * 100:>6.1f}%   "
+            f"{eval_result.avg_retrieval_time_ms:>6.1f}ms"
+        )
+
     # By difficulty
-    print("\n" + "-"*80)
+    print("\n" + "-" * 80)
     print("BY DIFFICULTY:")
     print(f"\n{'Model':<30} {'Easy':<12} {'Medium':<12} {'Hard':<12}")
-    print("-"*60)
-    
+    print("-" * 60)
+
     for eval_result in evaluations:
-        print(f"{eval_result.model_name:<30} "
-              f"{eval_result.easy_hit_rate*100:>6.1f}%     "
-              f"{eval_result.medium_hit_rate*100:>6.1f}%     "
-              f"{eval_result.hard_hit_rate*100:>6.1f}%")
+        print(
+            f"{eval_result.model_name:<30} "
+            f"{eval_result.easy_hit_rate * 100:>6.1f}%     "
+            f"{eval_result.medium_hit_rate * 100:>6.1f}%     "
+            f"{eval_result.hard_hit_rate * 100:>6.1f}%"
+        )
 
 
 def save_results(evaluations: list[ModelEvaluationResult], output_path: Path) -> None:
     """Save evaluation results to JSON."""
-    
+
     data = {
         "timestamp": datetime.now().isoformat(),
         "models": [
@@ -449,7 +466,7 @@ def save_results(evaluations: list[ModelEvaluationResult], output_path: Path) ->
             for e in evaluations
         ],
     }
-    
+
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
     print(f"\nResults saved to: {output_path}")
@@ -504,7 +521,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     load_dotenv()
     args = parse_args()
-    
+
     if args.list_models:
         print("Supported embedding models:")
         print("-" * 60)
@@ -515,18 +532,18 @@ def main() -> None:
             print(f"    Description: {info['description']}")
             print()
         return
-    
+
     persist_dir = args.persist_dir
     if not Path(persist_dir).is_absolute():
         persist_dir = str(PROJECT_ROOT / persist_dir)
-    
+
     evaluations: list[ModelEvaluationResult] = []
-    
+
     for model_name in args.models:
         if model_name not in SUPPORTED_MODELS:
             print(f"Warning: Unknown model '{model_name}', skipping...")
             continue
-        
+
         result = evaluate_model(
             model_name=model_name,
             persist_dir=persist_dir,
@@ -535,7 +552,7 @@ def main() -> None:
             k=args.k,
         )
         evaluations.append(result)
-    
+
     if evaluations:
         print_comparison_table(evaluations)
         save_results(evaluations, Path(args.output))
