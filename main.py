@@ -23,6 +23,7 @@ os.environ.setdefault("ANONYMIZED_TELEMETRY", "False")
 
 try:
     from dotenv import load_dotenv
+
     load_dotenv()
 except ImportError:
     pass
@@ -34,7 +35,7 @@ app = FastAPI(title="Tolkien RAG Embedding API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],          # tighten in production
+    allow_origins=["*"],  # tighten in production
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -46,25 +47,26 @@ PERSIST_DIR = Path(os.getenv("CHROMA_PERSIST_DIR", PROJECT_ROOT / "data" / "chro
 COLLECTION_BASE = os.getenv("CHROMA_COLLECTION", "tolkien_lore")
 CHAT_MODEL = os.getenv("OPENAI_CHAT_MODEL", "gpt-4o-mini")
 EVAL_JSON = PROJECT_ROOT / "data" / "evaluation.json"
+EMBEDDING_COORDS_PATH = PROJECT_ROOT / "data" / "embedding_coords.json"
 
 SUPPORTED_MODELS = {
     "text-embedding-3-small": {
         "type": "openai",
         "dimension": 1536,
         "description": "OpenAI's small model — good cost/performance balance",
-        "color": "#22d3ee",   # cyan
+        "color": "#22d3ee",  # cyan
     },
     "all-MiniLM-L6-v2": {
         "type": "huggingface",
         "dimension": 384,
         "description": "Fast, lightweight English model. Popular for RAG.",
-        "color": "#a78bfa",   # violet
+        "color": "#a78bfa",  # violet
     },
     "multilingual-e5-base": {
         "type": "huggingface",
         "dimension": 768,
         "description": "Multilingual model — great for Swedish/English mix.",
-        "color": "#34d399",   # emerald
+        "color": "#34d399",  # emerald
     },
 }
 
@@ -117,7 +119,7 @@ class ChatRequest(BaseModel):
 
 class CompareRequest(BaseModel):
     question: str
-    models: list[str] | None = None   # None = all indexed models
+    models: list[str] | None = None  # None = all indexed models
     k: int = 4
     threshold: float = 0.35
 
@@ -125,6 +127,7 @@ class CompareRequest(BaseModel):
 # ---------------------------------------------------------------------------
 # Routes
 # ---------------------------------------------------------------------------
+
 
 @app.get("/")
 def root():
@@ -212,21 +215,25 @@ def compare(req: CompareRequest):
                 chat_model=CHAT_MODEL,
             )
             elapsed_ms = (time.perf_counter() - t0) * 1000
-            results.append({
-                "model": model_name,
-                "answer": result.answer,
-                "sources": result.sources,
-                "top_score": result.top_score,
-                "retrieval_time_ms": elapsed_ms,
-                "success": True,
-            })
+            results.append(
+                {
+                    "model": model_name,
+                    "answer": result.answer,
+                    "sources": result.sources,
+                    "top_score": result.top_score,
+                    "retrieval_time_ms": elapsed_ms,
+                    "success": True,
+                }
+            )
         except Exception as e:
-            results.append({
-                "model": model_name,
-                "error": str(e),
-                "success": False,
-                "retrieval_time_ms": (time.perf_counter() - t0) * 1000,
-            })
+            results.append(
+                {
+                    "model": model_name,
+                    "error": str(e),
+                    "success": False,
+                    "retrieval_time_ms": (time.perf_counter() - t0) * 1000,
+                }
+            )
 
     return {"question": req.question, "results": results}
 
@@ -249,14 +256,33 @@ def get_evaluation():
     raise HTTPException(404, "evaluation.json not found. Run evaluate.py first.")
 
 
+@app.get("/embedding_coords")
+def get_embedding_coords():
+    """Return 2D UMAP coordinates for test-question embeddings per model."""
+    if not EMBEDDING_COORDS_PATH.exists():
+        raise HTTPException(
+            status_code=404,
+            detail=(
+                "embedding_coords.json not found. "
+                "Run `python -m src.compute_embedding_coords` to generate it."
+            ),
+        )
+
+    with EMBEDDING_COORDS_PATH.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
 @app.get("/health")
 def health():
     indexed = _get_indexed_models()
     return {
         "status": "ok",
         "indexed_models": indexed,
-        "eval_available": any(p.exists() for p in [
-            EVAL_JSON,
-            PROJECT_ROOT / "evaluation.json",
-        ]),
+        "eval_available": any(
+            p.exists()
+            for p in [
+                EVAL_JSON,
+                PROJECT_ROOT / "evaluation.json",
+            ]
+        ),
     }

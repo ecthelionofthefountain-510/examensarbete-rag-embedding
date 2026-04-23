@@ -1,0 +1,464 @@
+{
+  "text-embedding-3-small": [
+    {
+      "question": "Who is Gandalf?",
+      "difficulty": "easy",
+      "x": 2.066469192504883,
+      "y": -2.081716775894165,
+      "source_hit": true,
+      "top_score": 0.7003962445852223
+    },
+    {
+      "question": "Who is Frodo Baggins?",
+      "difficulty": "easy",
+      "x": 3.5368387699127197,
+      "y": -1.4907885789871216,
+      "source_hit": true,
+      "top_score": 0.6799854334136981
+    },
+    {
+      "question": "What is the One Ring?",
+      "difficulty": "easy",
+      "x": 4.0414719581604,
+      "y": -4.611355304718018,
+      "source_hit": true,
+      "top_score": 0.5990017717756584
+    },
+    {
+      "question": "Who is Aragorn?",
+      "difficulty": "easy",
+      "x": 3.801297903060913,
+      "y": -2.144286632537842,
+      "source_hit": false,
+      "top_score": 0.5848147962756941
+    },
+    {
+      "question": "What is Mordor?",
+      "difficulty": "easy",
+      "x": 2.872076988220215,
+      "y": -4.162648677825928,
+      "source_hit": false,
+      "top_score": 0.5765373059198763
+    },
+    {
+      "question": "How did Gandalf die and return?",
+      "difficulty": "medium",
+      "x": 1.7850207090377808,
+      "y": -2.726792335510254,
+      "source_hit": true,
+      "top_score": 0.617043820360139
+    },
+    {
+      "question": "What happened at the Council of Elrond?",
+      "difficulty": "medium",
+      "x": 3.2041471004486084,
+      "y": -3.5703747272491455,
+      "source_hit": true,
+      "top_score": 0.6343871124992806
+    },
+    {
+      "question": "Who are the members of the Fellowship?",
+      "difficulty": "medium",
+      "x": 3.612570285797119,
+      "y": -2.831918954849243,
+      "source_hit": false,
+      "top_score": 0.632795978521498
+    },
+    {
+      "question": "What is the significance of Rivendell?",
+      "difficulty": "medium",
+      "x": 3.6265430450439453,
+      "y": -4.022489070892334,
+      "source_hit": true,
+      "top_score": 0.5816040020717967
+    },
+    {
+      "question": "How was Sauron defeated?",
+      "difficulty": "medium",
+      "x": 1.923549771308899,
+      "y": -3.6037821769714355,
+      "source_hit": true,
+      "top_score": 0.6443808824635904
+    },
+    {
+      "question": "What is the relationship between Bilbo and Frodo?",
+      "difficulty": "hard",
+      "x": 2.3277196884155273,
+      "y": -1.2075289487838745,
+      "source_hit": true,
+      "top_score": 0.6170443877120559
+    },
+    {
+      "question": "Why couldn't the Eagles fly the Ring to Mordor?",
+      "difficulty": "hard",
+      "x": 2.559133291244507,
+      "y": -4.696409225463867,
+      "source_hit": false,
+      "top_score": 0.5351686134236309
+    },
+    {
+      "question": "What are the Silmarils?",
+      "difficulty": "hard",
+      "x": 3.5218441486358643,
+      "y": -4.932559490203857,
+      "source_hit": true,
+      "top_score": 0.7157183300476141
+    },
+    {
+      "question": "Who is Tom Bombadil?",
+      "difficulty": "hard",
+      "x": 3.0682170391082764,
+      "y": -1.1389689445495605,
+      "source_hit": true,
+      "top_score": 0.7906711338672836
+    },
+    {
+      "question": "What is the difference between Sauron and Morgoth?",
+      "difficulty": "hard",
+      "x": 1.8126628398895264,
+      "y": -4.1808648109436035,
+      "source_hit": true,
+      "top_score": 0.6209689678297653
+    },
+    {
+      "question": "Vem är Gandalf?",
+      "difficulty": "easy",
+      "x": 2.812147617340088,
+      "y": -2.5392513275146484,
+      "source_hit": true,
+      "top_score": 0.5828607313260281
+    },
+    {
+      "question": "Vem är Frodo Baggins?",
+      "difficulty": "easy",
+      "x": 2.8752167224884033,
+      "y": -1.9066405296325684,
+      "source_hit": true,
+      "top_score": 0.5766376132397618
+    },
+    {
+      "question": "Vad är Härskarringen?",
+      "difficulty": "easy",
+      "x": 4.800727844238281,
+      "y": -3.5711939334869385,
+      "source_hit": true,
+      "top_score": 0.4087840287551021
+    },
+    {
+      "question": "Vilka är medlemmarna i Ringens brödraskap?",
+      "difficulty": "medium",
+      "x": 4.407984256744385,
+      "y": -3.2828404903411865,
+      "source_hit": false,
+      "top_score": 0.41902040948034397
+    }
+  ],
+  "all-MiniLM-L6-v2": [
+    {
+      "question": "Who is Gandalf?",
+      "difficulty": "easy",
+      "x": 3.724390745162964,
+      "y": 3.515047788619995,
+      "source_hit": true,
+      "top_score": 0.6500684428749975
+    },
+    {
+      "question": "Who is Frodo Baggins?",
+      "difficulty": "easy",
+      "x": 3.2670326232910156,
+      "y": 2.789353847503662,
+      "source_hit": true,
+      "top_score": 0.6485960552321315
+    },
+    {
+      "question": "What is the One Ring?",
+      "difficulty": "easy",
+      "x": 5.422027587890625,
+      "y": 2.1922755241394043,
+      "source_hit": true,
+      "top_score": 0.5666876017834098
+    },
+    {
+      "question": "Who is Aragorn?",
+      "difficulty": "easy",
+      "x": 4.423264503479004,
+      "y": 2.734327554702759,
+      "source_hit": false,
+      "top_score": 0.5397249082299316
+    },
+    {
+      "question": "What is Mordor?",
+      "difficulty": "easy",
+      "x": 5.063210487365723,
+      "y": 2.9455788135528564,
+      "source_hit": false,
+      "top_score": 0.5434277459809717
+    },
+    {
+      "question": "How did Gandalf die and return?",
+      "difficulty": "medium",
+      "x": 3.7545320987701416,
+      "y": 4.130577564239502,
+      "source_hit": true,
+      "top_score": 0.6157789780894588
+    },
+    {
+      "question": "What happened at the Council of Elrond?",
+      "difficulty": "medium",
+      "x": 4.653499126434326,
+      "y": 1.6236387491226196,
+      "source_hit": true,
+      "top_score": 0.5913431536318777
+    },
+    {
+      "question": "Who are the members of the Fellowship?",
+      "difficulty": "medium",
+      "x": 4.531529426574707,
+      "y": 1.05048406124115,
+      "source_hit": false,
+      "top_score": 0.6838448632486848
+    },
+    {
+      "question": "What is the significance of Rivendell?",
+      "difficulty": "medium",
+      "x": 3.2455453872680664,
+      "y": 1.6695611476898193,
+      "source_hit": true,
+      "top_score": 0.5018407570330534
+    },
+    {
+      "question": "How was Sauron defeated?",
+      "difficulty": "medium",
+      "x": 4.861396789550781,
+      "y": 3.9036924839019775,
+      "source_hit": true,
+      "top_score": 0.631843191321026
+    },
+    {
+      "question": "What is the relationship between Bilbo and Frodo?",
+      "difficulty": "hard",
+      "x": 2.7994143962860107,
+      "y": 2.183783769607544,
+      "source_hit": true,
+      "top_score": 0.5873878044919026
+    },
+    {
+      "question": "Why couldn't the Eagles fly the Ring to Mordor?",
+      "difficulty": "hard",
+      "x": 5.809823513031006,
+      "y": 2.840745687484741,
+      "source_hit": false,
+      "top_score": 0.5323679141987678
+    },
+    {
+      "question": "What are the Silmarils?",
+      "difficulty": "hard",
+      "x": 3.9402899742126465,
+      "y": 1.7077226638793945,
+      "source_hit": true,
+      "top_score": 0.6981591320000845
+    },
+    {
+      "question": "Who is Tom Bombadil?",
+      "difficulty": "hard",
+      "x": 3.9001665115356445,
+      "y": 2.783914566040039,
+      "source_hit": true,
+      "top_score": 0.644479053701658
+    },
+    {
+      "question": "What is the difference between Sauron and Morgoth?",
+      "difficulty": "hard",
+      "x": 5.559299468994141,
+      "y": 3.556640625,
+      "source_hit": true,
+      "top_score": 0.5531133647242639
+    },
+    {
+      "question": "Vem är Gandalf?",
+      "difficulty": "easy",
+      "x": 2.7950797080993652,
+      "y": 3.9650187492370605,
+      "source_hit": true,
+      "top_score": 0.5146626188698281
+    },
+    {
+      "question": "Vem är Frodo Baggins?",
+      "difficulty": "easy",
+      "x": 2.5729286670684814,
+      "y": 3.0672640800476074,
+      "source_hit": true,
+      "top_score": 0.5515373037349512
+    },
+    {
+      "question": "Vad är Härskarringen?",
+      "difficulty": "easy",
+      "x": 2.0366601943969727,
+      "y": 3.9160523414611816,
+      "source_hit": false,
+      "top_score": 0.4603938255278874
+    },
+    {
+      "question": "Vilka är medlemmarna i Ringens brödraskap?",
+      "difficulty": "medium",
+      "x": 1.7693238258361816,
+      "y": 3.369097948074341,
+      "source_hit": false,
+      "top_score": 0.4292060396803639
+    }
+  ],
+  "multilingual-e5-base": [
+    {
+      "question": "Who is Gandalf?",
+      "difficulty": "easy",
+      "x": -9.601672172546387,
+      "y": -8.96568489074707,
+      "source_hit": true,
+      "top_score": 0.7670920512326947
+    },
+    {
+      "question": "Who is Frodo Baggins?",
+      "difficulty": "easy",
+      "x": -8.728099822998047,
+      "y": -9.23876953125,
+      "source_hit": true,
+      "top_score": 0.820822025281942
+    },
+    {
+      "question": "What is the One Ring?",
+      "difficulty": "easy",
+      "x": -9.83747673034668,
+      "y": -7.568110942840576,
+      "source_hit": true,
+      "top_score": 0.7662873531443263
+    },
+    {
+      "question": "Who is Aragorn?",
+      "difficulty": "easy",
+      "x": -9.411545753479004,
+      "y": -9.530767440795898,
+      "source_hit": false,
+      "top_score": 0.7431867964024853
+    },
+    {
+      "question": "What is Mordor?",
+      "difficulty": "easy",
+      "x": -10.636398315429688,
+      "y": -9.261908531188965,
+      "source_hit": false,
+      "top_score": 0.7527281163729516
+    },
+    {
+      "question": "How did Gandalf die and return?",
+      "difficulty": "medium",
+      "x": -9.944783210754395,
+      "y": -10.199922561645508,
+      "source_hit": true,
+      "top_score": 0.7744124889611753
+    },
+    {
+      "question": "What happened at the Council of Elrond?",
+      "difficulty": "medium",
+      "x": -10.689665794372559,
+      "y": -10.680420875549316,
+      "source_hit": true,
+      "top_score": 0.7799710186640426
+    },
+    {
+      "question": "Who are the members of the Fellowship?",
+      "difficulty": "medium",
+      "x": -8.738274574279785,
+      "y": -7.632379531860352,
+      "source_hit": false,
+      "top_score": 0.8234845119096086
+    },
+    {
+      "question": "What is the significance of Rivendell?",
+      "difficulty": "medium",
+      "x": -10.230948448181152,
+      "y": -8.647512435913086,
+      "source_hit": true,
+      "top_score": 0.7280736543970817
+    },
+    {
+      "question": "How was Sauron defeated?",
+      "difficulty": "medium",
+      "x": -10.179439544677734,
+      "y": -11.07733154296875,
+      "source_hit": true,
+      "top_score": 0.7823276706741811
+    },
+    {
+      "question": "What is the relationship between Bilbo and Frodo?",
+      "difficulty": "hard",
+      "x": -8.921095848083496,
+      "y": -10.122920989990234,
+      "source_hit": true,
+      "top_score": 0.7784712616512534
+    },
+    {
+      "question": "Why couldn't the Eagles fly the Ring to Mordor?",
+      "difficulty": "hard",
+      "x": -10.841567039489746,
+      "y": -9.900561332702637,
+      "source_hit": false,
+      "top_score": 0.7522391459278973
+    },
+    {
+      "question": "What are the Silmarils?",
+      "difficulty": "hard",
+      "x": -10.402067184448242,
+      "y": -7.874870777130127,
+      "source_hit": true,
+      "top_score": 0.8309996472123273
+    },
+    {
+      "question": "Who is Tom Bombadil?",
+      "difficulty": "hard",
+      "x": -8.88082218170166,
+      "y": -8.498769760131836,
+      "source_hit": true,
+      "top_score": 0.8015217107254282
+    },
+    {
+      "question": "What is the difference between Sauron and Morgoth?",
+      "difficulty": "hard",
+      "x": -9.503028869628906,
+      "y": -10.902596473693848,
+      "source_hit": true,
+      "top_score": 0.7774077656276203
+    },
+    {
+      "question": "Vem är Gandalf?",
+      "difficulty": "easy",
+      "x": -8.181958198547363,
+      "y": -9.55418872833252,
+      "source_hit": true,
+      "top_score": 0.7468494018070166
+    },
+    {
+      "question": "Vem är Frodo Baggins?",
+      "difficulty": "easy",
+      "x": -8.081326484680176,
+      "y": -8.860087394714355,
+      "source_hit": true,
+      "top_score": 0.773718981108647
+    },
+    {
+      "question": "Vad är Härskarringen?",
+      "difficulty": "easy",
+      "x": -9.346090316772461,
+      "y": -6.757434844970703,
+      "source_hit": true,
+      "top_score": 0.6974254329327889
+    },
+    {
+      "question": "Vilka är medlemmarna i Ringens brödraskap?",
+      "difficulty": "medium",
+      "x": -8.783455848693848,
+      "y": -7.024583339691162,
+      "source_hit": false,
+      "top_score": 0.7142091001251478
+    }
+  ]
+}

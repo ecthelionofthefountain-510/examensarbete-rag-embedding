@@ -280,9 +280,8 @@ const CSS = `
 
   .compare-empty {
     position: relative;
-    overflow: hidden;
     text-align: center;
-    padding: 64px 24px 56px;
+    padding: 64px 24px 80px;
     border-radius: 16px;
     border: 1px solid var(--border2);
     background:
@@ -314,14 +313,14 @@ const CSS = `
     place-items: center;
     border-radius: 50%;
     overflow: hidden;
-    border: 1px solid rgba(184, 196, 214, .24);
     background:
       radial-gradient(circle at 34% 24%, rgba(255,255,255,.22), rgba(154,166,184,.12) 22%, rgba(16,20,30,.94) 58%, rgba(4,6,10,.99) 100%),
       radial-gradient(circle at 62% 74%, rgba(72,82,98,.2), transparent 56%);
     box-shadow:
       inset 0 0 46px rgba(220,228,242,.1),
       inset 0 -24px 36px rgba(0,0,0,.7),
-      0 0 20px rgba(184,198,220,.12),
+      0 0 26px rgba(80, 150, 255, .22),
+      0 0 48px rgba(255, 90, 30, .14),
       0 26px 42px rgba(0,0,0,.5);
     animation: palantirFloat 8.6s ease-in-out infinite, palantirBreath 6.8s ease-in-out infinite;
   }
@@ -330,12 +329,12 @@ const CSS = `
     inset: 6%;
     border-radius: 50%;
     background:
-      radial-gradient(circle at 24% 30%, rgba(244,248,255,.28), transparent 36%),
-      radial-gradient(circle at 70% 42%, rgba(210,220,236,.2), transparent 42%),
-      radial-gradient(circle at 44% 74%, rgba(164,178,202,.2), transparent 46%),
-      radial-gradient(circle at 52% 48%, rgba(18,24,36,.68), transparent 68%);
-    filter: blur(2.8px) saturate(72%);
-    opacity: .66;
+      radial-gradient(circle at 24% 30%, rgba(180, 220, 255, .42), transparent 36%),
+      radial-gradient(circle at 70% 42%, rgba(120, 170, 240, .26), transparent 42%),
+      radial-gradient(circle at 44% 74%, rgba(90, 130, 210, .22), transparent 46%),
+      radial-gradient(circle at 52% 48%, rgba(18, 24, 48, .6), transparent 68%);
+    filter: blur(2.8px);
+    opacity: .7;
     mix-blend-mode: screen;
     animation: palantirLiquid 14s ease-in-out infinite;
     pointer-events: none;
@@ -345,12 +344,12 @@ const CSS = `
     inset: 7%;
     border-radius: 50%;
     background:
-      radial-gradient(ellipse at 32% 24%, rgba(246,250,255,.2), transparent 48%),
-      radial-gradient(ellipse at 66% 62%, rgba(186,196,214,.2), transparent 52%),
-      radial-gradient(ellipse at 40% 72%, rgba(142,152,170,.18), transparent 46%);
+      radial-gradient(ellipse at 32% 24%, rgba(200, 225, 255, .28), transparent 48%),
+      radial-gradient(ellipse at 66% 62%, rgba(140, 170, 220, .22), transparent 52%),
+      radial-gradient(ellipse at 40% 72%, rgba(100, 140, 200, .2), transparent 46%);
     filter: blur(3px);
     mix-blend-mode: screen;
-    opacity: .6;
+    opacity: .62;
     animation: palantirMistDrift 19s ease-in-out infinite;
     pointer-events: none;
   }
@@ -359,10 +358,15 @@ const CSS = `
     inset: 11%;
     border-radius: 50%;
     background:
-      conic-gradient(from 120deg, rgba(8,12,18,.12), rgba(44,52,66,.44), rgba(10,14,20,.2), rgba(34,40,54,.36), rgba(8,12,18,.12));
+      conic-gradient(from 120deg,
+        rgba(40, 10, 5, .22),
+        rgba(120, 30, 10, .38),
+        rgba(20, 8, 4, .18),
+        rgba(90, 20, 5, .32),
+        rgba(40, 10, 5, .22));
     filter: blur(5px);
     mix-blend-mode: multiply;
-    opacity: .9;
+    opacity: .85;
     animation: palantirDepthRoll 24s linear infinite;
     pointer-events: none;
   }
@@ -371,10 +375,15 @@ const CSS = `
     inset: 9%;
     border-radius: 50%;
     background:
-      conic-gradient(from 30deg, rgba(236,242,255,.2), rgba(62,72,90,.12), rgba(214,224,242,.22), rgba(32,38,52,.12), rgba(236,242,255,.2));
-    filter: blur(6px) saturate(70%);
+      conic-gradient(from 30deg,
+        rgba(180, 210, 255, .2),
+        rgba(50, 90, 160, .14),
+        rgba(200, 225, 255, .24),
+        rgba(40, 70, 140, .14),
+        rgba(180, 210, 255, .2));
+    filter: blur(6px);
     mix-blend-mode: screen;
-    opacity: .54;
+    opacity: .58;
     animation: palantirVortexSpin 32s linear infinite;
     pointer-events: none;
   }
@@ -383,13 +392,13 @@ const CSS = `
     inset: 5%;
     border-radius: 50%;
     background:
-      radial-gradient(ellipse at 22% 44%, rgba(242,246,255,.22), transparent 36%),
-      radial-gradient(ellipse at 58% 28%, rgba(220,228,242,.18), transparent 34%),
-      radial-gradient(ellipse at 74% 58%, rgba(172,186,208,.2), transparent 38%),
-      radial-gradient(ellipse at 38% 76%, rgba(128,140,164,.22), transparent 40%);
+      radial-gradient(ellipse at 22% 44%, rgba(200, 225, 255, .24), transparent 36%),
+      radial-gradient(ellipse at 58% 28%, rgba(255, 170, 90, .22), transparent 34%),
+      radial-gradient(ellipse at 74% 58%, rgba(255, 120, 50, .24), transparent 38%),
+      radial-gradient(ellipse at 38% 76%, rgba(120, 160, 220, .24), transparent 40%);
     filter: blur(4px);
     mix-blend-mode: screen;
-    opacity: .58;
+    opacity: .6;
     animation: palantirWispsShift 21s ease-in-out infinite;
     pointer-events: none;
   }
@@ -398,10 +407,16 @@ const CSS = `
     inset: 13%;
     border-radius: 50%;
     background:
-      linear-gradient(124deg, rgba(242,248,255,.2) 8%, transparent 28%, rgba(188,204,226,.22) 46%, transparent 62%, rgba(230,238,250,.18) 78%, transparent 92%);
+      linear-gradient(124deg,
+        rgba(200, 230, 255, .22) 8%,
+        transparent 28%,
+        rgba(150, 190, 240, .24) 46%,
+        transparent 62%,
+        rgba(180, 220, 250, .2) 78%,
+        transparent 92%);
     filter: blur(3.5px);
     mix-blend-mode: screen;
-    opacity: .46;
+    opacity: .5;
     animation: palantirCurrentSweep 17s ease-in-out infinite;
     pointer-events: none;
   }
@@ -410,12 +425,12 @@ const CSS = `
     inset: 4%;
     border-radius: 50%;
     background:
-      radial-gradient(ellipse at 26% 38%, rgba(248,252,255,.34), transparent 34%),
-      radial-gradient(ellipse at 66% 56%, rgba(192,204,224,.28), transparent 42%),
-      radial-gradient(ellipse at 46% 70%, rgba(140,152,174,.34), transparent 40%);
+      radial-gradient(ellipse at 26% 38%, rgba(220, 240, 255, .36), transparent 34%),
+      radial-gradient(ellipse at 66% 56%, rgba(140, 180, 230, .3), transparent 42%),
+      radial-gradient(ellipse at 46% 70%, rgba(90, 130, 200, .34), transparent 40%);
     mix-blend-mode: screen;
-    filter: blur(5px) saturate(108%);
-    opacity: .56;
+    filter: blur(5px);
+    opacity: .58;
     animation: palantirCloudA 12s ease-in-out infinite;
     pointer-events: none;
   }
@@ -424,12 +439,12 @@ const CSS = `
     inset: 10%;
     border-radius: 50%;
     background:
-      radial-gradient(ellipse at 34% 62%, rgba(232,240,252,.3), transparent 36%),
-      radial-gradient(ellipse at 74% 34%, rgba(174,190,214,.24), transparent 36%),
-      radial-gradient(ellipse at 50% 50%, rgba(22,28,40,.5), transparent 60%);
+      radial-gradient(ellipse at 34% 62%, rgba(255, 170, 90, .3), transparent 36%),
+      radial-gradient(ellipse at 74% 34%, rgba(220, 70, 25, .28), transparent 36%),
+      radial-gradient(ellipse at 50% 50%, rgba(40, 10, 5, .45), transparent 60%);
     mix-blend-mode: screen;
     filter: blur(4px);
-    opacity: .42;
+    opacity: .5;
     animation: palantirCloudB 9.5s ease-in-out infinite;
     pointer-events: none;
   }
@@ -438,11 +453,21 @@ const CSS = `
     inset: 8%;
     border-radius: 50%;
     background:
-      linear-gradient(130deg, transparent 8%, rgba(246,252,255,.22) 24%, transparent 42%, rgba(190,204,224,.24) 56%, transparent 74%),
-      linear-gradient(18deg, transparent 10%, rgba(226,236,252,.16) 30%, transparent 52%, rgba(160,176,200,.2) 66%, transparent 86%);
+      linear-gradient(130deg,
+        transparent 8%,
+        rgba(200, 230, 255, .24) 24%,
+        transparent 42%,
+        rgba(255, 140, 60, .26) 56%,
+        transparent 74%),
+      linear-gradient(18deg,
+        transparent 10%,
+        rgba(180, 220, 255, .18) 30%,
+        transparent 52%,
+        rgba(220, 80, 30, .22) 66%,
+        transparent 86%);
     mix-blend-mode: screen;
     filter: blur(2.8px);
-    opacity: .44;
+    opacity: .48;
     animation: palantirStreakFlow 6.8s ease-in-out infinite;
     pointer-events: none;
   }
@@ -451,11 +476,61 @@ const CSS = `
     inset: 3%;
     border-radius: 50%;
     background:
-      radial-gradient(circle at 28% 72%, rgba(0,0,0,.56), transparent 48%),
-      radial-gradient(circle at 64% 62%, rgba(2,8,16,.5), transparent 54%),
-      radial-gradient(circle at 52% 34%, rgba(52,70,96,.24), transparent 56%);
+      radial-gradient(circle at 28% 72%, rgba(0,0,0,.58), transparent 48%),
+      radial-gradient(circle at 64% 62%, rgba(20, 5, 2, .5), transparent 54%),
+      radial-gradient(circle at 52% 34%, rgba(120, 40, 20, .22), transparent 56%);
     filter: blur(2.8px);
     animation: palantirSmoke 12s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .palantir-blue-core {
+    position: absolute;
+    inset: 24%;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 50% 50%,
+      #eaf6ff 0%,
+      #9ccfff 14%,
+      #3b8dff 34%,
+      #1a4db0 58%,
+      #0a1f50 80%,
+      transparent 100%
+    );
+    filter: blur(5px);
+    mix-blend-mode: screen;
+    animation: palantirBlueCore 3.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .palantir-red-core {
+    position: absolute;
+    inset: 20%;
+    border-radius: 50%;
+    background: radial-gradient(
+      ellipse 55% 40% at 70% 58%,
+      #ffd080 0%,
+      #ff7020 22%,
+      #d02005 48%,
+      #600805 72%,
+      transparent 92%
+    );
+    filter: blur(8px);
+    mix-blend-mode: screen;
+    animation: palantirRedCore 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .palantir-clash {
+    position: absolute;
+    inset: 17%;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(180, 80, 200, .42) 0%,
+      rgba(130, 50, 180, .2) 32%,
+      transparent 65%
+    );
+    filter: blur(9px);
+    mix-blend-mode: screen;
+    animation: palantirClash 4s ease-in-out infinite;
     pointer-events: none;
   }
   .palantir-arc {
@@ -561,9 +636,11 @@ const CSS = `
   .compare-empty-title {
     position: relative;
     z-index: 1;
+    font-family: 'Aniron', 'Syne', sans-serif;
     font-size: 19px;
     font-weight: 700;
-    margin-bottom: 8px;
+    line-height: 1.3;
+    margin-bottom: 18px;
     letter-spacing: .2px;
   }
   .compare-empty-copy {
@@ -626,14 +703,16 @@ const CSS = `
       box-shadow:
         inset 0 0 42px rgba(156,186,228,.1),
         inset 0 -24px 34px rgba(0,0,0,.66),
-        0 0 26px rgba(130,166,210,.16),
+        0 0 26px rgba(80, 150, 255, .18),
+        0 0 44px rgba(255, 90, 30, .1),
         0 26px 42px rgba(0,0,0,.5);
     }
     50% {
       box-shadow:
         inset 0 0 50px rgba(156,186,228,.15),
         inset 0 -22px 32px rgba(0,0,0,.62),
-        0 0 34px rgba(130,166,210,.2),
+        0 0 36px rgba(80, 150, 255, .28),
+        0 0 58px rgba(255, 90, 30, .18),
         0 30px 46px rgba(0,0,0,.56);
     }
   }
@@ -714,12 +793,117 @@ const CSS = `
     0%, 100% { opacity: .08; transform: scale(.7); }
     50% { opacity: .3; transform: scale(1); }
   }
+  @keyframes palantirBlueCore {
+    0%, 100% { transform: scale(1) translateX(-5%);  opacity: 0.85; }
+    50%      { transform: scale(1.12) translateX(0%); opacity: 1; }
+  }
+@keyframes palantirRedCore {
+  0%   { transform: scale(0.9) translateX(6%);  opacity: 0.6; }
+  15%  { transform: scale(1.25) translateX(-4%); opacity: 1; }
+  25%  { transform: scale(1.05) translateX(2%); opacity: 0.75; }
+  40%  { transform: scale(1.35) translateX(-6%); opacity: 1; }
+  55%  { transform: scale(0.85) translateX(8%); opacity: 0.5; }
+  75%  { transform: scale(1.2) translateX(-2%); opacity: 0.95; }
+  100% { transform: scale(0.9) translateX(6%);  opacity: 0.6; }
+}
+
+@keyframes palantirClash {
+  0%, 100% { opacity: 0.3; transform: scale(0.9); }
+  30%      { opacity: 0.5; transform: scale(1); }
+  45%      { opacity: 1;   transform: scale(1.3); }
+  55%      { opacity: 0.6; transform: scale(1.1); }
+  75%      { opacity: 0.95; transform: scale(1.25); }
+}
+
+.palantir-lightning {
+  position: absolute;
+  inset: 10%;
+  border-radius: 50%;
+  overflow: hidden;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  filter: drop-shadow(0 0 2px rgba(220, 240, 255, 0.9))
+          drop-shadow(0 0 4px rgba(140, 180, 255, 0.5));
+}
+
+.palantir-lightning-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.palantir-lightning .bolt {
+  opacity: 0;
+}
+
+.palantir-lightning .bolt-1 {
+  animation: boltFlash1 5.3s steps(1, end) infinite;
+}
+
+.palantir-lightning .bolt-2 {
+  animation: boltFlash2 6.7s steps(1, end) infinite;
+}
+
+.palantir-lightning .bolt-3 {
+  animation: boltFlash3 4.9s steps(1, end) infinite;
+}
+
+/* CRACKS — subtila sprickor i glaset som glimtar till */
+.palantir-cracks {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background:
+    linear-gradient(68deg,
+      transparent 48%,
+      rgba(255, 200, 150, 0.35) 49.5%,
+      transparent 51%),
+    linear-gradient(125deg,
+      transparent 42%,
+      rgba(200, 220, 255, 0.3) 43.2%,
+      transparent 44.5%),
+    linear-gradient(-50deg,
+      transparent 56%,
+      rgba(255, 180, 120, 0.28) 57.5%,
+      transparent 59%);
+  filter: blur(0.6px);
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: palantirCracks 7.1s ease-in-out infinite;
+  pointer-events: none;
+}
+
   @keyframes palantirSigilFlicker {
     0%, 100% { opacity: .86; filter: brightness(1); }
     45% { opacity: .94; filter: brightness(1.08); }
     52% { opacity: .8; filter: brightness(.95); }
     60% { opacity: .9; filter: brightness(1.06); }
   }
+
+@keyframes boltFlash1 {
+  0%, 80%, 100% { opacity: 0; }
+  81%           { opacity: 1; }
+  82%           { opacity: 0; }
+  83%           { opacity: 0.85; }
+  84%           { opacity: 0; }
+}
+
+@keyframes boltFlash2 {
+  0%, 42%, 100% { opacity: 0; }
+  43%           { opacity: 1; }
+  44%           { opacity: 0; }
+  46%           { opacity: 0.7; }
+  47%           { opacity: 0; }
+}
+
+@keyframes boltFlash3 {
+  0%, 65%, 100% { opacity: 0; }
+  66%           { opacity: 0.9; }
+  67%           { opacity: 0; }
+  70%           { opacity: 0.6; }
+  71%           { opacity: 0; }
+}
+
   @media (max-width: 760px) {
     .compare-empty {
       padding: 52px 14px 42px;
@@ -1354,20 +1538,22 @@ function CompareView({ indexedModels }) {
 
   return (
     <div className="stack">
-      {/* Demo pills */}
-      <div className="demo-pills">
-        {DEMO_QUESTIONS.map((q) => (
-          <div
-            key={q}
-            className="demo-pill"
-            onClick={() => {
-              submit(q);
-            }}
-          >
-            {q}
-          </div>
-        ))}
-      </div>
+      {/* Demo pills — only show once there's history */}
+      {history.length > 0 && (
+        <div className="demo-pills">
+          {DEMO_QUESTIONS.map((q) => (
+            <div
+              key={q}
+              className="demo-pill"
+              onClick={() => {
+                submit(q);
+              }}
+            >
+              {q}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Input */}
       <div className="compare-input-row">
@@ -1428,11 +1614,75 @@ function CompareView({ indexedModels }) {
             <div className="palantir-cloud-b" />
             <div className="palantir-streaks" />
             <div className="palantir-smoke" />
+            <div className="palantir-blue-core" />
+            <div className="palantir-red-core" />
+            <div className="palantir-clash" />
+            <div className="palantir-lightning">
+              <svg
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                className="palantir-lightning-svg"
+              >
+                {/* Bolt 1 — går ner-vänster */}
+                <polyline
+                  className="bolt bolt-1"
+                  points="52,20 48,32 54,38 46,50 52,58 44,70 50,78"
+                  fill="none"
+                  stroke="rgba(220, 240, 255, 0.95)"
+                  strokeWidth="0.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Bolt 1 branch */}
+                <polyline
+                  className="bolt bolt-1"
+                  points="54,38 62,42 58,48"
+                  fill="none"
+                  stroke="rgba(220, 240, 255, 0.8)"
+                  strokeWidth="0.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+
+                {/* Bolt 2 — går diagonalt över mitten */}
+                <polyline
+                  className="bolt bolt-2"
+                  points="28,42 38,46 32,54 42,58 36,66 46,70"
+                  fill="none"
+                  stroke="rgba(200, 225, 255, 0.95)"
+                  strokeWidth="0.55"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Bolt 2 branch */}
+                <polyline
+                  className="bolt bolt-2"
+                  points="32,54 24,58 28,64"
+                  fill="none"
+                  stroke="rgba(200, 225, 255, 0.75)"
+                  strokeWidth="0.35"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+
+                {/* Bolt 3 — orange/varm, mindre */}
+                <polyline
+                  className="bolt bolt-3"
+                  points="68,30 72,40 66,46 74,54 70,62"
+                  fill="none"
+                  stroke="rgba(255, 200, 140, 0.9)"
+                  strokeWidth="0.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>{" "}
+            <div className="palantir-cracks" />
             <div className="palantir-glass-sheen" />
             <div className="palantir-arc a" />
             <div className="palantir-arc b" />
           </div>
-          <div className="compare-empty-title">The Palantir Is Waiting</div>
+          <div className="compare-empty-title">The Palantír Is Waiting</div>
           <p className="compare-empty-copy">
             Ask a question to compare all three models side by side. Your
             conversation history appears here once you begin.
@@ -1451,9 +1701,6 @@ function CompareView({ indexedModels }) {
                 {suggestion}
               </button>
             ))}
-          </div>
-          <div className="compare-empty-tip">
-            Press Enter to compare quickly
           </div>
         </div>
       )}
@@ -1530,6 +1777,7 @@ function CompareView({ indexedModels }) {
 // ─── View: Benchmark ───────────────────────────────────────────────────────
 function BenchmarkView({ evalData }) {
   const [activeTab, setActiveTab] = useState("overview");
+  const [questionFilter, setQuestionFilter] = useState("all");
 
   if (!evalData) {
     return (
@@ -1607,17 +1855,6 @@ function BenchmarkView({ evalData }) {
     },
   ];
 
-  // Difficulty bar chart data
-  const difficultyData = ["easy", "medium", "hard"].map((d) => ({
-    difficulty: d,
-    ...Object.fromEntries(
-      models.map((m) => [
-        modelShort(m.model_name),
-        (m.by_difficulty?.[d] ?? 0) * 100,
-      ]),
-    ),
-  }));
-
   // Speed comparison
   const speedData = models.map((m) => ({
     name: modelShort(m.model_name),
@@ -1680,7 +1917,7 @@ function BenchmarkView({ evalData }) {
   return (
     <div className="stack">
       <div className="tabs">
-        {["overview", "difficulty", "speed", "cost", "questions"].map((t) => (
+        {["overview", "speed", "cost", "questions"].map((t) => (
           <div
             key={t}
             className={`tab ${activeTab === t ? "active" : ""}`}
@@ -1838,63 +2075,6 @@ function BenchmarkView({ evalData }) {
               </div>
             </div>
           </div>
-        </div>
-      )}
-
-      {activeTab === "difficulty" && (
-        <div className="card">
-          <div className="card-title">Source Hit Rate by Difficulty</div>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={difficultyData} barGap={4}>
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke="var(--border)"
-                vertical={false}
-              />
-              <XAxis
-                dataKey="difficulty"
-                tick={{
-                  fill: "var(--muted)",
-                  fontSize: 11,
-                  fontFamily: "'JetBrains Mono',monospace",
-                  textTransform: "uppercase",
-                }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis
-                domain={[0, 100]}
-                tickFormatter={(v) => `${v}%`}
-                tick={{ fill: "var(--muted)", fontSize: 10 }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <Tooltip
-                formatter={(v) => `${v.toFixed(1)}%`}
-                contentStyle={{
-                  background: "var(--bg2)",
-                  border: "1px solid var(--border2)",
-                  borderRadius: 8,
-                  fontSize: 11,
-                }}
-              />
-              <Legend
-                wrapperStyle={{
-                  fontSize: 11,
-                  fontFamily: "'JetBrains Mono',monospace",
-                }}
-              />
-              {models.map((m) => (
-                <Bar
-                  key={m.model_name}
-                  dataKey={modelShort(m.model_name)}
-                  fill={modelColor(m.model_name)}
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={40}
-                />
-              ))}
-            </BarChart>
-          </ResponsiveContainer>
         </div>
       )}
 
@@ -2126,131 +2306,305 @@ function BenchmarkView({ evalData }) {
         </div>
       )}
 
-      {activeTab === "questions" && (
-        <div className="card">
-          <div className="card-title">
-            Per-Question Results ({allQuestions.length} questions)
-          </div>
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Question</th>
-                  <th>Difficulty</th>
-                  {models.map((m) => (
-                    <th
-                      key={m.model_name}
-                      style={{ color: modelColor(m.model_name) }}
-                    >
-                      {modelShort(m.model_name)}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {allQuestions.map((row, i) => (
-                  <tr key={i}>
-                    <td
+      {activeTab === "questions" &&
+        (() => {
+          // Classify every row by model agreement
+          const classified = allQuestions.map((row) => {
+            const hits = models.map((m) => (row[m.model_name]?.hit ? 1 : 0));
+            const hitCount = hits.reduce((a, b) => a + b, 0);
+            let agreement;
+            if (hitCount === models.length) agreement = "all-hit";
+            else if (hitCount === 0) agreement = "all-miss";
+            else if (hitCount === models.length - 1) agreement = "one-miss";
+            else agreement = "one-hit";
+            return { ...row, agreement, hitCount };
+          });
+
+          const filters = [
+            { id: "all", label: "All questions", count: classified.length },
+            {
+              id: "disagree",
+              label: "Disagreements",
+              count: classified.filter(
+                (r) => r.agreement === "one-miss" || r.agreement === "one-hit",
+              ).length,
+            },
+            {
+              id: "all-miss",
+              label: "All missed",
+              count: classified.filter((r) => r.agreement === "all-miss")
+                .length,
+            },
+            {
+              id: "all-hit",
+              label: "All hit",
+              count: classified.filter((r) => r.agreement === "all-hit").length,
+            },
+          ];
+
+          const visible = classified.filter((r) => {
+            if (questionFilter === "all") return true;
+            if (questionFilter === "disagree")
+              return r.agreement === "one-miss" || r.agreement === "one-hit";
+            return r.agreement === questionFilter;
+          });
+
+          const agreementMeta = {
+            "all-hit": {
+              label: "All agree",
+              color: "var(--emerald)",
+              bg: "rgba(52,211,153,.1)",
+              border: "rgba(52,211,153,.3)",
+            },
+            "all-miss": {
+              label: "All missed",
+              color: "var(--red)",
+              bg: "rgba(248,113,113,.1)",
+              border: "rgba(248,113,113,.3)",
+            },
+            "one-miss": {
+              label: "Split 2-1",
+              color: "var(--amber)",
+              bg: "rgba(251,191,36,.1)",
+              border: "rgba(251,191,36,.3)",
+            },
+            "one-hit": {
+              label: "Split 1-2",
+              color: "var(--amber)",
+              bg: "rgba(251,191,36,.1)",
+              border: "rgba(251,191,36,.3)",
+            },
+          };
+
+          return (
+            <div className="card">
+              <div className="card-title">
+                <span>
+                  Per-Question Results ({visible.length} of {classified.length})
+                </span>
+              </div>
+
+              {/* Filter pills */}
+              <div
+                style={{
+                  display: "flex",
+                  gap: 8,
+                  flexWrap: "wrap",
+                  marginBottom: 20,
+                }}
+              >
+                {filters.map((f) => {
+                  const isActive = questionFilter === f.id;
+                  return (
+                    <div
+                      key={f.id}
+                      onClick={() => setQuestionFilter(f.id)}
                       style={{
-                        maxWidth: 240,
-                        color: "var(--text)",
-                        fontSize: 11,
+                        cursor: "pointer",
+                        padding: "6px 12px",
+                        borderRadius: 8,
+                        fontSize: 10,
+                        fontWeight: 700,
+                        letterSpacing: 1,
+                        textTransform: "uppercase",
+                        fontFamily: "'JetBrains Mono', monospace",
+                        border: `1px solid ${isActive ? "var(--cyan)" : "var(--border2)"}`,
+                        background: isActive
+                          ? "rgba(34,211,238,.08)"
+                          : "var(--bg3)",
+                        color: isActive ? "var(--cyan)" : "var(--muted)",
+                        transition: "all .2s",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 6,
                       }}
                     >
-                      {row.q}
-                    </td>
-                    <td>
+                      {f.label}
                       <span
                         style={{
+                          background: isActive
+                            ? "var(--cyan)"
+                            : "var(--border2)",
+                          color: isActive ? "#000" : "var(--muted)",
+                          borderRadius: 10,
+                          padding: "1px 6px",
                           fontSize: 9,
-                          fontWeight: 700,
-                          letterSpacing: 1,
-                          padding: "2px 6px",
-                          borderRadius: 4,
-                          textTransform: "uppercase",
-                          background:
-                            row.difficulty === "easy"
-                              ? "rgba(52,211,153,.1)"
-                              : row.difficulty === "medium"
-                                ? "rgba(251,191,36,.1)"
-                                : "rgba(248,113,113,.1)",
-                          color:
-                            row.difficulty === "easy"
-                              ? "var(--emerald)"
-                              : row.difficulty === "medium"
-                                ? "var(--amber)"
-                                : "var(--red)",
                         }}
                       >
-                        {row.difficulty}
+                        {f.count}
                       </span>
-                    </td>
-                    {models.map((m) => {
-                      const d = row[m.model_name];
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th style={{ width: 34 }}></th>
+                      <th>Question</th>
+                      <th>Difficulty</th>
+                      <th>Agreement</th>
+                      {models.map((m) => (
+                        <th
+                          key={m.model_name}
+                          style={{ color: modelColor(m.model_name) }}
+                        >
+                          {modelShort(m.model_name)}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {visible.map((row, i) => {
+                      const am = agreementMeta[row.agreement];
+                      const isInteresting =
+                        row.agreement === "one-miss" ||
+                        row.agreement === "one-hit" ||
+                        row.agreement === "all-miss";
+
                       return (
-                        <td key={m.model_name}>
-                          <span
+                        <tr
+                          key={i}
+                          style={{
+                            borderLeft: isInteresting
+                              ? `3px solid ${am.color}`
+                              : "3px solid transparent",
+                          }}
+                        >
+                          <td style={{ paddingLeft: 12 }}>
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: 6,
+                                height: 6,
+                                borderRadius: "50%",
+                                background: am.color,
+                                opacity: isInteresting ? 1 : 0.35,
+                              }}
+                            />
+                          </td>
+                          <td
                             style={{
-                              color: d?.hit ? "var(--emerald)" : "var(--red)",
-                              fontSize: 14,
+                              maxWidth: 280,
+                              color: "var(--text)",
+                              fontSize: 11,
                             }}
                           >
-                            {d?.hit ? "✓" : "✗"}
-                          </span>
-                          <span
-                            style={{
-                              color: "var(--muted)",
-                              marginLeft: 6,
-                              fontSize: 10,
-                            }}
-                          >
-                            {d?.score != null
-                              ? (d.score * 100).toFixed(0) + "%"
-                              : ""}
-                          </span>
-                        </td>
+                            {row.q}
+                          </td>
+                          <td>
+                            <span
+                              style={{
+                                fontSize: 9,
+                                fontWeight: 700,
+                                letterSpacing: 1,
+                                padding: "2px 6px",
+                                borderRadius: 4,
+                                textTransform: "uppercase",
+                                background:
+                                  row.difficulty === "easy"
+                                    ? "rgba(52,211,153,.1)"
+                                    : row.difficulty === "medium"
+                                      ? "rgba(251,191,36,.1)"
+                                      : "rgba(248,113,113,.1)",
+                                color:
+                                  row.difficulty === "easy"
+                                    ? "var(--emerald)"
+                                    : row.difficulty === "medium"
+                                      ? "var(--amber)"
+                                      : "var(--red)",
+                              }}
+                            >
+                              {row.difficulty}
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              style={{
+                                fontSize: 9,
+                                fontWeight: 700,
+                                letterSpacing: 1,
+                                padding: "2px 8px",
+                                borderRadius: 10,
+                                textTransform: "uppercase",
+                                background: am.bg,
+                                color: am.color,
+                                border: `1px solid ${am.border}`,
+                              }}
+                            >
+                              {am.label}
+                            </span>
+                          </td>
+                          {models.map((m) => {
+                            const d = row[m.model_name];
+                            return (
+                              <td key={m.model_name}>
+                                <span
+                                  style={{
+                                    color: d?.hit
+                                      ? "var(--emerald)"
+                                      : "var(--red)",
+                                    fontSize: 14,
+                                  }}
+                                >
+                                  {d?.hit ? "✓" : "✗"}
+                                </span>
+                                <span
+                                  style={{
+                                    color: "var(--muted)",
+                                    marginLeft: 6,
+                                    fontSize: 10,
+                                  }}
+                                >
+                                  {d?.score != null
+                                    ? (d.score * 100).toFixed(0) + "%"
+                                    : ""}
+                                </span>
+                              </td>
+                            );
+                          })}
+                        </tr>
                       );
                     })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
+                  </tbody>
+                </table>
+              </div>
+
+              {visible.length === 0 && (
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: 40,
+                    color: "var(--muted)",
+                    fontSize: 11,
+                    fontFamily: "'JetBrains Mono', monospace",
+                  }}
+                >
+                  No questions match this filter.
+                </div>
+              )}
+            </div>
+          );
+        })()}
     </div>
   );
 }
 
 // ─── View: Embedding Explorer ──────────────────────────────────────────────
-function ExplorerView({ evalData }) {
-  // Simulate UMAP-like scatter using actual eval scores as proxy coordinates
-  // In production you'd call a real UMAP endpoint
+function ExplorerView({ evalData, embeddingCoords }) {
+  const [selectedModel, setSelectedModel] = useState(null);
   const models = evalData?.models ?? [];
 
-  // Generate mock 2D projections from scoring data for visualization
-  const generatePoints = (modelIdx) => {
-    const model = models[modelIdx];
-    if (!model) return [];
-    const results = model.results ?? [];
-    return results.map((r, i) => ({
-      x: (r.top_score ?? 0.5) * 100 + Math.sin(i * 0.7 + modelIdx) * 12,
-      y:
-        (r.keyword_recall ?? r.keyword_hits / 3 ?? 0.5) * 100 +
-        Math.cos(i * 0.5 + modelIdx * 2) * 12,
-      question: r.question,
-      difficulty: r.difficulty,
-      hit: r.source_hit,
-      model: model.model_name,
-    }));
-  };
+  useEffect(() => {
+    if (!selectedModel && embeddingCoords) {
+      const first = Object.keys(embeddingCoords)[0];
+      if (first) setSelectedModel(first);
+    }
+  }, [embeddingCoords, selectedModel]);
 
-  const allPoints = models.flatMap((_, i) => generatePoints(i));
-
-  const diffColor = { easy: "#34d399", medium: "#fbbf24", hard: "#f87171" };
-  const [hovered, setHovered] = useState(null);
-
-  if (!evalData)
+  if (!evalData) {
     return (
       <div style={{ textAlign: "center", padding: 60, color: "var(--muted)" }}>
         <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12 }}>
@@ -2258,205 +2612,336 @@ function ExplorerView({ evalData }) {
         </div>
       </div>
     );
+  }
 
-  return (
-    <div className="stack">
+  if (!embeddingCoords) {
+    return (
       <div className="card">
-        <div className="card-title">
-          Embedding Space Projection — Query Score Distribution
-        </div>
+        <div className="card-title">Embedding Space Projection</div>
         <p
           style={{
             fontSize: 12,
             color: "var(--muted)",
-            marginBottom: 20,
             fontFamily: "'JetBrains Mono',monospace",
-            lineHeight: 1.6,
+            lineHeight: 1.8,
           }}
         >
-          Each point is a test question, positioned by its retrieval quality
-          metrics.
+          UMAP coordinates not yet computed.
           <br />
+          Run the following from the project root:
+          <br />
+          <code
+            style={{
+              display: "inline-block",
+              marginTop: 10,
+              padding: "6px 10px",
+              background: "var(--bg3)",
+              border: "1px solid var(--border2)",
+              borderRadius: 6,
+              color: "var(--cyan)",
+            }}
+          >
+            python -m src.compute_embedding_coords
+          </code>
         </p>
-        <div style={{ position: "relative" }}>
-          <ResponsiveContainer width="100%" height={400}>
-            <ScatterChart margin={{ top: 20, right: 30, bottom: 40, left: 60 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-              <XAxis
-                type="number"
-                dataKey="x"
-                name="Relevance Score"
-                domain={[0, 110]}
-                ticks={[0, 20, 40, 60, 80, 100]}
-                tickFormatter={(v) => `${v}`}
-                tick={{ fill: "var(--muted)", fontSize: 10 }}
-                axisLine={false}
-                tickLine={false}
-                label={{
-                  value: "Relevance Score",
-                  position: "insideBottom",
-                  offset: -20,
-                  fill: "var(--muted)",
-                  fontSize: 10,
-                }}
-              />
-              <YAxis
-                type="number"
-                dataKey="y"
-                name="Keyword Recall"
-                domain={[0, 120]}
-                ticks={[0, 30, 60, 90, 120]}
-                tickFormatter={(v) => `${v}`}
-                tick={{ fill: "var(--muted)", fontSize: 10 }}
-                axisLine={false}
-                tickLine={false}
-                width={35}
-                label={{
-                  value: "Keyword Recall",
-                  angle: -90,
-                  position: "insideLeft",
-                  dx: -20,
-                  fill: "var(--muted)",
-                  fontSize: 10,
-                }}
-              />
-              <ZAxis range={[60, 60]} />
-              <Tooltip
-                content={({ payload }) => {
-                  if (!payload?.length) return null;
-                  const d = payload[0]?.payload;
-                  if (!d) return null;
-                  return (
-                    <div
-                      style={{
-                        background: "var(--bg2)",
-                        border: "1px solid var(--border2)",
-                        borderRadius: 8,
-                        padding: "10px 14px",
-                        fontSize: 11,
-                        fontFamily: "'JetBrains Mono',monospace",
-                        maxWidth: 240,
-                      }}
-                    >
-                      <div
-                        style={{
-                          color: modelColor(d.model),
-                          fontWeight: 700,
-                          marginBottom: 6,
-                        }}
-                      >
-                        {modelShort(d.model)}
-                      </div>
-                      <div
-                        style={{
-                          color: "var(--muted)",
-                          marginBottom: 4,
-                          wordBreak: "break-word",
-                        }}
-                      >
-                        {d.question}
-                      </div>
-                      <div style={{ color: diffColor[d.difficulty] }}>
-                        {d.difficulty} · {d.hit ? "✓ hit" : "✗ miss"}
-                      </div>
-                    </div>
-                  );
-                }}
-              />
-              {models.map((m, i) => (
-                <Scatter
-                  key={m.model_name}
-                  name={modelShort(m.model_name)}
-                  data={generatePoints(i)}
-                  fill={modelColor(m.model_name)}
-                  fillOpacity={0.7}
-                />
-              ))}
-              <Legend
-                verticalAlign="top"
-                align="right"
-                wrapperStyle={{
+      </div>
+    );
+  }
+
+  const diffColor = { easy: "#34d399", medium: "#fbbf24", hard: "#f87171" };
+  const availableModels = Object.keys(embeddingCoords);
+  const activeModel = selectedModel ?? availableModels[0];
+  const activePoints = embeddingCoords[activeModel] ?? [];
+  const activeColor = modelColor(activeModel);
+  const activeEvaluation =
+    models.find((model) => model.model_name === activeModel) ?? null;
+  const activeHits =
+    activeEvaluation?.results?.filter((result) => result.source_hit).length ??
+    0;
+  const activeTotal =
+    activeEvaluation?.results?.length ?? activePoints.length ?? 0;
+  const activeDimension = {
+    "text-embedding-3-small": 1536,
+    "all-MiniLM-L6-v2": 384,
+    "multilingual-e5-base": 768,
+  }[activeModel];
+  const activeType = {
+    "text-embedding-3-small": "OpenAI API",
+    "all-MiniLM-L6-v2": "HuggingFace",
+    "multilingual-e5-base": "HuggingFace",
+  }[activeModel];
+
+  return (
+    <div className="stack" style={{ gap: 14 }}>
+      <div className="card" style={{ padding: "18px 20px" }}>
+        <div className="card-title">Embedding Space - UMAP Projection</div>
+        <p
+          style={{
+            fontSize: 12,
+            color: "var(--muted)",
+            marginBottom: 14,
+            fontFamily: "'JetBrains Mono',monospace",
+            lineHeight: 1.65,
+          }}
+        >
+          Each point represents a test question projected to 2D using UMAP.
+          <br />
+          Points close together are semantically similar.
+        </p>
+
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {availableModels.map((m) => {
+            const isActive = m === activeModel;
+            const color = modelColor(m);
+            return (
+              <button
+                key={m}
+                onClick={() => setSelectedModel(m)}
+                style={{
+                  cursor: "pointer",
+                  padding: "8px 14px",
+                  borderRadius: 8,
                   fontSize: 11,
-                  fontFamily: "'JetBrains Mono',monospace",
-                  paddingBottom: 10,
+                  fontWeight: 700,
+                  letterSpacing: 1,
+                  textTransform: "uppercase",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  outline: "none",
+                  border: `1px solid ${isActive ? color : "var(--border2)"}`,
+                  background: isActive ? color + "18" : "var(--bg3)",
+                  color: isActive ? color : "var(--muted)",
+                  transition: "all .2s",
                 }}
-              />
-            </ScatterChart>
-          </ResponsiveContainer>
+              >
+                {MODEL_META[m]?.icon} {modelShort(m)}
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      <div className="grid-3">
-        {models.map((m) => {
-          const hits = m.results?.filter((r) => r.source_hit).length ?? 0;
-          const total = m.results?.length ?? 1;
-          const color = modelColor(m.model_name);
-          return (
-            <div
-              key={m.model_name}
-              className="metric-card"
-              style={{ borderColor: color + "40" }}
-            >
-              <div className="model-name" style={{ color, marginBottom: 8 }}>
-                {MODEL_META[m.model_name]?.icon} {modelShort(m.model_name)}
-              </div>
-              <div
-                style={{
-                  fontSize: 11,
-                  color: "var(--muted)",
-                  fontFamily: "'JetBrains Mono',monospace",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 8,
-                }}
-              >
-                <div>
-                  <div style={{ marginBottom: 4 }}>
-                    Source Hits:{" "}
-                    <span style={{ color }}>
-                      {hits}/{total}
-                    </span>
-                  </div>
-                  <div className="progress-bar">
+      <div className="card" style={{ padding: "18px 20px 14px" }}>
+        <div className="card-title">
+          <span style={{ color: activeColor }}>{modelShort(activeModel)}</span>
+          <span style={{ marginLeft: 8, opacity: 0.7, fontSize: 11 }}>
+            - {activePoints.length} questions
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            gap: 14,
+            marginBottom: 10,
+            fontSize: 10,
+            fontFamily: "'JetBrains Mono',monospace",
+            color: "var(--muted)",
+            textTransform: "uppercase",
+            letterSpacing: 1,
+          }}
+        >
+          <LegendDot color="var(--emerald)" label="Hit" />
+          <LegendDot color="var(--red)" label="Miss" />
+        </div>
+
+        <ResponsiveContainer width="100%" height={440}>
+          <ScatterChart margin={{ top: 20, right: 30, bottom: 30, left: 20 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <XAxis
+              type="number"
+              dataKey="x"
+              name="UMAP-1"
+              tick={{
+                fill: "var(--muted)",
+                fontSize: 10,
+                fontFamily: "'JetBrains Mono',monospace",
+              }}
+              axisLine={false}
+              tickLine={false}
+              label={{
+                value: "UMAP-1",
+                position: "insideBottom",
+                offset: -10,
+                fill: "var(--muted)",
+                fontSize: 10,
+                fontFamily: "'JetBrains Mono',monospace",
+              }}
+            />
+            <YAxis
+              type="number"
+              dataKey="y"
+              name="UMAP-2"
+              tick={{
+                fill: "var(--muted)",
+                fontSize: 10,
+                fontFamily: "'JetBrains Mono',monospace",
+              }}
+              axisLine={false}
+              tickLine={false}
+              label={{
+                value: "UMAP-2",
+                angle: -90,
+                position: "insideLeft",
+                dx: -10,
+                fill: "var(--muted)",
+                fontSize: 10,
+                fontFamily: "'JetBrains Mono',monospace",
+              }}
+            />
+            <ZAxis range={[100, 100]} />
+            <Tooltip
+              content={({ payload }) => {
+                if (!payload?.length) return null;
+                const d = payload[0]?.payload;
+                if (!d) return null;
+                return (
+                  <div
+                    style={{
+                      background: "var(--bg2)",
+                      border: "1px solid var(--border2)",
+                      borderRadius: 8,
+                      padding: "10px 14px",
+                      fontSize: 11,
+                      fontFamily: "'JetBrains Mono',monospace",
+                      maxWidth: 260,
+                    }}
+                  >
                     <div
-                      className="progress-fill"
                       style={{
-                        width: `${(hits / total) * 100}%`,
-                        background: color,
+                        color: activeColor,
+                        fontWeight: 700,
+                        marginBottom: 6,
+                        wordBreak: "break-word",
                       }}
-                    />
+                    >
+                      {d.question}
+                    </div>
+                    <div
+                      style={{
+                        color: diffColor[d.difficulty] ?? "var(--muted)",
+                        marginBottom: 4,
+                      }}
+                    >
+                      {d.difficulty?.toUpperCase()}
+                    </div>
+                    <div
+                      style={{
+                        color: d.source_hit ? "var(--emerald)" : "var(--red)",
+                      }}
+                    >
+                      {d.source_hit ? "Source hit" : "Source miss"}
+                      {d.top_score != null &&
+                        ` - ${(d.top_score * 100).toFixed(0)}% score`}
+                    </div>
                   </div>
-                </div>
-                <div style={{ fontSize: 10 }}>
-                  Dim:{" "}
-                  <span style={{ color: "var(--text)" }}>
-                    {
-                      {
-                        "text-embedding-3-small": 1536,
-                        "all-MiniLM-L6-v2": 384,
-                        "multilingual-e5-base": 768,
-                      }[m.model_name]
-                    }
-                  </span>
-                </div>
-                <div style={{ fontSize: 10 }}>
-                  Type:{" "}
-                  <span style={{ color: "var(--text)" }}>
-                    {
-                      {
-                        "text-embedding-3-small": "OpenAI API",
-                        "all-MiniLM-L6-v2": "HuggingFace",
-                        "multilingual-e5-base": "HuggingFace",
-                      }[m.model_name]
-                    }
-                  </span>
-                </div>
+                );
+              }}
+            />
+            <Scatter
+              name="Hit"
+              data={activePoints.filter((p) => p.source_hit)}
+              fill="var(--emerald)"
+              fillOpacity={0.85}
+              stroke={activeColor}
+              strokeWidth={1.5}
+              shape={(props) => <OutcomeMarker {...props} />}
+            />
+            <Scatter
+              name="Miss"
+              data={activePoints.filter((p) => !p.source_hit)}
+              fill="var(--red)"
+              fillOpacity={0.85}
+              stroke={activeColor}
+              strokeWidth={1.5}
+              shape={(props) => <OutcomeMarker {...props} />}
+            />
+          </ScatterChart>
+        </ResponsiveContainer>
+      </div>
+
+      {activeEvaluation && (
+        <div
+          className="metric-card"
+          style={{ borderColor: activeColor, padding: "16px 18px" }}
+        >
+          <div
+            className="model-name"
+            style={{ color: activeColor, marginBottom: 8 }}
+          >
+            {MODEL_META[activeModel]?.icon} {modelShort(activeModel)}
+          </div>
+          <div
+            style={{
+              fontSize: 11,
+              color: "var(--muted)",
+              fontFamily: "'JetBrains Mono',monospace",
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+            }}
+          >
+            <div>
+              <div style={{ marginBottom: 4 }}>
+                Source Hits:{" "}
+                <span style={{ color: activeColor }}>
+                  {activeHits}/{activeTotal}
+                </span>
+              </div>
+              <div className="progress-bar">
+                <div
+                  className="progress-fill"
+                  style={{
+                    width: `${activeTotal ? (activeHits / activeTotal) * 100 : 0}%`,
+                    background: activeColor,
+                  }}
+                />
               </div>
             </div>
-          );
-        })}
-      </div>
+            <div style={{ fontSize: 10 }}>
+              Dim:{" "}
+              <span style={{ color: "var(--text)" }}>{activeDimension}</span>
+            </div>
+            <div style={{ fontSize: 10 }}>
+              Type: <span style={{ color: "var(--text)" }}>{activeType}</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+  );
+}
+
+function LegendDot({ color, label, shape = "solid" }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+      <span
+        style={{
+          width: 10,
+          height: 10,
+          borderRadius: "50%",
+          background: shape === "solid" ? color : "transparent",
+          border: shape === "ring" ? `2px solid ${color}` : "none",
+        }}
+      />
+      {label}
+    </span>
+  );
+}
+
+function OutcomeMarker({ cx, cy, fill, stroke }) {
+  if (cx == null || cy == null) return null;
+  return (
+    <g>
+      <circle cx={cx} cy={cy} r={6} fill={fill} fillOpacity={0.92} />
+      <circle
+        cx={cx}
+        cy={cy}
+        r={6}
+        fill="transparent"
+        stroke={stroke}
+        strokeWidth={1.5}
+      />
+    </g>
   );
 }
 
@@ -2470,6 +2955,7 @@ const VIEWS = [
 export default function App() {
   const [view, setView] = useState("compare");
   const [evalData, setEvalData] = useState(null);
+  const [embeddingCoords, setEmbeddingCoords] = useState(null);
   const [indexedModels, setIndexedModels] = useState([]);
   const [apiStatus, setApiStatus] = useState("checking");
 
@@ -2498,6 +2984,10 @@ export default function App() {
         // Try to load from the uploaded file as fallback
         setEvalData(null);
       });
+
+    apiFetch("/embedding_coords")
+      .then(setEmbeddingCoords)
+      .catch(() => setEmbeddingCoords(null));
   }, []);
 
   const viewMeta = VIEWS.find((v) => v.id === view);
@@ -2563,7 +3053,7 @@ export default function App() {
           <div>
             <div className="topbar-title">{viewMeta?.label}</div>
             <div className="topbar-sub">
-              {view === "compare" && "Query all models simultaneously"}
+              {view === "compare" && "Three seeing-stones gaze in unison"}
               {view === "benchmark" && "Evaluation results — 19 test questions"}
               {view === "explorer" &&
                 "Visualize retrieval quality distribution"}
@@ -2583,7 +3073,12 @@ export default function App() {
         <div className="content">
           {view === "compare" && <CompareView indexedModels={indexedModels} />}
           {view === "benchmark" && <BenchmarkView evalData={evalData} />}
-          {view === "explorer" && <ExplorerView evalData={evalData} />}
+          {view === "explorer" && (
+            <ExplorerView
+              evalData={evalData}
+              embeddingCoords={embeddingCoords}
+            />
+          )}
         </div>
       </div>
     </div>
