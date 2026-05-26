@@ -5,7 +5,7 @@
 
 En fullstack-applikation för att utvärdera och jämföra hur olika embedding-modeller påverkar retrieval-kvaliteten i ett RAG-system (Retrieval-Augmented Generation). Projektet använder Tolkien-lore som test-domän.
 
-##  Features
+## Features
 
 - **Jämför embedding-modeller i realtid** – ställ en fråga och se hur tre olika modeller svarar sida vid sida
 - **Visualiserad utvärdering** – radar-diagram och stapeldiagram för att jämföra precision, recall och svarstid
@@ -15,7 +15,7 @@ En fullstack-applikation för att utvärdera och jämföra hur olika embedding-m
 
 ---
 
-##  Arkitektur
+## Arkitektur
 
 ```
 examensarbete-rag-embedding/
@@ -34,13 +34,13 @@ examensarbete-rag-embedding/
 ├── data/
 │   ├── raw/                # Källtexter (.txt)
 │   ├── chroma/             # Vektordatabaser (en per modell)
-│   └── evaluation.json     # Testfrågor för utvärdering
+│   └── evaluation.json     # Utvärderingsresultat för frontend/API
 └── results/                # Utvärderingsresultat
 ```
 
 ---
 
-##  Snabbstart
+## Snabbstart
 
 ### 1. Backend-setup
 
@@ -51,6 +51,9 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
 # Installera dependencies
 pip install -r requirements.txt
+
+# Installera API-server dependencies
+pip install fastapi uvicorn
 
 # Skapa .env med din API-nyckel
 echo "OPENAI_API_KEY=din_nyckel_här" > .env
@@ -73,11 +76,11 @@ npm install
 npm run dev
 ```
 
-Öppna `http://localhost:5173` i webbläsaren.
+Öppna `http://localhost:3000` i webbläsaren.
 
 ---
 
-##  Embedding-modeller
+## Embedding-modeller
 
 | Modell                   | Typ         | Dimension | Beskrivning                             |
 | ------------------------ | ----------- | --------- | --------------------------------------- |
@@ -92,7 +95,7 @@ python -m src.ingest --list-models
 
 ---
 
-##  CLI-kommandon
+## CLI-kommandon
 
 ### Bygg vektorindex
 
@@ -110,10 +113,12 @@ python -m src.ingest --rebuild --all-models
 ### Kör utvärdering
 
 ```bash
-python -m src.evaluate --models text-embedding-3-small all-MiniLM-L6-v2 multilingual-e5-base
+python -m src.evaluate \
+	--models text-embedding-3-small all-MiniLM-L6-v2 multilingual-e5-base \
+	--output data/evaluation.json
 ```
 
-Resultaten sparas i `results/evaluation.json`.
+Resultaten sparas i `data/evaluation.json` (för frontend/API). Du kan även välja `results/evaluation.json` om du vill spara en separat rapportfil.
 
 ### Terminal-chat
 
@@ -129,19 +134,20 @@ streamlit run src/streamlit.py
 
 ---
 
-##  API-endpoints
+## API-endpoints
 
-| Metod  | Endpoint      | Beskrivning                          |
-| ------ | ------------- | ------------------------------------ |
-| `GET`  | `/models`     | Lista alla modeller med metadata     |
-| `POST` | `/chat`       | RAG-fråga med en modell              |
-| `POST` | `/compare`    | Jämför flera modeller på samma fråga |
-| `GET`  | `/evaluation` | Hämta sparade utvärderingsresultat   |
-| `GET`  | `/health`     | Hälsokontroll                        |
+| Metod  | Endpoint            | Beskrivning                                |
+| ------ | ------------------- | ------------------------------------------ |
+| `GET`  | `/models`           | Lista alla modeller med metadata           |
+| `POST` | `/chat`             | RAG-fråga med en modell                    |
+| `POST` | `/compare`          | Jämför flera modeller på samma fråga       |
+| `GET`  | `/evaluation`       | Hämta sparade utvärderingsresultat         |
+| `GET`  | `/embedding_coords` | Hämta UMAP-koordinater för embedding space |
+| `GET`  | `/health`           | Hälsokontroll                              |
 
 ---
 
-##  Mätvärden
+## Mätvärden
 
 - **Source Hit Rate** – Andel frågor där rätt källa hämtades
 - **Source Precision** – Andel av hämtade källor som var relevanta
@@ -151,6 +157,6 @@ streamlit run src/streamlit.py
 
 ---
 
-##  Ursprung
+## Ursprung
 
 Vidareutveckling av [tolkien-rag-chatbot](https://github.com/ecthelionofthefountain-510/tolkien-rag-chatbot) från kursen _AI – teori och tillämpning_.

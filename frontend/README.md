@@ -8,18 +8,18 @@ En snygg, modern frontend för examensarbetet. Ersätter/kompletterar Streamlit-
 
 ```
 examensarbete-rag-embedding/
-├── src/                    
+├── src/
 │   ├── rag.py
 │   ├── embeddings.py
 │   ├── ingest.py
 │   └── evaluate.py
-├── frontend/               
-│   ├── App.jsx             
-│   ├── src/main.jsx        
+├── frontend/
+│   ├── App.jsx
+│   ├── src/main.jsx
 │   ├── index.html
 │   ├── package.json
 │   └── vite.config.js
-├── main.py                 
+├── main.py
 └── ...
 ```
 
@@ -59,20 +59,19 @@ Appen körs på `http://localhost:3000`
 
 ## Vyer
 
-| Vy | Beskrivning |
-|---|---|
-| **A/B Compare** | Ställ en fråga — se svar från alla 3 modeller sida vid sida |
-| **Benchmark** | Interaktiv dashboard med dina evaluation-resultat |
-| **Embedding Space** | Visualisering av retrieval quality-distribution |
-| **Presentation** | Slide-deck för redovisningen (piltangenter för navigation) |
+| Vy                  | Beskrivning                                                 |
+| ------------------- | ----------------------------------------------------------- |
+| **A/B Compare**     | Ställ en fråga — se svar från alla 3 modeller sida vid sida |
+| **Benchmark**       | Interaktiv dashboard med dina evaluation-resultat           |
+| **Embedding Space** | Visualisering av retrieval quality-distribution             |
 
 ---
 
 ## Tips
 
-- Benchmark-vyn och Embedding Space kräver att `data/evaluation.json` finns → kör `python -m src.evaluate` först
+- Benchmark-vyn kräver att `data/evaluation.json` finns → kör `python -m src.evaluate --output data/evaluation.json` först
 - A/B Compare kräver byggda Chroma-index → kör `python -m src.ingest --all-models` först
-- Presentation-läget fungerar fristående med hårdkodad fallback-data
+- Embedding Space kräver även `data/embedding_coords.json` → kör `python -m src.compute_embedding_coords`
 
 ---
 
